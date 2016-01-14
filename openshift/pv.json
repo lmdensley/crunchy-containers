@@ -1,0 +1,18 @@
+{
+  "apiVersion": "v1",
+  "kind": "PersistentVolume",
+  "metadata": {
+    "name": "pv0001"
+  },
+  "spec": {
+    "capacity": {
+        "storage": "1Gi"
+    },
+    "accessModes": [ "ReadWriteOnce" ],
+    "nfs": {
+        "path": "/jeffnfs",
+        "server": "192.168.0.107"
+    },
+    "persistentVolumeReclaimPolicy": "Retain"
+  }
+}
