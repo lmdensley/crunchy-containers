@@ -72,7 +72,7 @@
     "spec": {
         "containers": [{
             "name": "pg-standalone-runasuser",
-            "image": "crunchydata/crunchy-pg",
+            "image": "crunchydata/crunchy-container",
             "ports": [{
                 "containerPort": 5432,
                 "protocol": "TCP"
