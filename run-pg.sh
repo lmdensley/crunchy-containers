@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "starting crunchy-pg container..."
-PGCONF=/home/jeffmc/crunchy-postgres-container-94/pgconf
+echo "starting crunchy-container..."
+PGCONF=/home/jeffmc/openshift-dedicated-container/pgconf
 sudo chown postgres:postgres $PGCONF
 sudo chmod 0700 $PGCONF
 sudo chcon -Rt svirt_sandbox_file_t $PGCONF
@@ -40,5 +40,5 @@ sudo docker run \
 	-e PG_DATABASE=testdb \
 	--name=crunchy-pg \
 	--hostname=crunchy-pg \
-	-d crunchydata/crunchy-pg:latest
+	-d crunchydata/crunchy-container:latest
 

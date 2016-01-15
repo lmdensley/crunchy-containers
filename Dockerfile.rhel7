@@ -61,7 +61,7 @@ ADD conf /opt/cpm/conf
 
 RUN chown -R postgres:postgres /pgdata
 
-USER root
+USER postgres
 
 CMD ["/opt/cpm/bin/start.sh"]
 
