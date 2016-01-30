@@ -40,5 +40,5 @@ sudo docker run \
 	-e PG_DATABASE=testdb \
 	--name=crunchy-pg \
 	--hostname=crunchy-pg \
-	-d crunchydata/crunchy-container:latest
+	-d crunchydata/crunchy-ose-pg:latest
 

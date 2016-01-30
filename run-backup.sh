@@ -36,5 +36,5 @@ docker run \
 	-e BACKUP_PORT=12000 \
 	--name=masterbackup \
 	--hostname=masterbackup \
-	-d crunchydata/crunchy-backup:latest
+	-d crunchydata/crunchy-ose-backup:latest
 
