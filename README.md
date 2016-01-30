@@ -18,9 +18,9 @@ make
 
 This will build three Docker images:
 
- * crunchy-pg
- * crunchy-backup
- * crunchy-pgpool
+ * crunchy-ose-pg
+ * crunchy-ose-backup
+ * crunchy-ose-pgpool
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 ~~~~~~~~~~~~~~~~~~~~~
@@ -31,7 +31,7 @@ sudo yum -y install postgresql94-server postgresql94
 The installation of postgres locally is also required to create a postgres user and group which are
 used by the examples to set the correct file permissions on local files used by the containers.
 
-crunchy-pg Configuration Options
+crunchy-ose-pg Configuration Options
 --------------------------------
 
 You can adjust the following Postgres configuration parameters
@@ -59,7 +59,7 @@ Inside YOURDIRECTORY would be your pg_hba.conf and postgresql.conf
 files.  These files are not manipulated or changed by the container
 start scripts.
 
-### Example 1 - Running crunchy-pg without using Openshift
+### Example 1 - Running crunchy-ose-pg without using Openshift
 
 Run the container with this command:
 ~~~~~~~~~~~~~~~~~~~~~
