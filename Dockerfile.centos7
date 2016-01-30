@@ -1,4 +1,4 @@
-FROM rhel7.2
+FROM centos:7
 MAINTAINER crunchy
 
 
@@ -7,14 +7,13 @@ LABEL Release crunchy-postgresql:9.4.4
 LABEL Vendor Crunchy Data Solutions
 LABEL Version 9.4.4
 
-
 # Install postgresql deps
-RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
-RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-RUN yum -y install libxslt libxml2 procps-ng postgresql94 \
-postgresql94-server postgresql94-contrib openssh-clients \
-hostname bind-utils \
-postgis2_94 postgis2_94-client pgrouting_94 && yum clean all -y
+RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+RUN yum -y --enablerepo=centosplus install gettext epel-release && \
+	yum install -y procps-ng postgresql94 postgresql94-contrib \
+	postgresql94-server openssh-clients hostname bind-utils \
+	postgis2_94 postgis2_94-client pgrouting_94 &&  \
+	yum clean all -y
 
 # set up cpm directory
 #
@@ -36,6 +35,8 @@ VOLUME ["/pgconf"]
 # add volumes to allow backup of postgres files
 VOLUME ["/pgdata"]
 
+# add volumes to offer a restore feature
+VOLUME ["/backup"]
 
 # open up the postgres port
 EXPOSE 5432
@@ -50,6 +51,7 @@ ADD conf /opt/cpm/conf
 #RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/initdb
 
 RUN chown -R postgres:postgres /pgdata
+RUN chown -R postgres:postgres /backup
 
 USER postgres
 

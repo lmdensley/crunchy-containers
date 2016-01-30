@@ -17,5 +17,5 @@
 ls -l /
 id
 source /opt/cpm/bin/setenv.sh
-su - postgres -c 'initdb /pgdata'
+initdb /pgdata
 

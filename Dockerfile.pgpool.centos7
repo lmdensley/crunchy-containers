@@ -1,0 +1,38 @@
+FROM centos:7
+MAINTAINER crunchy
+
+
+LABEL Name crunchydata/crunchy-pgpool:0.0.1
+LABEL Release crunchy-pgpool:0.0.1
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 0.0.1
+
+# Install pgpool deps
+RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+RUN yum -y --enablerepo=centosplus install gettext epel-release && \
+	yum install -y procps-ng postgresql94  pgpool-II-94 \
+	openssh-clients hostname &&  \
+	yum clean all -y
+
+# set up cpm directory
+#
+RUN mkdir -p /opt/cpm/bin
+RUN mkdir -p /opt/cpm/conf
+
+# add volumes to allow override of pgpool config files
+VOLUME ["/pgconf"]
+
+# open up the postgres port
+EXPOSE 5432
+
+ADD bin/pgpool /opt/cpm/bin
+ADD conf/pgpool /opt/cpm/conf/pgpool
+ADD conf/pgpool/pool_hba.conf  /etc/pgpool-II-94/pool_hba.conf
+ADD conf/pgpool/pool_passwd /etc/pgpool-II-94/pool_passwd
+
+RUN chown -R daemon:daemon /opt/cpm/bin
+
+USER daemon
+
+CMD ["/opt/cpm/bin/startpgpool.sh"]
+

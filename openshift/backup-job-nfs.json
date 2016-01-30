@@ -1,0 +1,53 @@
+{
+    "apiVersion": "extensions/v1beta1",
+    "kind": "Job",
+    "metadata": {
+        "name": "backupjob-pg-master"
+    },
+    "spec": {
+        "selector": {
+            "matchLabels": {
+                "app": "backupjob-pg-master"
+            }
+        },
+        "template": {
+            "metadata": {
+                "name": "backupjob-pg-master",
+                "labels": {
+                    "app": "backupjob-pg-master"
+                }
+            },
+            "spec": {
+                "volumes": [{
+                    "name": "pgdata",
+                    "persistentVolumeClaim": {
+                        "claimName": "backup-claim-pg-master"
+                    }
+                }],
+                "containers": [{
+                    "name": "backupjob-pg-master",
+                    "image": "crunchydata/crunchy-backup",
+                    "volumeMounts": [{
+                        "mountPath": "/pgdata",
+                        "name": "pgdata",
+                        "readOnly": false
+                    }],
+                    "env": [{
+                        "name": "BACKUP_HOST",
+                        "value": "pg-master"
+                    }, {
+                        "name": "BACKUP_USER",
+                        "value": "master"
+                    }, {
+                        "name": "BACKUP_PASS",
+                        "value": "U7loxagJ0WbX"
+                    }, {
+                        "name": "BACKUP_PORT",
+                        "value": "5432"
+                    }]
+                }],
+                "restartPolicy": "Never"
+            }
+        }
+    }
+}

@@ -126,35 +126,7 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	sed -i "s/PG_ROOT_PASSWORD/$PG_ROOT_PASSWORD/g" /tmp/setup.sql
 
         psql -U postgres < /tmp/setup.sql
-        exit
-fi
-}
-
-function initialize_standalone() {
-if [ ! -f $PGDATA/postgresql.conf ]; then
-	mkdir -p $PGDATA
-	echo "pgdata is empty"
-	initdb -D $PGDATA  > /tmp/initdb.log &> /tmp/initdb.err
-	echo "overlay pg config with your settings...."
-	cp /tmp/postgresql.conf $PGDATA
-	cp /opt/cpm/conf/pg_hba.conf.standalone $PGDATA/pg_hba.conf
-	check_for_overrides
-	if [ -f /pgconf/postgresql.conf ]; then
-        	echo "pgconf postgresql.conf is being used with PGDATA=" $PGDATA
-		postgres -c config_file=/pgconf/postgresql.conf -c hba_file=/pgconf/pg_hba.conf -D $PGDATA &
-	else
-        	echo "normal postgresql.conf is being used"
-		pg_ctl -D $PGDATA start
-	fi
-	echo "starting db" >> /tmp/start-db.log
-	sleep 3
-	echo "loading setup.sql" >> /tmp/start-db.log
-	cp /opt/cpm/bin/setup.sql.standalone /tmp
-	sed -i "s/PG_USER/$PG_USER/g" /tmp/setup.sql.standalone
-	sed -i "s/PG_PASSWORD/$PG_PASSWORD/g" /tmp/setup.sql.standalone
-	sed -i "s/PG_DATABASE/$PG_DATABASE/g" /tmp/setup.sql.standalone
-	psql -U postgres < /tmp/setup.sql.standalone
-	exit
+	pg_ctl -D $PGDATA stop
 fi
 }
 
@@ -185,16 +157,12 @@ case "$PG_MODE" in
 	echo "working on master..."
 	initialize_master
 	;;
-	"standalone")
-	echo "working on standalone"
-	initialize_standalone
-	;;
 esac
 
 if [ -f /pgconf/postgresql.conf ]; then
        	echo "pgconf postgresql.conf is being used"
-	postgres -c config_file=/pgconf/postgresql.conf -c hba_file=/pgconf/pg_hba.conf -D $PGDATA &
+	postgres -c config_file=/pgconf/postgresql.conf -c hba_file=/pgconf/pg_hba.conf -D $PGDATA 
 else
-	pg_ctl -D $PGDATA start 
+	postgres -D $PGDATA 
 fi
 

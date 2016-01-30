@@ -1,0 +1,41 @@
+{
+  "apiVersion": "extensions/v1beta1",
+  "kind": "Job",
+  "metadata": {
+    "name": "pi"
+  },
+  "spec": {
+    "selector": {
+      "matchLabels": {
+        "app": "pi"
+      }
+    },
+    "template": {
+      "metadata": {
+        "name": "pi",
+        "labels": {
+          "app": "pi"
+        }
+      },
+      "spec": {
+      "volumes": [{
+	"name": "pgdata",
+	"emptyDir": {}
+	}],
+        "containers": [
+          {
+            "name": "pi",
+            "image": "crunchydata/crunchy-backup",
+	     "volumeMounts": [{
+	                         "mountPath": "/pgdata",
+				                     "name": "pgdata",
+						                         "readOnly": false
+									                 }]
+
+          }
+        ],
+        "restartPolicy": "Never"
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 #!/bin/bash 
 
+
 # Copyright 2015 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,21 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export PG_MODE=$PG_MODE
-export PG_MASTER_HOST=$PG_MASTER_HOST
-export PG_MASTER_PORT=$PG_MASTER_PORT
-export PG_MASTER_USER=$PG_MASTER_USER
-export PG_MASTER_PASSWORD=$PG_MASTER_PASSWORD
-export PG_USER=$PG_USER
-export PG_PASSWORD=$PG_PASSWORD
-export PG_DATABASE=$PG_DATABASE
-export PG_ROOT_PASSWORD=$PG_ROOT_PASSWORD
+echo "starting backup container..."
 
-source /opt/cpm/bin/setenv.sh
+PGDATA=/tmp/backups
 
-mkdir -p /pgdata/$HOSTNAME
+if [ ! -d "$PGDATA" ]; then
+	echo "creating pgdata directory..."
+	mkdir -p $PGDATA
+fi
 
-source check-for-secrets.sh
+chown postgres:postgres $PGDATA
+chcon -Rt svirt_sandbox_file_t $PGDATA
 
-start-pg-wrapper.sh 
+docker rm masterbackup
+
+docker run \
+	-v $PGDATA:/pgdata \
+	-e BACKUP_HOST=192.168.122.71 \
+	-e BACKUP_USER=masteruser \
+	-e BACKUP_PASS=masterpsw \
+	-e BACKUP_PORT=12000 \
+	--name=masterbackup \
+	--hostname=masterbackup \
+	-d crunchydata/crunchy-backup:latest
 
