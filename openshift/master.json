@@ -77,7 +77,7 @@
         "spec": {
             "containers": [{
                 "name": "pg-master",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-ose-pg",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"
