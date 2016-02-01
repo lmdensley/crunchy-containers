@@ -2,56 +2,43 @@ FROM rhel7.2
 MAINTAINER crunchy
 
 
-LABEL Name crunchydata/crunchy-postgresql:9.4.4
-LABEL Release crunchy-postgresql:9.4.4
+LABEL Name crunchydata/crunchy-pgpool:0.0.1
+LABEL Release crunchy-pgpool:0.0.1
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.4.4
+LABEL Version 0.0.1
 
+# set up Crunchy repo
+ADD conf/CRUNCHY-GPG-KEY.public  /
+ADD conf/crunchypg95.repo /etc/yum.repos.d/
+RUN rpm --import CRUNCHY-GPG-KEY.public
 
-# Install postgresql deps
-RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
 RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-RUN yum -y install libxslt libxml2 procps-ng postgresql94 \
-postgresql94-server postgresql94-contrib openssh-clients \
-hostname bind-utils \
-postgis2_94 postgis2_94-client pgrouting_94 && yum clean all -y
+RUN yum -y install gettext libxslt libxml2 procps-ng \
+pgpool-II* \
+postgresql95 \
+openssh-clients \
+hostname  \
+ && yum clean all -y
 
 # set up cpm directory
 #
 RUN mkdir -p /opt/cpm/bin
 RUN mkdir -p /opt/cpm/conf
 
-RUN chown -R postgres:postgres /opt/cpm
-
-# set environment vars
-ENV PGROOT /usr/pgsql-9.4
-ENV PGDATA /pgdata
-
-# add path settings for postgres user
-ADD conf/.bash_profile /var/lib/pgsql/
-
-# add volumes to allow override of pg_hba.conf and postgresql.conf
+# add volumes to allow override of pgpool config files
 VOLUME ["/pgconf"]
-
-# add volumes to allow backup of postgres files
-VOLUME ["/pgdata"]
-
 
 # open up the postgres port
 EXPOSE 5432
 
-ADD bin /opt/cpm/bin
-ADD conf /opt/cpm/conf
+ADD bin/pgpool /opt/cpm/bin
+ADD conf/pgpool /opt/cpm/conf/pgpool
+ADD conf/pgpool/pool_hba.conf  /etc/pgpool-II-94/pool_hba.conf
+ADD conf/pgpool/pool_passwd /etc/pgpool-II-94/pool_passwd
 
-#RUN setcap cap_chown,cap_fowner+ep /usr/bin/chown
-#RUN setcap cap_chown,cap_fowner+ep /usr/bin/chmod
-#RUN setcap cap_chown,cap_fowner+ep /opt/cpm/bin/start.sh
-#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/pg_ctl
-#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/initdb
+RUN chown -R daemon:daemon /opt/cpm/bin
 
-RUN chown -R postgres:postgres /pgdata
+USER daemon
 
-USER postgres
-
-CMD ["/opt/cpm/bin/start.sh"]
+CMD ["/opt/cpm/bin/startpgpool.sh"]
 

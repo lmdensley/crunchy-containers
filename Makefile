@@ -1,4 +1,4 @@
-OSFLAVOR=centos7
+OSFLAVOR=rhel7
 pg:
 	sudo docker build -t crunchy-ose-pg -f Dockerfile.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-ose-pg:latest crunchydata/crunchy-ose-pg

@@ -1,20 +1,27 @@
 FROM rhel7.2
 MAINTAINER crunchy
 
-
-LABEL Name crunchydata/crunchy-postgresql:9.4.4
-LABEL Release crunchy-postgresql:9.4.4
+LABEL Name crunchydata/crunchy-ose-pg:9.5
+LABEL Release crunchy-postgresql:9.5
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.4.4
+LABEL Version 9.5
 
+# Install crunchy postgresql repo info
+ADD conf/CRUNCHY-GPG-KEY.public  /
+ADD conf/crunchypg95.repo /etc/yum.repos.d/
 
-# Install postgresql deps
-RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
+RUN rpm --import CRUNCHY-GPG-KEY.public
 RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-RUN yum -y install libxslt libxml2 procps-ng postgresql94 \
-postgresql94-server postgresql94-contrib openssh-clients \
+RUN yum -y install rsync libxslt libxml2 procps-ng \
+postgresql95-server  \
+postgresql95-libs  \
+postgresql95-contrib  \
+postgresql95 \
+postgis2_95* \
+pgrouting* \
+openssh-clients \
 hostname bind-utils \
-postgis2_94 postgis2_94-client pgrouting_94 && yum clean all -y
+ && yum clean all -y
 
 # set up cpm directory
 #
@@ -36,6 +43,8 @@ VOLUME ["/pgconf"]
 # add volumes to allow backup of postgres files
 VOLUME ["/pgdata"]
 
+# add volumes to offer a restore feature
+VOLUME ["/backup"]
 
 # open up the postgres port
 EXPOSE 5432
@@ -50,6 +59,7 @@ ADD conf /opt/cpm/conf
 #RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/initdb
 
 RUN chown -R postgres:postgres /pgdata
+RUN chown -R postgres:postgres /backup
 
 USER postgres
 
