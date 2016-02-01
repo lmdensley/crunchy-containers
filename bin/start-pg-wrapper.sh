@@ -19,6 +19,32 @@
 
 source /opt/cpm/bin/setenv.sh
 
+function initdb_logic() {
+	echo "doing initdb...."
+	initdb -D $PGDATA  > /tmp/initdb.log &> /tmp/initdb.err
+
+	echo "overlay pg config with your settings...."
+	cp /tmp/postgresql.conf $PGDATA
+	cp /opt/cpm/conf/pg_hba.conf /tmp
+	sed -i "s/PG_MASTER_USER/$PG_MASTER_USER/g" /tmp/pg_hba.conf
+	cp /tmp/pg_hba.conf $PGDATA
+}
+
+function check_for_restore() {
+	if [ ! -f /backup/postgresql.conf ]; then
+		echo "no backup file found..."
+		initdb_logic
+	else
+		if [ ! -f /pgdata/postgresql.conf ]; then
+			echo "doing restore from backup...."
+			rsync -a --progress --exclude 'pg_log/*' /backup/ $PGDATA
+			chmod -R 0700 $PGDATA
+		else
+			initdb_logic
+		fi
+	fi
+}
+
 function check_for_overrides() {
 	if [ -f /pgconf/postgresql.conf ]; then
         	echo "pgconf postgresql.conf is being used"
@@ -96,13 +122,8 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
         echo "pgdata is empty and id is..."
 	id
 	mkdir -p $PGDATA
-	initdb -D $PGDATA  > /tmp/initdb.log &> /tmp/initdb.err
 
-	echo "overlay pg config with your settings...."
-	cp /tmp/postgresql.conf $PGDATA
-	cp /opt/cpm/conf/pg_hba.conf /tmp
-	sed -i "s/PG_MASTER_USER/$PG_MASTER_USER/g" /tmp/pg_hba.conf
-	cp /tmp/pg_hba.conf $PGDATA
+	check_for_restore
 
 	check_for_overrides
         echo "starting db" >> /tmp/start-db.log
