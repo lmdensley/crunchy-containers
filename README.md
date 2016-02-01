@@ -379,7 +379,7 @@ the slaves:
 
 ~~~
 psql -c 'select inet_server_addr()' -h pg-slave-rc -U master postgres
-~~
+~~~
 
 ### Openshift Example 5 - Performing a Backup
 
