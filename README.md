@@ -592,3 +592,16 @@ occur since this might be a large amount of data and the volumes
 might be on slow networks. You can view the logs of the database pod
 to measure the copy progress.
 
+### Tip 6: Password Mgmt
+
+Remember that if you do a database restore, you will get
+whatever user IDs and passwords that were saved in the
+backup.  So, if you do a restore to a new database
+and use generated passwords, the new passwords will
+not be the same as the passwords stored in the backup!
+
+You have various options to deal with managing your
+passwords.
+
+ * externalize your passwords using secrets instead of using generated values
+ * manually update your passwords to your known values after a restore
