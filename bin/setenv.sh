@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export PGROOT=/usr/pgsql-9.4
+export PGROOT=/usr/pgsql-9.5
 export PGDATA=/pgdata/$HOSTNAME
 export PG_LOG=/tmp/pg.log
 export PATH=/opt/cpm/bin:$PGROOT/bin:$PATH

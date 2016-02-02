@@ -497,6 +497,48 @@ The restore only takes place if:
  * the /pgdata directory is empty
  * the /backups directory contains a valid postgresql.conf file
 
+### Openshift Example 7 - Failover Example
+
+An example of performing a database failover is described
+in the following steps:
+ 
+ * create a master and slave replication using master-slave-rc.json
+~~~
+oc process -f master-slave-rc.json | oc create -f -
+~~~
+ * scale up the number of slaves to 2
+~~~
+oc scale rc pg-slave-rc-1 --replicas=2
+~~~
+ * delete the master pod
+~~~
+oc delete pod pg-master-rc
+~~~
+ * exec into a slave and create a trigger file to being
+   the recovery process, effectively turning the slave into a master
+~~~
+oc exec -it pg-slave-rc-1-lt5a5
+touch /tmp/pg-failover-trigger
+~~~
+ * change the label on the slave to pg-master-rc instead of pg-slave-rc
+~~~
+oc edit pod/pg-slave-rc-1-lt5a5
+original line: labels/name: pg-slave-rc
+updated line: labels/name: pg-master-rc
+
+~~~
+  
+You can test the failover by creating some data on the master
+and then test to see if the slaves have the replicated data.
+
+~~~
+psql -c 'create table foo (id int)' -U master -h pg-master-rc postgres
+psql -c 'table foo' -U master -h pg-slave-rc postgres
+~~~
+
+After a failover, you would most likely want to create a database
+backup and be prepared to recreate your cluster from that backup.
+
 ## Openshift Tips
 
 ### Tip 1: Finding the Postgresql Passwords

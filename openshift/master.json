@@ -110,16 +110,29 @@
                 },
 
 
-                "volumeMounts": [{
+                "volumeMounts": [
+		{
                     "mountPath": "/pgdata",
                     "name": "pgdata",
                     "readOnly": false
-                }]
+                },
+		{
+                    "mountPath": "/backup",
+                    "name": "backup",
+                    "readOnly": true
+                }
+		]
             }],
-            "volumes": [{
+            "volumes": [
+	    {
                 "name": "pgdata",
                 "emptyDir": {}
-            }]
+            },
+	    {
+                "name": "backup",
+                "emptyDir": {}
+            }
+	    ]
         }
     }]
 }
