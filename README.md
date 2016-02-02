@@ -542,6 +542,59 @@ psql -c 'table foo' -U master -h pg-slave-rc postgres
 After a failover, you would most likely want to create a database
 backup and be prepared to recreate your cluster from that backup.
 
+### Openshift Example 8 - Master Slave Deployment using NFS
+
+This example uses NFS volumes for the master and the slaves.  In
+some scenarios, customers might want to have all the Postgres
+instances using NFS volumes for persistence.  
+
+Relevant files for this example:
+
+ * master-slave-rc-nfs.json
+This file creates the master and slave deployment, creating pods and services
+where the slave is controlled by a Replication Controller, allowing you 
+to scale up the slaves.
+
+To run the example, follow these steps:
+
+ * as the openshift admin, create the required PV(s) using this command:
+~~~
+oc create -f master-slave-rc-nfs-pv.json
+oc create -f master-slave-rc-nfs-pv2.json
+~~~
+This will create a PV for the master and another PV for the slaves.
+ * as the project user, create the required PVC(s) using this command:
+~~~
+oc create -f master-slave-rc-nfs-pvc2.json
+oc create -f master-slave-rc-nfs-pvc.json
+~~~
+This will create a PVC for the master and another PVC for the slaves.
+ * as the project user, create the master slave deployment:
+~~~
+oc process -f master-slave-rc-nfs.json | oc create -f -
+~~~
+
+If you examing your NFS directory, you will see postgres data directories
+created and used by your master and slave pods.
+
+Next, add some test data to the master:
+~~~
+psql -c 'create table testtable (id int)' -U master -h pg-master-rc-nfs postgres
+psql -c 'insert into testtable values (123)' -U master -h pg-master-rc-nfs postgres
+~~~
+
+Next, add a new slave:
+~~~
+oc scale rc pg-slave-rc-nfs-1 --replicas=2
+~~~
+
+At this point, you should see the new NFS directory created by the new
+slave pod, and you should also be able to test that replication is
+working on the new slave:
+~~~
+psql -c 'table testtable' -U master -h pg-slave-rc-nfs postgres
+~~~
+
 ## Openshift Tips
 
 ### Tip 1: Finding the Postgresql Passwords
