@@ -525,7 +525,10 @@ touch /tmp/pg-failover-trigger
 oc edit pod/pg-slave-rc-1-lt5a5
 original line: labels/name: pg-slave-rc
 updated line: labels/name: pg-master-rc
-
+~~~
+   or alternatively:
+~~~
+oc label --overwrite=true pod pg-slave-rc-1-lt5a5 name=pg-master-rc
 ~~~
   
 You can test the failover by creating some data on the master
@@ -647,3 +650,11 @@ passwords.
 
  * externalize your passwords using secrets instead of using generated values
  * manually update your passwords to your known values after a restore
+
+Note that you can edit the environment variables when there is a 'dc'
+using, currently only the slaves have a 'dc' to avoid the possiblity
+of creating multiple masters, this might need to change in the future,
+to better support password management:
+~~~
+oc env dc/pg-master-rc PG_MASTER_PASSWORD=foo PG_MASTER=user1
+~~~
