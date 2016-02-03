@@ -1,8 +1,8 @@
-Crunchy PostgreSQL 9.4.5
+Crunchy PostgreSQL for OpenShift
 ==========================
 
 This project includes a Dockerfile that lets you build
-a PostgreSQL 9.4.5 Docker image.  The image by default
+a Crunchy Certified PostgreSQL 9.5 Docker image.  The image by default
 is built on a RHEL 7.2 64 bit base, but can also be built
 on a centos 7 64 bit base.  NOTICE, to build the RHEL 7 
 version of this container, you need to build the Docker
