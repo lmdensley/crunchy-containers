@@ -711,3 +711,23 @@ to better support password management:
 ~~~
 oc env dc/pg-master-rc PG_MASTER_PASSWORD=foo PG_MASTER=user1
 ~~~
+
+### Tip 7: Log Aggregation
+
+Openshift can be configured to include the EFK stack for log aggregation.
+Openshift Administrators can configure the EFK stack as documented
+here:
+
+https://docs.openshift.com/enterprise/3.1/install_config/aggregate_logging.html
+
+### Tip 8: nss_wrapper
+
+If an Openshift deployment requires that random generated UIDs be
+supported by containers, the Crunchy containers can be modifed
+similar to those located here to support the use of nss_wrapper
+to equate the random generated UIDs/GIDs by openshift with 
+the postgres user:
+
+https://github.com/openshift/postgresql/blob/master/9.4/root/usr/share/container-scripts/postgresql/common.sh
+
+
