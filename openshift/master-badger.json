@@ -44,9 +44,9 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "badger-example",
             "labels": {
-                "name": "pg-master"
+                "name": "badger-example"
             }
         },
         "spec": {
@@ -67,7 +67,7 @@
             }
 	    ],
             "selector": {
-                "name": "pg-master"
+                "name": "badger-example"
             },
             "portalIP": "None",
             "type": "ClusterIP",
@@ -80,15 +80,15 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "badger-example",
             "labels": {
-                "name": "pg-master"
+                "name": "badger-example"
             }
         },
         "spec": {
             "containers": [
 	    {
-                "name": "pg-master",
+                "name": "badger-example",
                 "image": "crunchydata/crunchy-ose-pg",
                 "ports": [{
                     "containerPort": 5432,
