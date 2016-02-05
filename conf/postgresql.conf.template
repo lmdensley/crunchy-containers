@@ -375,7 +375,7 @@ log_rotation_size = 0			# Automatic rotation of logfiles will
 					#   fatal
 					#   panic (effectively off)
 
-#log_min_duration_statement = -1	# -1 is disabled, 0 logs all statements
+log_min_duration_statement = 0	# -1 is disabled, 0 logs all statements
 					# and their durations, > 0 logs only
 					# statements running at least this number
 					# of milliseconds
@@ -387,13 +387,13 @@ log_rotation_size = 0			# Automatic rotation of logfiles will
 #debug_print_rewritten = off
 #debug_print_plan = off
 #debug_pretty_print = on
-#log_checkpoints = off
-#log_connections = off
-#log_disconnections = off
+log_checkpoints = on
+log_connections = on
+log_disconnections = on
 #log_duration = off
 #log_error_verbosity = default		# terse, default, or verbose messages
 #log_hostname = off
-log_line_prefix = '< %m >'			# special values:
+log_line_prefix = '%t [%p]: [%l-1] user=%u,db=%d,app=%a,client=%h'
 					#   %a = application name
 					#   %u = user name
 					#   %d = database name
@@ -413,7 +413,7 @@ log_line_prefix = '< %m >'			# special values:
 					#        processes
 					#   %% = '%'
 					# e.g. '<%u%%%d> '
-#log_lock_waits = off			# log lock waits >= deadlock_timeout
+log_lock_waits = on			# log lock waits >= deadlock_timeout
 #log_statement = 'none'			# none, ddl, mod, all
 #log_temp_files = -1			# log temporary files equal or larger
 					# than the specified size in kilobytes;
@@ -450,7 +450,7 @@ log_timezone = 'US/Eastern'
 
 #autovacuum = on			# Enable autovacuum subprocess?  'on'
 					# requires track_counts to also be on.
-#log_autovacuum_min_duration = -1	# -1 disables, 0 logs all actions and
+log_autovacuum_min_duration = 0	# -1 disables, 0 logs all actions and
 					# their durations, > 0 logs only
 					# actions running at least this number
 					# of milliseconds.

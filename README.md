@@ -595,6 +595,49 @@ working on the new slave:
 psql -c 'table testtable' -U master -h pg-slave-rc-nfs postgres
 ~~~
 
+### Openshift Example 9 - Master with pgbadger add-in
+
+This example uses a version of master.json but also adds the pgbadger
+container to the pg-master pod.  pgbadger is then served up on port
+10000.  Each time you do a GET on http://pg-master:10000/api/badgergenerate
+it will run pgbadger against the database log files running in the
+pg-master container.
+
+To run the example, you first need to build the crunchy-ose-pgbadger
+container imagee.  Next, run the following:
+
+~~~
+oc create -f master-badger.json  | oc create -f -
+~~~
+
+try the following command to see the generated HTML output:
+
+~~~
+curl http://pg-master:10000/api/badgergenerate
+~~~
+
+You can view this output in a browser if you allow port forwarding
+from your container to your server host using a command like
+this:
+
+~~~
+socat tcp-listen:10001,reuseaddr,fork tcp:pg-master:10000
+~~~
+
+This command maps port 10000 of the service/container to port
+10001 of the local server.  You can now use your browser to 
+see the badger report.
+
+This is a short-cut way to expose a service to the external world, 
+Openshift would normally configure a Router whereby you could 
+'expose' the service in an Openshift way.  Here is the docs
+on installing the Openshift Router:
+
+~~~
+https://docs.openshift.com/enterprise/3.0/install_config/install/deploy_router.html
+~~~
+
+
 ## Openshift Tips
 
 ### Tip 1: Finding the Postgresql Passwords
@@ -729,5 +772,12 @@ to equate the random generated UIDs/GIDs by openshift with
 the postgres user:
 
 https://github.com/openshift/postgresql/blob/master/9.4/root/usr/share/container-scripts/postgresql/common.sh
+
+
+### Tip 9: build box setup
+
+golang is required to build the pgbadger container, on RH 7.2, golang
+is found in the 'server optional' repository and needs to be enabled
+to install.
 
 
