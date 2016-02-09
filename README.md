@@ -637,6 +637,19 @@ on installing the Openshift Router:
 https://docs.openshift.com/enterprise/3.0/install_config/install/deploy_router.html
 ~~~
 
+### Openshift Example 10 - Master with readiness probe
+
+This example uses a version of master.json but also adds a Kubernetes 
+readiness probe specific for postgresql.  This readiness probe
+uses the postgres pg_isready utility to attempt a connection
+to postgres from within the container using the postgres user and
+postgres database as the parameters.
+
+Run the following:
+
+~~~
+oc create -f master-ready.json  | oc create -f -
+~~~
 
 ## Openshift Tips
 
