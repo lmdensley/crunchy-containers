@@ -651,6 +651,28 @@ Run the following:
 oc create -f master-ready.json  | oc create -f -
 ~~~
 
+### Openshift Example 11 - Master with secrets
+
+This example uses a version of master.json but also adds a Kubernetes 
+Secret that is used to hold the username and password for the PG_USER
+and PG_PASSWORD values.
+
+The secret uses a base64 encoded string to represent the
+values to be read by the container during initialization:
+
+~~~
+oc create -f pguser-secret.json
+oc process -f master-secret.json | oc create -f -
+~~~
+
+The secrets are mounted in the /pguser volume within the
+container and read during initialization.  The container
+scripts create a Postgres user with those values.  The
+PG_USER and PG_PASSWORD environment variables are NOT
+set when using this mechanism.  Other environment variables
+can be overridden using secrets as well, see the check-for-secrets.sh
+script that gets executed during database initialization.
+
 ## Openshift Tips
 
 ### Tip 1: Finding the Postgresql Passwords
@@ -794,3 +816,19 @@ is found in the 'server optional' repository and needs to be enabled
 to install.
 
 
+golang is required to build the pgbadger container, on RH 7.2, golang
+is found in the 'server optional' repository and needs to be enabled
+to install.
+
+
+### Tip 10: encoding secrets
+
+You can use kubernetes secrets to set and maintain your database
+credentials.  Secrets requires you base64 encode your user and password
+values as follows:
+
+~~~
+echo -n 'myuserid' | base64
+~~~
+
+You will paste these values into  your JSON secrets files for values.
