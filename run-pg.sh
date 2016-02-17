@@ -34,7 +34,7 @@ sudo docker run \
 	-e SHARED_BUFFERS=129MB \
 	-e MAX_WAL_SENDERS=7 \
 	-e WORK_MEM=5MB \
-	-e PG_MODE=standalone \
+	-e PG_MODE=master \
 	-e PG_USER=testuser \
 	-e PG_PASSWORD=testpsw \
 	-e PG_DATABASE=testdb \
