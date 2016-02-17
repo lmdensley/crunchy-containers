@@ -15,6 +15,7 @@ all:
 	make pg
 	make pgpool
 	make pgbadger
+	make backup
 default:
 	all
 
