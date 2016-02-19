@@ -2,6 +2,9 @@ OSFLAVOR=rhel7
 pg:
 	sudo docker build -t crunchy-ose-pg -f Dockerfile.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-ose-pg:latest crunchydata/crunchy-ose-pg
+watch:
+	sudo docker build -t crunchy-ose-watch -f Dockerfile.watch.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-ose-watch:latest crunchydata/crunchy-ose-watch
 pgpool:
 	sudo docker build -t crunchy-ose-pgpool -f Dockerfile.pgpool.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-ose-pgpool:latest crunchydata/crunchy-ose-pgpool

@@ -1,0 +1,26 @@
+FROM rhel7.2
+MAINTAINER crunchy
+
+LABEL Name crunchydata/crunchy-ose-watch:9.5
+LABEL Release crunchy-postgresql:9.5
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.5
+
+RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+RUN yum -y install curl rsync libxslt libxml2 procps-ng \
+openssh-clients \
+atomic-openshift-clients hostname bind-utils \
+ && yum clean all -y
+
+# set up cpm directory
+#
+RUN mkdir -p /opt/cpm/bin
+RUN mkdir -p /opt/cpm/conf
+
+ADD bin /opt/cpm/bin
+ADD conf /opt/cpm/conf
+
+USER root
+
+CMD ["/opt/cpm/bin/start-watch.sh"]
+
