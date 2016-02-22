@@ -1,0 +1,40 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "crunchy-pg-watch-example",
+        "annotations": {
+            "description": "Crunchy PostgreSQL watch Example",
+            "iconClass": "icon-database",
+            "tags": "database,postgresql,replication"
+        }
+    },
+    "objects": [{
+        "kind": "Pod",
+        "apiVersion": "v1",
+        "metadata": {
+            "name": "pg-watch",
+            "labels": {
+                "name": "pg-watch"
+            }
+        },
+        "spec": {
+	    "serviceAccount": "pg-watcher",
+            "containers": [
+	    {
+                "name": "pg-watcher",
+                "image": "crunchydata/crunchy-ose-watch",
+                "env": [{
+                    "name": "PG_MASTER_USER",
+                    "value": "foo"
+                }, {
+                    "name": "PG_MODE",
+                    "value": "master"
+                }, {
+                    "name": "PG_MASTER_PASSWORD",
+                    "value": "doo"
+                }]
+            }]
+        }
+    }]
+}

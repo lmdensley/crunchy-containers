@@ -13,16 +13,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export PG_MODE=$PG_MODE
-export PG_MASTER_HOST=$PG_MASTER_HOST
+export OSE_HOST=openshift.default.svc.cluster.local
+export PG_MASTER_SERVICE=$PG_MASTER_SERVICE
+export PG_SLAVE_SERVICE=$PG_SLAVE_SERVICE
 export PG_MASTER_PORT=$PG_MASTER_PORT
 export PG_MASTER_USER=$PG_MASTER_USER
-export PG_MASTER_PASSWORD=$PG_MASTER_PASSWORD
 export PG_USER=$PG_USER
-export PG_PASSWORD=$PG_PASSWORD
 export PG_DATABASE=$PG_DATABASE
-export PG_ROOT_PASSWORD=$PG_ROOT_PASSWORD
+
+TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+
+export PATH=$PATH:/opt/cpm/bin:/usr/pgsql-9.5/bin
+
+function failover() {
+	oc login https://$OSE_HOST --insecure-skip-tls-verify=true --token="$TOKEN"
+	echo "performing failover..."
+	oc get pod --selector=name=pg-slave-rc
+	oc exec -it pg-slave-rc-1-lt5a5 'touch /tmp/pg-failover-trigger'
+	oc label --overwrite=true pod pg-slave-rc-1-lt5a5 name=pg-master-rc
+	echo "sleeping 15 seconds to give failover a chance to work..."
+	sleep 15
+	echo "failover completed @ " `date`
+}
 
 while true; do 
 	sleep 10
+	pg_isready  --dbname=postgres --host=pg-master --port=5432 --username=testuser
+	if [ $? -eq 0 ]
+	then
+		echo "Successfully reached master @ " `date`
+	else
+		echo "Could not reach master @ " `date`
+		failover
+	fi
 done

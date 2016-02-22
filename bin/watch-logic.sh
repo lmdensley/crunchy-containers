@@ -9,3 +9,4 @@ curl --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
 	/opt/cpm/bin/oc login https://openshift.default.svc.cluster.local --insecure-skip-tls-verify=true --token="$TOKEN"
 /opt/cpm/bin/oc get pods
 
+
