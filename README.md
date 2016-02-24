@@ -8,9 +8,19 @@ on a centos 7 64 bit base.  NOTICE, to build the RHEL 7
 version of this container, you need to build the Docker
 container on a licensed RHEL 7 host!
 
+Prerequisites
+-------------
+
+To build the containers, add the following lines to your
+environment, adjusting the GOPATH as fits your actual path:
+~~~~~
+export GOPATH=$HOME/openshift-dedicated-container
+export GOBIN=$GOPATH/bin
+export PATH=$PATH:$GOBIN
+~~~~~
+
 Installation
 ------------
-
 Docker image builds are performed by issuing the make command:
 ~~~~~~~~~~~~~~~~~~~~~
 make
