@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="generator" content="AsciiDoc 8.6.8, bootstrap backend 4.5.0">
+    <title>Crunchy Containers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- AsciiDoc Bootstrap styles -->
+    <link rel="stylesheet" type="text/css" id="bootstrapTheme" href="./stylesheets/asciidoc-bootstrap.cerulean.min.css">
+    <!-- Back to top (jquery plugin) -->
+    <link rel="stylesheet" type="text/css" href="./stylesheets/ui.totop.css">
+
+    <!--[if (lt IE 9) & (!IEMobile)]>
+        <script src="./javascripts/html5shiv.min.js"></script>
+        <script src="./javascripts/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+  <body id="toc-top">
+    <div id="page">
+
+
+      <div class="jumbotron">
+        <div class="container">
+          <h1>Crunchy Containers</h1>
+        </div>
+      </div>
+
+  <div id="content" class="container">
+
+    <div class="row">
+
+
+
+
+        <div class="col-md-9" role="main">
+<div class="section">
+    <h1 class="page-header" id="standalone_examples">1. Standalone Examples</h1>
+<div class="paragraph"><p>We provide some examples of running the Crunchy containers
+in the examples/standalone directory.  Those examples are
+explained below.</p></div>
+<h2 id="example_1_running_crunchy_ose_pg_without_using_openshift">1.1. Example 1 - Running crunchy-ose-pg without using Openshift</h2>
+<div class="paragraph"><p>Run the container with this command:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>./run-pg-master.sh</pre>
+</div></div>
+<div class="paragraph"><p>This script will do the following:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+start up a container named master
+</p>
+</li>
+<li>
+<p>
+create a data directory for the database in /tmp/master-data
+</p>
+</li>
+<li>
+<p>
+initialize the database using the passed in environment variables, building a user, database, schema, and table based on the environment variable values.
+</p>
+</li>
+<li>
+<p>
+maps the PostgreSQL port of 5432 in the container to your local host port of 12000.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>The container creates a default database called <em>testdb</em>, a default
+user called <em>testuser</em> with a default password of <em>testpsw</em>, you can
+use this to connect from your local host as follows:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>psql -h localhost -p 12000 -U testuser -W testdb</pre>
+</div></div>
+<div class="paragraph"><p>To shut down the instance, run the following commands:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>docker stop master</pre>
+</div></div>
+<div class="paragraph"><p>To start the instance, run the following commands:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>docker start master</pre>
+</div></div>
+<h2 id="example_2_performing_a_backup">1.2. Example 2 - Performing a backup</h2>
+<div class="paragraph"><p>In order to run this backup script, you first need to edit
+run-backup.sh to specify your host IP address you are running
+on.  The script assumes you are going to backup the container
+created in Example 1.</p></div>
+<div class="paragraph"><p>Run the backup with this command:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>./run-backup.sh</pre>
+</div></div>
+<div class="paragraph"><p>This script will do the following:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+start up a backup container named masterbackup
+</p>
+</li>
+<li>
+<p>
+run pg_basebackup on the container named master
+</p>
+</li>
+<li>
+<p>
+store the backup in /tmp/backups/masterbackup directory
+</p>
+</li>
+<li>
+<p>
+exit after the backup
+</p>
+</li>
+</ul></div>
+<h2 id="example_3_running_postgresql_in_master_slave_configuration">1.3. Example 3 - Running PostgreSQL in Master-Slave Configuration</h2>
+<div class="paragraph"><p>The container can be passed environment variables that will cause
+it to assume a PostgreSQL replication configuration with
+a master instance streaming to a slave replica instance.</p></div>
+<div class="paragraph"><p>The following env variables are specified for this configuration option:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+PG_MASTER_USER - The username used for master-slave replication value=master
+</p>
+</li>
+<li>
+<p>
+PG_MASTER_PASSWORD - The password for the PG master user
+</p>
+</li>
+<li>
+<p>
+PG_USER - The username that clients will use to connect to PG server value=user
+</p>
+</li>
+<li>
+<p>
+PG_PASSWORD  - The password for the PG master user
+</p>
+</li>
+<li>
+<p>
+PG_DATABASE - The name of the database that will be created value=userdb
+</p>
+</li>
+<li>
+<p>
+PG_ROOT_PASSWORD - The password for the PG admin
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>This examples assumes you have run Example 1, and that the master
+container is running.</p></div>
+<div class="paragraph"><p>For running the master-slave configuration , you can run the following scripts:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>run-pg-slave.sh</pre>
+</div></div>
+<div class="paragraph"><p>You can verify that replication is working by the following commands:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>psql -h 0.0.0.0 -p 12001 -U postgres postgres</pre>
+</div></div>
+<h2 id="example_4_pgpool_non_openshift">1.4. Example 4 - pgpool (non-Openshift)</h2>
+<div class="paragraph"><p>A pgpool example is provided that will run a pgpool container that
+is configured to be used with the master and slave example provided
+in the run-pg-master.sh and run-pg-replica.sh scripts.  After running
+those commands to create a master and replica, you can
+create a pgpool container by running the following example command:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>sudo ./run-pgpool.sh</pre>
+</div></div>
+<div class="paragraph"><p>Enter the following command to connect to the pgpool that is
+mapped to your local port 12002, in this case the host is named
+jeffded.crunchy.lab, fill in your hostname instead:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>psql -h jeffded.crunchy.lab -U testuser -p 12002 testdb</pre>
+</div></div>
+<div class="paragraph"><p>You will enter the password of testpsw when prompted.  At this point
+you can execute both INSERT and SELECT statements on the pgpool connection.
+Pgpool will direct INSERT statements to the master and SELECT statements
+will be sent round-robin to both master and replica.</p></div>
+</div>
+        </div>  <!-- /.col-md-9 -->
+        <div class="col-md-3">
+        <div id="sidebar">
+    <div class="toc2">
+<div class="panel panel-default">
+<div class="panel-heading">Table of Contents</div>
+<div class="panel-body" id="toc">
+</div>
+</div>
+    </div>
+</div>
+        </div>  <!-- /.col-md-3 -->
+    </div>  <!-- /.row -->
+
+  </div>  <!-- /.container -->
+
+    <footer id="footer" role="contentinfo">
+        <div class="container">
+<div class="row"><div id="footnotes"></div></div>
+<div id="footer-text">
+Last updated 2016-02-25 13:50:10 EST
+<br>Built with <a href="https://github.com/llaville/asciidoc-bootstrap-backend">AsciiDoc-Bootstrap backend</a> 4.5.0
+</div>
+        </div>
+    </footer>
+
+    <script src="./javascripts/jquery.min.js"></script>
+    <script src="./bootstrap/js/bootstrap.min.js"></script>
+    <script src="./javascripts/asciidoc.js"></script>
+    <!-- Install TOC and/or footnotes (if necessary) -->
+    <script type="text/javascript">asciidoc.install(2);</script>
+
+    <script src="./javascripts/jquery.ui.totop.min.js"></script>
+
+
+
+    <!-- Remove footnotes if empty block -->
+    <script type="text/javascript">$(function(){ if ($("#footnotes div").length == 0) $("#footnotes").parent().remove(); });</script>
+
+    <script type="text/javascript">$(function(){ if ($("#dropdown-menu-versions")) $("#dropdown-menu-versions").parent().remove(); });</script>
+
+    <script type="text/javascript">$(function(){ $().UItoTop(); });</script>
+    </div> <!-- page -->
+  </body>
+</html>
