@@ -13,8 +13,8 @@
         },
         "accessModes": ["ReadWriteMany"],
         "nfs": {
-            "path": "/jeffnfs/pg-master/2016-01-29:22:34:20",
-            "server": "192.168.0.103"
+            "path": "/jeffnfs",
+            "server": "192.168.0.105"
         },
         "persistentVolumeReclaimPolicy": "Retain"
     }

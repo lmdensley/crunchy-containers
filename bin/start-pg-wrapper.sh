@@ -31,13 +31,13 @@ function initdb_logic() {
 }
 
 function check_for_restore() {
-	if [ ! -f /backup/postgresql.conf ]; then
+	if [ ! -f /backup/$BACKUP_PATH/postgresql.conf ]; then
 		echo "no backup file found..."
 		initdb_logic
 	else
 		if [ ! -f /pgdata/postgresql.conf ]; then
 			echo "doing restore from backup...."
-			rsync -a --progress --exclude 'pg_log/*' /backup/ $PGDATA
+			rsync -a --progress --exclude 'pg_log/*' /backup/$BACKUP_PATH/* $PGDATA
 			chmod -R 0700 $PGDATA
 		else
 			initdb_logic
