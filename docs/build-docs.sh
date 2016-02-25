@@ -19,7 +19,6 @@ asciidoc \
 -o ./htmldoc/standalone.html \
 -a toc2 \
 -a toc-placement=right \
--a theme=cerulean \
 ./standalone.asciidoc
 
 asciidoctor-pdf ./standalone.asciidoc --out-file ./pdf/standalone.pdf
@@ -30,7 +29,6 @@ asciidoc \
 -o ./htmldoc/openshift.html \
 -a toc2 \
 -a toc-placement=right \
--a theme=cerulean \
 ./openshift.asciidoc
 
 asciidoctor-pdf ./openshift.asciidoc --out-file ./pdf/openshift.pdf
@@ -41,7 +39,6 @@ asciidoc \
 -o ./htmldoc/origin-install.html \
 -a toc2 \
 -a toc-placement=right \
--a theme=cerulean \
 ./origin-install.asciidoc
 
 asciidoctor-pdf ./origin-install.asciidoc --out-file ./pdf/origin-install.pdf
