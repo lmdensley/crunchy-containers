@@ -40,34 +40,77 @@
 <h2 id="install_openshift_origin">1.1. Install Openshift Origin</h2>
 <div class="paragraph"><p>Binary releases of Openshift Origin are available here:
 <a href="https://github.com/openshift/origin/releases">https://github.com/openshift/origin/releases</a></p></div>
-<div class="paragraph"><p>Openshift install steps:
- * download the binary release
- * untar the release to your local host
- * run as follows:
-<sub>~</sub>
-sudo ./openshift start
-<sub>~</sub>
- * set the permissions on the admin kubeconfig file to allow changes
-<sub>~</sub>
-sudo chmod 666 ./openshift.local.config/master/admin.kubeconfig
-<sub>~</sub>
- * add the following to your bash shell environment to allow
+<div class="paragraph"><p>Openshift install steps:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+download the binary release
+</p>
+</li>
+<li>
+<p>
+untar the release to your local host
+</p>
+</li>
+<li>
+<p>
+run as follows:
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>sudo ./openshift start</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+set the permissions on the admin kubeconfig file to allow changes
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>sudo chmod 666 ./openshift.local.config/master/admin.kubeconfig</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+add the following to your bash shell environment to allow
  you access to the openshift admin account:
-<sub>~</sub>
-export KUBECONFIG="$(pwd)"/openshift.local.config/master/admin.kubeconfig
-export CURL_CA_BUNDLE="$(pwd)"/openshift.local.config/master/ca.crt
-<sub>~</sub>
- * edit the restricted settings, you will need to change the runAsUser type value to RunAsAny to allow the container to
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>export KUBECONFIG="$(pwd)"/openshift.local.config/master/admin.kubeconfig
+export CURL_CA_BUNDLE="$(pwd)"/openshift.local.config/master/ca.crt</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+edit the restricted settings, you will need to change the runAsUser type value to RunAsAny to allow the container to
 run as the postgres user.
-<sub>~</sub>
-oc login -u system:admin
-oc edit scc restricted --config=./openshift.local.config/master/admin.kubeconfig
-<sub>~</sub>
- * login in as test user and create a project called pgproject
-<sub>~</sub>
-oc login -u test
-oc new-project pgproject
-<sub>~</sub></p></div>
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>oc login -u system:admin
+oc edit scc restricted --config=./openshift.local.config/master/admin.kubeconfig</pre>
+</div></div>
+<div class="ulist"><ul>
+<li>
+<p>
+login in as test user and create a project called pgproject
+</p>
+</li>
+</ul></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>oc login -u test
+oc new-project pgproject</pre>
+</div></div>
 <div class="paragraph"><p>Openshift starts an internal DNS server when it starts, and it
 registers DNS names for each service that you create.  To
 refer to this DNS server, you adjust your /etc/resolv.conf
@@ -77,11 +120,12 @@ dont want to type <em>&lt;<a href="#projectname">[projectname]</a>.svc.cluster.l
 you refer to the various Openshift services you create.  Here
 is an example /etc/resolv.conf that uses an Openshift project
 name of 'pgproject</em>:</p></div>
-<div class="paragraph"><p><sub>~</sub>
-search pgproject.svc.cluster.local crunchy.lab
+<div class="literalblock">
+<div class="content monospaced">
+<pre>search pgproject.svc.cluster.local crunchy.lab
 nameserver 192.168.122.71
-nameserver 192.168.122.1
-<sub>~</sub></p></div>
+nameserver 192.168.122.1</pre>
+</div></div>
 <div class="paragraph"><p>This example used an Openshift project name of <em>pgproject</em>.  The
 project name is used as part of the DNS names set by Openshift
 for Services.</p></div>
@@ -98,9 +142,10 @@ here:</p></div>
 <div class="paragraph"><p><a href="https://github.com/openshift/origin/tree/master/examples/wordpress/nfs">https://github.com/openshift/origin/tree/master/examples/wordpress/nfs</a></p></div>
 <div class="paragraph"><p>The examples specify a test NFS server running at IP address 192.168.0.103</p></div>
 <div class="paragraph"><p>On that server, the /etc/exports file looks like this:</p></div>
-<div class="paragraph"><p><sub>~</sub>
-/jeffnfs * (rw,sync)
-<sub>~</sub></p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>/jeffnfs * (rw,sync)</pre>
+</div></div>
 <div class="paragraph"><p>if you are running your client on a VM, you will need to
 add <em>insecure</em> to the exportfs file on the NFS server, this is because
 of the way port translation is done between the VM host and the VM instance.</p></div>
@@ -273,7 +318,7 @@ values as follows:</p></div>
         <div class="container">
 <div class="row"><div id="footnotes"></div></div>
 <div id="footer-text">
-Last updated 2016-02-25 13:59:57 EST
+Last updated 2016-02-25 14:12:21 EST
 <br>Built with <a href="https://github.com/llaville/asciidoc-bootstrap-backend">AsciiDoc-Bootstrap backend</a> 4.5.0
 </div>
         </div>

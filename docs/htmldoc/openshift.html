@@ -476,8 +476,10 @@ PG_USER and PG_PASSWORD environment variables are NOT
 set when using this mechanism.  Other environment variables
 can be overridden using secrets as well, see the check-for-secrets.sh
 script that gets executed during database initialization.</p></div>
-<div class="paragraph"><p>## Openshift Tips</p></div>
-<h2 id="tip_1_finding_the_postgresql_passwords">1.13. Tip 1: Finding the Postgresql Passwords</h2>
+</div>
+<div class="section">
+    <h1 class="page-header" id="openshift_tips">2. Openshift Tips</h1>
+<h2 id="tip_1_finding_the_postgresql_passwords">2.1. Tip 1: Finding the Postgresql Passwords</h2>
 <div class="paragraph"><p>The passwords used for the PostgreSQL user accounts are generated
 by the Openshift <em>process</em> command.  To inspect what value was
 supplied, you can inspect the master pod as follows:</p></div>
@@ -489,7 +491,7 @@ supplied, you can inspect the master pod as follows:</p></div>
 - PG_USER
 - PG_PASSWORD
 - PG_DATABASE</p></div>
-<h2 id="tip_2_examining_a_backup_job_log">1.14. Tip 2: Examining a backup job log</h2>
+<h2 id="tip_2_examining_a_backup_job_log">2.2. Tip 2: Examining a backup job log</h2>
 <div class="paragraph"><p>Database backups are implemented as a Kubernetes Job.  A Job is meant to run one time only
 and not be restarted by Kubernetes.  To view jobs in Openshift you enter:</p></div>
 <div class="literalblock">
@@ -503,7 +505,7 @@ output as follows:</p></div>
 <div class="content monospaced">
 <pre>oc logs backupjob-pxh2o</pre>
 </div></div>
-<h2 id="tip_3_backup_lifecycle">1.15. Tip 3: Backup Lifecycle</h2>
+<h2 id="tip_3_backup_lifecycle">2.3. Tip 3: Backup Lifecycle</h2>
 <div class="paragraph"><p>Backups require the use of network storage like NFS in Openshift.
 There is a required order of using NFS volumes in the manner
 we do database backups.</p></div>
@@ -521,7 +523,7 @@ this general pattern:
  * as openshift admin user, delete the unique PV</p></div>
 <div class="paragraph"><p>This procedure will need to be scripted and executed by the devops team when
 performing a database backup.</p></div>
-<h2 id="tip_4_persistent_volume_matching">1.16. Tip 4: Persistent Volume Matching</h2>
+<h2 id="tip_4_persistent_volume_matching">2.4. Tip 4: Persistent Volume Matching</h2>
 <div class="paragraph"><p>Restoring a database from an NFS backup requires the building
 of a PV which maps to the NFS backup archive path.  For example,
 if you have a backup at /backups/pg-foo/2016-01-29:22:34:20
@@ -531,7 +533,7 @@ a "label" on the PV so that the specific backup PV can be identified.</p></div>
 way, the related PVC can find the right PV to map to and not some other
 PV.  In the PVC, we specify the same "label" which lets Kubernetes
 match to the correct PV.</p></div>
-<h2 id="tip_5_restore_lifecycle">1.17. Tip 5: Restore Lifecycle</h2>
+<h2 id="tip_5_restore_lifecycle">2.5. Tip 5: Restore Lifecycle</h2>
 <div class="paragraph"><p>To perform a database restore, we do the following:
  * locate the NFS path to the database backup we want to restore with
  * edit a PV to use that NFS path
@@ -550,7 +552,7 @@ the database.  It will take time for the copying of the files to
 occur since this might be a large amount of data and the volumes
 might be on slow networks. You can view the logs of the database pod
 to measure the copy progress.</p></div>
-<h2 id="tip_6_password_mgmt">1.18. Tip 6: Password Mgmt</h2>
+<h2 id="tip_6_password_mgmt">2.6. Tip 6: Password Mgmt</h2>
 <div class="paragraph"><p>Remember that if you do a database restore, you will get
 whatever user IDs and passwords that were saved in the
 backup.  So, if you do a restore to a new database
@@ -578,26 +580,26 @@ to better support password management:</p></div>
 <div class="content monospaced">
 <pre>oc env dc/pg-master-rc PG_MASTER_PASSWORD=foo PG_MASTER=user1</pre>
 </div></div>
-<h2 id="tip_7_log_aggregation">1.19. Tip 7: Log Aggregation</h2>
+<h2 id="tip_7_log_aggregation">2.7. Tip 7: Log Aggregation</h2>
 <div class="paragraph"><p>Openshift can be configured to include the EFK stack for log aggregation.
 Openshift Administrators can configure the EFK stack as documented
 here:</p></div>
 <div class="paragraph"><p><a href="https://docs.openshift.com/enterprise/3.1/install_config/aggregate_logging.html">https://docs.openshift.com/enterprise/3.1/install_config/aggregate_logging.html</a></p></div>
-<h2 id="tip_8_nss_wrapper">1.20. Tip 8: nss_wrapper</h2>
+<h2 id="tip_8_nss_wrapper">2.8. Tip 8: nss_wrapper</h2>
 <div class="paragraph"><p>If an Openshift deployment requires that random generated UIDs be
 supported by containers, the Crunchy containers can be modifed
 similar to those located here to support the use of nss_wrapper
 to equate the random generated UIDs/GIDs by openshift with
 the postgres user:</p></div>
 <div class="paragraph"><p><a href="https://github.com/openshift/postgresql/blob/master/9.4/root/usr/share/container-scripts/postgresql/common.sh">https://github.com/openshift/postgresql/blob/master/9.4/root/usr/share/container-scripts/postgresql/common.sh</a></p></div>
-<h2 id="tip_9_build_box_setup">1.21. Tip 9: build box setup</h2>
+<h2 id="tip_9_build_box_setup">2.9. Tip 9: build box setup</h2>
 <div class="paragraph"><p>golang is required to build the pgbadger container, on RH 7.2, golang
 is found in the <em>server optional</em> repository and needs to be enabled
 to install.</p></div>
 <div class="paragraph"><p>golang is required to build the pgbadger container, on RH 7.2, golang
 is found in the <em>server optional</em> repository and needs to be enabled
 to install.</p></div>
-<h2 id="tip_10_encoding_secrets">1.22. Tip 10: encoding secrets</h2>
+<h2 id="tip_10_encoding_secrets">2.10. Tip 10: encoding secrets</h2>
 <div class="paragraph"><p>You can use kubernetes secrets to set and maintain your database
 credentials.  Secrets requires you base64 encode your user and password
 values as follows:</p></div>
@@ -627,7 +629,7 @@ values as follows:</p></div>
         <div class="container">
 <div class="row"><div id="footnotes"></div></div>
 <div id="footer-text">
-Last updated 2016-02-25 13:57:22 EST
+Last updated 2016-02-25 14:10:17 EST
 <br>Built with <a href="https://github.com/llaville/asciidoc-bootstrap-backend">AsciiDoc-Bootstrap backend</a> 4.5.0
 </div>
         </div>

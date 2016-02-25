@@ -423,7 +423,7 @@ set when using this mechanism.  Other environment variables
 can be overridden using secrets as well, see the check-for-secrets.sh
 script that gets executed during database initialization.
 
-## Openshift Tips
+== Openshift Tips
 
 === Tip 1: Finding the Postgresql Passwords
 
