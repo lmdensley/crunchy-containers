@@ -11,6 +11,20 @@ container on a licensed RHEL 7 host!
 Prerequisites
 -------------
 
+1) Installing / configuring Docker
+
+On an EL7 system, docker can be installed with the following commands:
+ * sudo yum -y install docker
+ * sudo groupadd docker
+ * sudo gpasswd -a ${USER} docker
+ * newgrp docker
+ * sudo systemctl start docker
+
+2) Installing / configuring Go
+
+"Go" can be installed with the following command:
+ * sudo yum -y install golang
+
 To build the containers, add the following lines to your
 environment, adjusting the GOPATH as fits your actual path:
 ~~~~~
@@ -19,6 +33,24 @@ export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 ~~~~~
 
+3) Setting up config files for compilation
+
+In order to compile the openshift-dedicated-container code, two files must be placed in the conf directory:
+ * crunchypg95.repo
+ * CRUNCHY-GPG-KEY.public
+
+Both of these files can be obtained with the following procedure:
+ * Request an account on access.crunchydata.com
+ * Go to https://access.crunchydata.com/
+ * In the upper-right, click "Customer Log In"
+ * Enter your provided username and password
+ * Click "submit"
+ * Read the terms of use and click "I agree"
+ * Change your password (first login) by Clicking on "Profile" in the upper right; enter your old password, a new password, and click "Change password"
+ * Click on "Downloads" in the upper right corner
+ * The "Download GPG Key" button will automatically download the CRUNCHY-GPG-KEY.public file
+ * The "Download repo file (RHEL)" button will automatically download a personalized (to your user) crunchypg95.repo file
+
 Installation
 ------------
 Docker image builds are performed by issuing the make command:
@@ -26,11 +58,12 @@ Docker image builds are performed by issuing the make command:
 make
 ~~~~~~~~~~~~~~~~~~~~~
 
-This will build three Docker images:
+This will build four Docker images:
 
  * crunchy-ose-pg
  * crunchy-ose-backup
  * crunchy-ose-pgpool
+ * crunchy-ose-pgbadger
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 ~~~~~~~~~~~~~~~~~~~~~
