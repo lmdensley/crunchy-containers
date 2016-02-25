@@ -97,18 +97,17 @@ sudo yum -y install postgresql94-server postgresql94
 The installation of postgres locally is also required to create a postgres user and group which are
 used by the examples to set the correct file permissions on local files used by the containers.
 
-crunchy-ose-pg Configuration Options
---------------------------------
+=== crunchy-ose-pg Configuration Options
 
 You can adjust the following Postgres configuration parameters
 by setting environment variables:
-~~~~
+....
 MAX_CONNECTIONS - defaults to 100
 SHARED_BUFFERS - defaults to 128MB
 TEMP_BUFFERS - defaults to 8MB
 WORK_MEM - defaults to 4MB
 MAX_WAL_SENDERS - defaults to 6
-~~~~
+....
 
 You have the ability to override the pg_hba.conf and postgresql.conf
 files used by the container.  To enable this, you create a 
@@ -117,9 +116,9 @@ directory to hold your own copy of these configuration files.
 Then you mount that directory into the container using the /pgconf
 volume mount as follows:
 
-~~~~~~~
+....
 -v $YOURDIRECTORY:/pgconf
-~~~~~~~
+....
 
 Inside YOURDIRECTORY would be your pg_hba.conf and postgresql.conf
 files.  These files are not manipulated or changed by the container
