@@ -135,13 +135,18 @@ For running the master-slave configuration , you can run the following scripts:
 run-pg-replica.sh
 ....
 
-You can verify that replication is working by the following commands:
+You can verify that replication is working by connecting to
+the replica as follows:
 
 ....
-psql -h 0.0.0.0 -p 12001 -U postgres postgres
+psql -h 127.0.0.1 -p 12002 -U postgres postgres
 ....
 
-=== Example 4 - pgpool (non-Openshift)
+If you have created tables or data in the master database, they
+should show up in this replicated copy of that database.
+
+
+=== Example 6 - pgpool 
 
 A pgpool example is provided that will run a pgpool container that
 is configured to be used with the master and slave example provided
