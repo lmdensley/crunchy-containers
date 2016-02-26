@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 
-# Copyright 2015 Crunchy Data Solutions, Inc.
+# Copyright 2016 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -18,7 +18,7 @@ echo "starting master container..."
 
 # uncomment these lines to override the pg config files with
 # your own versions of pg_hba.conf and postgresql.conf
-PGCONF=/home/jeffmc/crunchy-postgres-container-94/pgconf
+PGCONF=$HOME/openshift-dedicated-container/pgconf
 sudo chown postgres:postgres $PGCONF
 sudo chmod 0700 $PGCONF
 sudo chcon -Rt svirt_sandbox_file_t $PGCONF

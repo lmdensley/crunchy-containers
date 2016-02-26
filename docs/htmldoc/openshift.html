@@ -58,7 +58,7 @@ the value of PG_PASSWORD from above for the password when prompted:</p></div>
 <pre>psql -h pg-master.pgproject.svc.cluster.local -U testuser userdb</pre>
 </div></div>
 <h2 id="openshift_example_2_slave_json">1.2. Openshift Example 2 - slave.json</h2>
-<div class="paragraph"><p>This openshift template will create a single slave PostgreSQL instance
+<div class="paragraph"><p>This Openshift template will create a single slave PostgreSQL instance
 that will connect to the master created in Example 1.</p></div>
 <div class="paragraph"><p>You will need to edit the slave.json file and enter the PG_MASTER_PASSWORD
 value generated in Example 1 as found in the master environment variables.</p></div>
@@ -609,6 +609,12 @@ values as follows:</p></div>
 </div></div>
 <div class="paragraph"><p>You will paste these values into  your JSON secrets files for values.</p></div>
 </div>
+<div class="section">
+    <h1 class="page-header" id="legal_notices">3. Legal Notices</h1>
+<div class="paragraph"><p>Copyright © 2016 Crunchy Data Solutions, Inc.</p></div>
+<div class="paragraph"><p>CRUNCHY DATA SOLUTIONS, INC. PROVIDES THIS GUIDE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p></div>
+<div class="paragraph"><p>Crunchy, Crunchy Data Solutions, Inc. and the Crunchy Hippo Logo are trademarks of Crunchy Data Solutions, Inc.</p></div>
+</div>
         </div>  <!-- /.col-md-9 -->
         <div class="col-md-3">
         <div id="sidebar">
@@ -628,10 +634,13 @@ values as follows:</p></div>
     <footer id="footer" role="contentinfo">
         <div class="container">
 <div class="row"><div id="footnotes"></div></div>
-<div id="footer-text">
-Last updated 2016-02-25 16:04:28 EST
-<br>Built with <a href="https://github.com/llaville/asciidoc-bootstrap-backend">AsciiDoc-Bootstrap backend</a> 4.5.0
-</div>
+        <table>
+        <tr>
+        <td><b>Crunchy Data Solutions, Inc.</b></td>
+        <td>v1.0.3</td>
+        <td>February 27, 2016</td>
+        </tr>
+        </table>
         </div>
     </footer>
 

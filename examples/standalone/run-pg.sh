@@ -1,7 +1,6 @@
 #!/bin/bash 
 
-
-# Copyright 2015 Crunchy Data Solutions, Inc.
+# Copyright 2016 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -15,7 +14,7 @@
 # limitations under the License.
 
 echo "starting crunchy-container..."
-PGCONF=/home/jeffmc/openshift-dedicated-container/pgconf
+PGCONF=$HOME/openshift-dedicated-container/pgconf
 sudo chown postgres:postgres $PGCONF
 sudo chmod 0700 $PGCONF
 sudo chcon -Rt svirt_sandbox_file_t $PGCONF

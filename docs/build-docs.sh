@@ -18,6 +18,7 @@ asciidoc \
 -f ./demo.conf \
 -o ./htmldoc/standalone.html \
 -a toc2 \
+-a footer \
 -a toc-placement=right \
 ./standalone.asciidoc
 

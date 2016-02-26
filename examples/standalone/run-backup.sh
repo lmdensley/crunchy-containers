@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 
-# Copyright 2015 Crunchy Data Solutions, Inc.
+# Copyright 2016 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -23,17 +23,17 @@ if [ ! -d "$PGDATA" ]; then
 	mkdir -p $PGDATA
 fi
 
-chown postgres:postgres $PGDATA
-chcon -Rt svirt_sandbox_file_t $PGDATA
+sudo chown postgres:postgres $PGDATA
+sudo chcon -Rt svirt_sandbox_file_t $PGDATA
 
 docker rm masterbackup
 
 docker run \
 	-v $PGDATA:/pgdata \
-	-e BACKUP_HOST=192.168.122.71 \
+	-e BACKUP_HOST=master \
 	-e BACKUP_USER=masteruser \
 	-e BACKUP_PASS=masterpsw \
-	-e BACKUP_PORT=12000 \
+	-e BACKUP_PORT=5432 \
 	--name=masterbackup \
 	--hostname=masterbackup \
 	-d crunchydata/crunchy-ose-backup:latest
