@@ -2,17 +2,21 @@ FROM centos:7
 MAINTAINER crunchy
 
 
-LABEL Name crunchydata/crunchy-postgresql:9.4.4
-LABEL Release crunchy-postgresql:9.4.4
+LABEL Name crunchydata/crunchy-postgresql:9.5
+LABEL Release crunchy-postgresql:9.5
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.4.4
+LABEL Version 9.5
 
 # Install postgresql deps
-RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+ADD conf/CRUNCHY-GPG-KEY.public  /
+ADD conf/crunchypg95.repo /etc/yum.repos.d/
+
+RUN rpm --import CRUNCHY-GPG-KEY.public
+
 RUN yum -y --enablerepo=centosplus install gettext epel-release && \
-	yum install -y rsync procps-ng postgresql94 postgresql94-contrib \
-	postgresql94-server openssh-clients hostname bind-utils \
-	postgis2_94 postgis2_94-client pgrouting_94 &&  \
+	yum install -y rsync procps-ng postgresql95 postgresql95-contrib \
+	postgresql95-server openssh-clients hostname bind-utils \
+	postgis2_95 postgis2_95-client pgrouting* &&  \
 	yum clean all -y
 
 # set up cpm directory
@@ -23,7 +27,7 @@ RUN mkdir -p /opt/cpm/conf
 RUN chown -R postgres:postgres /opt/cpm
 
 # set environment vars
-ENV PGROOT /usr/pgsql-9.4
+ENV PGROOT /usr/pgsql-9.5
 ENV PGDATA /pgdata
 
 # add path settings for postgres user
