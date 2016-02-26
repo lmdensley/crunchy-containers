@@ -31,7 +31,7 @@ RUN mkdir -p /opt/cpm/conf
 RUN chown -R postgres:postgres /opt/cpm
 
 # set environment vars
-ENV PGROOT /usr/pgsql-9.4
+ENV PGROOT /usr/pgsql-9.5
 ENV PGDATA /pgdata
 
 # add path settings for postgres user
