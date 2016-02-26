@@ -8,7 +8,40 @@ We provide some examples of running the Crunchy containers
 in the examples/standalone directory.  Those examples are 
 explained below.
 
-=== Example 1 - Running crunchy-ose-pg without using Openshift
+=== Example 1 - Running a single standalone database
+
+Create the container with this command:
+....
+./run-pg.sh
+....
+
+This script will do the following:
+
+ * start up a container named crunchy-pg
+ * create a data directory for the database in /tmp/crunchy-pg
+ * initialize the database using the passed in environment variables, building a user, database, schema, and table based on the environment variable values.
+ * maps the PostgreSQL port of 5432 in the container to your local host port of 12000.
+
+The container creates a default database called 'testdb', a default
+user called 'testuser' with a default password of 'testpsw', you can
+use this to connect from your local host as follows:
+....
+psql -h localhost -p 12000 -U testuser -W testdb
+....
+
+To shut down the instance, run the following commands:
+
+....
+docker stop crunchy-pg
+....
+	
+To start the instance, run the following commands:
+
+....
+docker start crunchy-pg
+....
+
+=== Example 2 - Creating a master database 
 
 Run the container with this command:
 ....
@@ -41,12 +74,12 @@ To start the instance, run the following commands:
 docker start master
 ....
 	
-=== Example 2 - Performing a backup
+=== Example 3 - Performing a backup
 
 In order to run this backup script, you first need to edit
 run-backup.sh to specify your host IP address you are running
 on.  The script assumes you are going to backup the container
-created in Example 1.
+created in Example 2.
 
 Run the backup with this command:
 ....
@@ -57,10 +90,29 @@ This script will do the following:
 
  * start up a backup container named masterbackup
  * run pg_basebackup on the container named master
- * store the backup in /tmp/backups/masterbackup directory
+ * store the backup in /tmp/backups/master directory
  * exit after the backup
+	
+=== Example 4 - Performing a restore
 
-=== Example 3 - Running PostgreSQL in Master-Slave Configuration
+In order to run this backup script, you first need to edit
+run-restore.sh to specify your host IP address you are running
+on.  The script assumes you are going to backup the container
+created in Example 2.
+
+Run the backup with this command:
+....
+./run-restore.sh
+....
+
+This script will do the following:
+
+ * start up a container named masterrestore
+ * copy the backup files from Example 3 into /pgdata
+ * start up the container using the backup files
+ * maps the PostgreSQL port of 5432 in the container to your local host port of 12001 as to not conflict with the master running in the previous example.
+
+=== Example 5 - Running PostgreSQL in Master-Slave Configuration
 
 The container can be passed environment variables that will cause
 it to assume a PostgreSQL replication configuration with 
@@ -80,7 +132,7 @@ container is running.
 
 For running the master-slave configuration , you can run the following scripts:
 ....
-run-pg-slave.sh
+run-pg-replica.sh
 ....
 
 You can verify that replication is working by the following commands:

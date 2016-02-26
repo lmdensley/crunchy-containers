@@ -1,6 +1,5 @@
 #!/bin/bash 
 
-
 # Copyright 2016 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +28,9 @@ sudo rm -rf $DATA_DIR
 sudo mkdir -p $DATA_DIR
 sudo chown postgres:postgres $DATA_DIR
 sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
+
+sudo docker stop master
+sudo docker rm master
 
 sudo docker run \
 	-p 12000:5432 \

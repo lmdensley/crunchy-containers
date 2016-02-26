@@ -21,7 +21,7 @@ if [ ! -d "$BACKUPBASE" ]; then
 	mkdir -p $BACKUPBASE
 fi
 
-TS=`date +%Y-%m-%d:%H:%M:%S`
+TS=`date +%Y-%m-%d-%H-%M-%S`
 BACKUP_PATH=$BACKUPBASE/$TS
 mkdir $BACKUP_PATH
 

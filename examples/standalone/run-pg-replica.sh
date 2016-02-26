@@ -13,34 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "starting crunchy-container..."
-PGCONF=$HOME/openshift-dedicated-container/pgconf
-sudo chown postgres:postgres $PGCONF
-sudo chmod 0700 $PGCONF
-sudo chcon -Rt svirt_sandbox_file_t $PGCONF
+echo "starting pg-replica container..."
 
-docker stop crunchy-pg
-docker rm crunchy-pg
-
-DATA_DIR=/tmp/crunchy-pg-data
+DATA_DIR=/tmp/pg-replica-data
 sudo rm -rf $DATA_DIR
 sudo mkdir -p $DATA_DIR
 sudo chown postgres:postgres $DATA_DIR
 sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
+
+sudo docker stop pg-replica
+sudo docker rm pg-replica
+
 sudo docker run \
-	-p 12000:5432 \
+	-p 12002:5432 \
 	-v $DATA_DIR:/pgdata \
-	-v $PGCONF:/pgconf \
 	-e TEMP_BUFFERS=9MB \
 	-e MAX_CONNECTIONS=101 \
 	-e SHARED_BUFFERS=129MB \
 	-e MAX_WAL_SENDERS=7 \
 	-e WORK_MEM=5MB \
-	-e PG_MODE=master \
+	-e PG_MODE=slave \
+	-e PG_MASTER_USER=masteruser \
+	-e PG_MASTER_PASSWORD=masterpsw \
+	-e PG_MASTER_HOST=master \
+	-e PG_MASTER_PORT=5432 \
 	-e PG_USER=testuser \
+	-e PG_ROOT_PASSWORD=rootpsw \
 	-e PG_PASSWORD=testpsw \
 	-e PG_DATABASE=testdb \
-	--name=crunchy-pg \
-	--hostname=crunchy-pg \
+	--name=pg-replica \
+	--hostname=pg-replica \
 	-d crunchydata/crunchy-ose-pg:latest
 
