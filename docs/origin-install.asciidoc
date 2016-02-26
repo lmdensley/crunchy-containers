@@ -1,4 +1,6 @@
 = Crunchy Containers
+Prepared by: Crunchy Data Solutions, Inc.
+:title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 == Origin Installion Instructions and Advice
 
