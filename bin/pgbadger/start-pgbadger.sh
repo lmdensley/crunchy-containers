@@ -13,18 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export PG_MODE=$PG_MODE
-export PG_MASTER_HOST=$PG_MASTER_HOST
-export PG_MASTER_PORT=$PG_MASTER_PORT
-export PG_MASTER_USER=$PG_MASTER_USER
-export PG_MASTER_PASSWORD=$PG_MASTER_PASSWORD
-export PG_USER=$PG_USER
-export PG_PASSWORD=$PG_PASSWORD
-export PG_DATABASE=$PG_DATABASE
-export PG_ROOT_PASSWORD=$PG_ROOT_PASSWORD
+export BADGER_TARGET=$BADGER_TARGET
 
-source /opt/cpm/bin/setenv.sh
-
+export PATH=$PATH:/opt/cpm/bin
 
 /opt/cpm/bin/badgerserver 
 

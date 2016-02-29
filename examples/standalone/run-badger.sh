@@ -18,16 +18,12 @@ echo "starting badger..."
 docker stop badger-example
 docker rm badger-example
 
-DATA_DIR=/tmp/crunchy-pg-data
+DATA_DIR=/tmp/master-data
 
 sudo docker run \
-	-p 12000:5432 \
+	-p 14000:10000 \
 	-v $DATA_DIR:/pgdata \
-	-v $PGCONF:/pgconf \
-	-e PG_MODE=master \
-	-e PG_USER=testuser \
-	-e PG_PASSWORD=testpsw \
-	-e PG_DATABASE=testdb \
+	-e BADGER_TARGET=master \
 	--name=badger-example \
 	--hostname=badger-example \
 	-d crunchydata/crunchy-ose-pgbadger:latest

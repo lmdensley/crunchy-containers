@@ -1,7 +1,6 @@
 FROM centos:7
 MAINTAINER crunchy
 
-
 LABEL Name crunchydata/crunchy-pgbadger:0.0.1
 LABEL Release crunchy-pgbadger:0.0.1
 LABEL Vendor Crunchy Data Solutions
@@ -33,6 +32,8 @@ ADD bin /opt/cpm/bin
 RUN chown -R postgres:postgres /opt/cpm/bin
 
 USER postgres
+
+VOLUME ["/pgdata"]
 
 CMD ["/opt/cpm/bin/start-pgbadger.sh"]
 

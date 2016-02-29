@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 
 # Copyright 2015 Crunchy Data Solutions, Inc.
@@ -14,5 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source /opt/cpm/bin/setenv.sh
-pgbadger -o /tmp/badger.html /pgdata/$HOSTNAME/pg_log/*.log
+if [ -v BADGER_TARGET ]; then
+	echo "BADGER_TARGET is set ...this is the standalone case"
+	/bin/pgbadger -o /tmp/badger.html /pgdata/$BADGER_TARGET/pg_log/*.log
+else
+	echo "this is the openshift case"
+	/bin/pgbadger -o /tmp/badger.html /pgdata/$HOSTNAME/pg_log/*.log
+fi
+

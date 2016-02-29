@@ -66,6 +66,8 @@ func BadgerGenerate(w rest.ResponseWriter, r *rest.Request) {
 		return
 	}
 
+	fmt.Println("badgerserver: BadgerGenerate run executed")
+
 	var buf []byte
 	buf, err = ioutil.ReadFile(REPORT)
 	if err != nil {
@@ -79,4 +81,5 @@ func BadgerGenerate(w rest.ResponseWriter, r *rest.Request) {
 	thing.Header().Set("Content-Type", "text/html")
 	thing.Header().Set("Content-Length", strconv.Itoa(len(buf)))
 	thing.Write(buf)
+	fmt.Println("badgerserver: BadgerGenerate report written")
 }

@@ -159,7 +159,6 @@ create a pgpool container by running the following example command:
 sudo ./run-pgpool.sh
 ....
 
-
 Enter the following command to connect to the pgpool that is
 mapped to your local port 12002, in this case the host is named
 jeffded.crunchy.lab, fill in your hostname instead:
