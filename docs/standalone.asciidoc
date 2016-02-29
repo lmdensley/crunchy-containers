@@ -172,6 +172,29 @@ you can execute both INSERT and SELECT statements on the pgpool connection.
 Pgpool will direct INSERT statements to the master and SELECT statements
 will be sent round-robin to both master and replica.
 
+
+=== Example 7 - pgbadger 
+
+A pgbadger example is provided that will run a HTTP server that 
+when invoked, will generate a pgbadger report on a given database.
+
+pgbadger reads the log files from a database to product an HTML report
+that shows various Postgres statistics and graphs.
+
+To run the example, modify the run-badger.sh script to refer to the
+Docker container that you want to run pgbadger against, also referring
+to the container's data directory, then run the example as follows:
+....
+sudo ./run-badger.sh
+....
+
+After execution, the container will run and provide a simple HTTP
+command you can browse to view the report.  As you run queries against
+the database, you can invoke this URL to generate updated reports:
+....
+curl http://127.0.0.1:14000/api/badgergenerate
+....
+
 == Legal Notices
 
 Copyright © 2016 Crunchy Data Solutions, Inc.
