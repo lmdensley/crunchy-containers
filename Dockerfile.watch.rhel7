@@ -11,7 +11,7 @@ ADD conf/CRUNCHY-GPG-KEY.public  /
 ADD conf/crunchypg95.repo /etc/yum.repos.d/
 
 # install docker from docker repo
-ADD conf/docker-rhel.repo /etc/yum.repos.d/
+ADD conf/watch/docker-rhel.repo /etc/yum.repos.d/
 
 RUN rpm --import CRUNCHY-GPG-KEY.public
 #RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm

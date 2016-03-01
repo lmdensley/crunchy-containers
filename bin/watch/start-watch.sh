@@ -42,7 +42,7 @@ function standalone_failover() {
 	# server using a more recent docker client
 	export DOCKER_API_VERSION=1.20
 	echo "creating the trigger file on " $PG_MASTER_SERVICE
-	docker exec -it $PG_MASTER_SERVICE touch /tmp/pg-failover-trigger
+	docker exec $PG_SLAVE_SERVICE touch /tmp/pg-failover-trigger
 }
 
 function ose_failover() {
