@@ -25,14 +25,23 @@
                 "name": "pg-watcher",
                 "image": "crunchydata/crunchy-ose-watch",
                 "env": [{
-                    "name": "PG_MASTER_USER",
-                    "value": "foo"
+                    "name": "OSE_HOST",
+                    "value": "openshift.default.svc.cluster.local"
                 }, {
-                    "name": "PG_MODE",
+                    "name": "PG_MASTER_SERVICE",
+                    "value": "pg-master"
+                }, {
+                    "name": "PG_SLAVE_SERVICE",
+                    "value": "pg-slave"
+                }, {
+                    "name": "PG_MASTER_PORT",
+                    "value": "5432"
+                }, {
+                    "name": "PG_MASTER_USER",
                     "value": "master"
                 }, {
-                    "name": "PG_MASTER_PASSWORD",
-                    "value": "doo"
+                    "name": "PG_DATABASE",
+                    "value": "postgres"
                 }]
             }]
         }
