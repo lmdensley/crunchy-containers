@@ -26,8 +26,8 @@ atomic-openshift-clients hostname bind-utils \
 RUN mkdir -p /opt/cpm/bin
 RUN mkdir -p /opt/cpm/conf
 
-ADD bin /opt/cpm/bin
-ADD conf /opt/cpm/conf
+ADD bin/watch /opt/cpm/bin
+ADD conf/watch /opt/cpm/conf
 
 USER root
 
