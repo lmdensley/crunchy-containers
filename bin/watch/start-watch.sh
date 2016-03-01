@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash  -x
 
 # Copyright 2015 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export OSE_HOST=openshift.default.svc.cluster.local
+#export OSE_HOST=openshift.default.svc.cluster.local
+export SLEEP_TIME=$SLEEP_TIME
 export PG_MASTER_SERVICE=$PG_MASTER_SERVICE
 export PG_SLAVE_SERVICE=$PG_SLAVE_SERVICE
 export PG_MASTER_PORT=$PG_MASTER_PORT
@@ -21,29 +22,50 @@ export PG_MASTER_USER=$PG_MASTER_USER
 export PG_USER=$PG_USER
 export PG_DATABASE=$PG_DATABASE
 
-TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
 
 export PATH=$PATH:/opt/cpm/bin:/usr/pgsql-9.5/bin
 
 function failover() {
+	if [[ -v OSE_HOST ]]; then
+		echo "openshift failover ....."
+		ose_failover
+	else
+		echo "standalone failover....."
+		standalone_failover
+	fi
+}
+
+function standalone_failover() {
+	echo "standalone failover is called"
+
+	# env var is required to talk to older docker
+	# server using a more recent docker client
+	export DOCKER_API_VERSION=1.20
+	echo "creating the trigger file on " $PG_MASTER_SERVICE
+	docker exec -it $PG_MASTER_SERVICE touch /tmp/pg-failover-trigger
+}
+
+function ose_failover() {
+	TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
 	oc login https://$OSE_HOST --insecure-skip-tls-verify=true --token="$TOKEN"
 	echo "performing failover..."
-	oc get pod --selector=name=pg-slave-rc
-	oc exec -it pg-slave-rc-1-lt5a5 'touch /tmp/pg-failover-trigger'
-	oc label --overwrite=true pod pg-slave-rc-1-lt5a5 name=pg-master-rc
+	oc get pod --selector=name=$PG_SLAVE_SERVICE
+	oc exec -it $PG_SLAVE_SERVICE 'touch /tmp/pg-failover-trigger'
+	oc label --overwrite=true pod $PG_SLAVE_SERVICE name=$PG_MASTER_SERVICE
 	echo "sleeping 15 seconds to give failover a chance to work..."
 	sleep 15
 	echo "failover completed @ " `date`
 }
 
 while true; do 
-	sleep 10
-	pg_isready  --dbname=postgres --host=pg-master --port=5432 --username=testuser
+	sleep $SLEEP_TIME
+	pg_isready  --dbname=$PG_DATABASE --host=$PG_MASTER_SERVICE --port=$PG_MASTER_PORT --username=$PG_MASTER_USER
 	if [ $? -eq 0 ]
 	then
 		echo "Successfully reached master @ " `date`
 	else
 		echo "Could not reach master @ " `date`
 		failover
+		exit 0
 	fi
 done

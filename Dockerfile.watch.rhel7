@@ -10,11 +10,12 @@ LABEL Version 9.5
 ADD conf/CRUNCHY-GPG-KEY.public  /
 ADD conf/crunchypg95.repo /etc/yum.repos.d/
 
-RUN rpm --import CRUNCHY-GPG-KEY.public
-#postgresql95-server  \
+# install docker from docker repo
+ADD conf/docker-rhel.repo /etc/yum.repos.d/
 
-RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
-RUN yum -y install curl rsync libxslt libxml2 procps-ng \
+RUN rpm --import CRUNCHY-GPG-KEY.public
+#RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+RUN yum -y install docker-engine curl rsync libxslt libxml2 procps-ng \
 postgresql95 \
 openssh-clients \
 atomic-openshift-clients hostname bind-utils \

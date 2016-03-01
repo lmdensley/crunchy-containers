@@ -1,4 +1,4 @@
-OSFLAVOR=centos7
+OSFLAVOR=rhel7
 docbuild:
 	cd docs && ./build-docs.sh
 pg:
