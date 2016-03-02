@@ -1,8 +1,9 @@
 OSFLAVOR=centos7
+PGVERSION=9.5
 docbuild:
 	cd docs && ./build-docs.sh
 pg:
-	sudo docker build -t crunchy-ose-pg -f Dockerfile.$(OSFLAVOR) .
+	sudo docker build -t crunchy-ose-pg -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-ose-pg:latest crunchydata/crunchy-ose-pg
 watch:
 	sudo docker build -t crunchy-ose-watch -f Dockerfile.watch.$(OSFLAVOR) .

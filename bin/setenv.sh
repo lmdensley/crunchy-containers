@@ -13,7 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export PGROOT=/usr/pgsql-9.5
+if [ -d /usr/pgsql-9.5 ]; then
+	export PGROOT=/usr/pgsql-9.5
+elif [ -d /usr/pgsql-9.4 ]; then
+	export PGROOT=/usr/pgsql-9.4
+else
+	export PGROOT=/usr/pgsql-9.3
+fi
+
+echo "setting PGROOT to " $PGROOT
+
 export PGDATA=/pgdata/$HOSTNAME
 export PG_LOG=/tmp/pg.log
 export PATH=/opt/cpm/bin:$PGROOT/bin:$PATH
