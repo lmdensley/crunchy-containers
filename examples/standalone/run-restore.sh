@@ -20,13 +20,13 @@ sudo docker rm master-restore
 
 # uncomment these lines to override the pg config files with
 # your own versions of pg_hba.conf and postgresql.conf
-PGCONF=$HOME/openshift-dedicated-container/pgconf
-sudo chown postgres:postgres $PGCONF
-sudo chmod 0700 $PGCONF
-sudo chcon -Rt svirt_sandbox_file_t $PGCONF
+#PGCONF=$HOME/openshift-dedicated-container/pgconf
+#sudo chown postgres:postgres $PGCONF
+#sudo chmod 0700 $PGCONF
+#sudo chcon -Rt svirt_sandbox_file_t $PGCONF
 # add this next line to the docker run to override pg config files
 
-BACKUP=/tmp/backups/master/2016-02-26-15-48-55
+BACKUP=/tmp/backups/master/2016-03-02-16-31-57
 
 DATA_DIR=/tmp/master-restore
 sudo rm -rf $DATA_DIR
@@ -37,7 +37,6 @@ sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
 sudo docker run \
 	-p 12001:5432 \
 	-v $DATA_DIR:/pgdata \
-	-v $PGCONF:/pgconf \
 	-v "$BACKUP":/backup \
 	-e TEMP_BUFFERS=9MB \
 	-e MAX_CONNECTIONS=101 \

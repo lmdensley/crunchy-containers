@@ -18,7 +18,7 @@ RUN rpm -Uvh http://yum.postgresql.org/9.3/redhat/rhel-7.3-x86_64/pgdg-centos93-
 RUN yum -y --enablerepo=centosplus install gettext epel-release && \
 	yum install -y rsync procps-ng postgresql93 postgresql93-contrib \
 	postgresql93-server openssh-clients hostname bind-utils \
-	postgis2_93 postgis2_93-client  &&  \
+	&&  \
 	yum clean all -y
 
 # set up cpm directory
