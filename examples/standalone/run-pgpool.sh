@@ -15,8 +15,8 @@
 
 echo "starting pgpool container...."
 
-docker stop pgpool
-docker rm pgpool
+sudo docker stop pgpool
+sudo docker rm pgpool
 
 sudo docker run \
 	-p 12003:5432 \
