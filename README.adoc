@@ -43,7 +43,7 @@ export PATH=$PATH:$GOBIN
 
 In order to compile the openshift-dedicated-container code, two files must be placed in the conf directory:
 
- * crunchypg95.repo
+ * crunchypg95.repo or crunchypg93.repo
  * CRUNCHY-GPG-KEY.public
 
 Both of these files can be obtained with the following procedure:
@@ -74,6 +74,19 @@ gem install --pre asciidoctor-pdf
 
 
 === Installation
+
+Build targets include two environment variables that determine
+the Docker base image to be used and the version of Postgresql to
+use.
+
+Modify the following Makefile env variables for your desired
+target, currently rhel7 and centos7 are supported OS base images
+and 9.3 and 9.5 are supported versions of Postgresql:
+
+....
+OSFLAVOR=rhel7
+PGVERSION=9.3
+....
 
 Docker image builds are performed by issuing the make command:
 ....
