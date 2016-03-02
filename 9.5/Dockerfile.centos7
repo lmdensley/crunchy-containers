@@ -1,0 +1,63 @@
+FROM centos:7
+MAINTAINER crunchy
+
+
+LABEL Name crunchydata/crunchy-postgresql:9.5
+LABEL Release crunchy-postgresql:9.5
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.5
+
+# Install postgresql deps
+ADD conf/CRUNCHY-GPG-KEY.public  /
+ADD conf/crunchypg95.repo /etc/yum.repos.d/
+
+RUN rpm --import CRUNCHY-GPG-KEY.public
+
+RUN yum -y --enablerepo=centosplus install gettext epel-release && \
+	yum install -y rsync procps-ng postgresql95 postgresql95-contrib \
+	postgresql95-server openssh-clients hostname bind-utils \
+	postgis2_95 postgis2_95-client pgrouting* &&  \
+	yum clean all -y
+
+# set up cpm directory
+#
+RUN mkdir -p /opt/cpm/bin
+RUN mkdir -p /opt/cpm/conf
+
+RUN chown -R postgres:postgres /opt/cpm
+
+# set environment vars
+ENV PGROOT /usr/pgsql-9.5
+ENV PGDATA /pgdata
+
+# add path settings for postgres user
+ADD conf/.bash_profile /var/lib/pgsql/
+
+# add volumes to allow override of pg_hba.conf and postgresql.conf
+VOLUME ["/pgconf"]
+
+# add volumes to allow backup of postgres files
+VOLUME ["/pgdata"]
+
+# add volumes to offer a restore feature
+VOLUME ["/backup"]
+
+# open up the postgres port
+EXPOSE 5432
+
+ADD bin /opt/cpm/bin
+ADD conf /opt/cpm/conf
+
+#RUN setcap cap_chown,cap_fowner+ep /usr/bin/chown
+#RUN setcap cap_chown,cap_fowner+ep /usr/bin/chmod
+#RUN setcap cap_chown,cap_fowner+ep /opt/cpm/bin/start.sh
+#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/pg_ctl
+#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/initdb
+
+RUN chown -R postgres:postgres /pgdata
+RUN chown -R postgres:postgres /backup
+
+USER postgres
+
+CMD ["/opt/cpm/bin/start.sh"]
+
