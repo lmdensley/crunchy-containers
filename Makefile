@@ -1,5 +1,5 @@
 OSFLAVOR=centos7
-PGVERSION=9.5
+PGVERSION=9.3
 docbuild:
 	cd docs && ./build-docs.sh
 pg:

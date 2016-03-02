@@ -1,0 +1,35 @@
+FROM rhel7.2
+MAINTAINER crunchy
+
+LABEL Name crunchydata/crunchy-ose-watch:9.5
+LABEL Release crunchy-postgresql:9.5
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.5
+
+# Install crunchy postgresql repo info
+ADD conf/CRUNCHY-GPG-KEY.public  /
+ADD conf/crunchypg95.repo /etc/yum.repos.d/
+
+# install docker from docker repo
+ADD conf/watch/docker-rhel.repo /etc/yum.repos.d/
+
+RUN rpm --import CRUNCHY-GPG-KEY.public
+#RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+RUN yum -y install docker-engine curl rsync libxslt libxml2 procps-ng \
+postgresql95 \
+openssh-clients \
+atomic-openshift-clients hostname bind-utils \
+ && yum clean all -y
+
+# set up cpm directory
+#
+RUN mkdir -p /opt/cpm/bin
+RUN mkdir -p /opt/cpm/conf
+
+ADD bin/watch /opt/cpm/bin
+ADD conf/watch /opt/cpm/conf
+
+USER root
+
+CMD ["/opt/cpm/bin/start-watch.sh"]
+
