@@ -97,7 +97,6 @@ cat >> ".pgpass" <<-EOF
 *:*:*:*:${PG_MASTER_PASSWORD}
 EOF
 chmod 0600 .pgpass
-export PGPASSFILE=/tmp/.pgpass
 rm -rf $PGDATA/*
 chmod 0700 $PGDATA
 
@@ -172,7 +171,10 @@ fill_conf_file
 case "$PG_MODE" in 
 	"slave")
 	echo "working on slave"
-	initialize_replica
+	export PGPASSFILE=/tmp/.pgpass
+	if [ ! -f $PGDATA/postgresql.conf ]; then
+		initialize_replica
+	fi
 	;;
 	"master")
 	echo "working on master..."
