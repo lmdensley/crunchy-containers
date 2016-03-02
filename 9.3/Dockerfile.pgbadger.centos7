@@ -1,20 +1,20 @@
 FROM centos:7
 MAINTAINER crunchy
 
-LABEL Name crunchydata/crunchy-pgbadger:0.0.1
-LABEL Release crunchy-pgbadger:0.0.1
+LABEL Name crunchydata/crunchy-pgbadger:9.3
+LABEL Release crunchy-pgbadger:9.3
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 0.0.1
+LABEL Version 9.3
 
 # set up Crunchy repo
 ADD conf/CRUNCHY-GPG-KEY.public  /
-ADD conf/crunchypg95.repo /etc/yum.repos.d/
+ADD conf/crunchypg93.repo /etc/yum.repos.d/
 RUN rpm --import CRUNCHY-GPG-KEY.public
 
 RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 RUN yum -y install gettext libxslt libxml2 procps-ng \
 pgbadger* \
-postgresql95-server \
+postgresql93-server \
 openssh-clients \
 hostname  \
  && yum clean all -y

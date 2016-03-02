@@ -26,7 +26,7 @@ sudo docker rm master-restore
 #sudo chcon -Rt svirt_sandbox_file_t $PGCONF
 # add this next line to the docker run to override pg config files
 
-BACKUP=/tmp/backups/master/2016-03-02-16-31-57
+BACKUP=/tmp/backups/master/2016-03-02-18-41-32
 
 DATA_DIR=/tmp/master-restore
 sudo rm -rf $DATA_DIR
