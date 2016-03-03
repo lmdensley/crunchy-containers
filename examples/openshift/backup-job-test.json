@@ -25,7 +25,7 @@
         "containers": [
           {
             "name": "pi",
-            "image": "crunchydata/crunchy-ose-backup",
+            "image": "crunchydata/crunchy-backup",
 	     "volumeMounts": [{
 	                         "mountPath": "/pgdata",
 				                     "name": "pgdata",

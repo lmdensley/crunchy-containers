@@ -94,7 +94,7 @@
             "containers": [
             {
                 "name": "pg-badger",
-                "image": "crunchydata/crunchy-ose-pgbadger",
+                "image": "crunchydata/crunchy-pgbadger",
                 "ports": [{
                     "containerPort": 15000,
                     "protocol": "TCP"
@@ -135,7 +135,7 @@
             },
 		{
                 "name": "master-nfs",
-                "image": "crunchydata/crunchy-ose-pg",
+                "image": "crunchydata/crunchy-pg",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"

@@ -26,5 +26,5 @@ sudo docker run \
 	-e BADGER_TARGET=master \
 	--name=badger-example \
 	--hostname=badger-example \
-	-d crunchydata/crunchy-ose-pgbadger:latest
+	-d crunchydata/crunchy-pgbadger:latest
 

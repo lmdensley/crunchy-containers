@@ -83,7 +83,7 @@
             }],
             "containers": [{
                 "name": "master-nfs",
-                "image": "crunchydata/crunchy-ose-pg",
+                "image": "crunchydata/crunchy-pg",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"

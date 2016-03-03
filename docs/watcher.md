@@ -1,7 +1,7 @@
 
 ### Watcher Design
 
-We create a container, crunchy-ose-watch, that lives inside a pod
+We create a container, crunchy-watch, that lives inside a pod
 with a master container.
 
 The watch container has access to a service account that is used

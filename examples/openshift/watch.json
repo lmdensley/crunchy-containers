@@ -23,7 +23,7 @@
             "containers": [
 	    {
                 "name": "pg-watcher",
-                "image": "crunchydata/crunchy-ose-watch",
+                "image": "crunchydata/crunchy-watch",
                 "env": [{
                     "name": "OSE_HOST",
                     "value": "openshift.default.svc.cluster.local"

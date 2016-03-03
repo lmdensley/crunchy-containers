@@ -26,7 +26,7 @@
                 }],
                 "containers": [{
                     "name": "backupjob-pg-master",
-                    "image": "crunchydata/crunchy-ose-backup",
+                    "image": "crunchydata/crunchy-backup",
                     "volumeMounts": [{
                         "mountPath": "/pgdata",
                         "name": "pgdata",

@@ -26,7 +26,7 @@ sudo docker rm master-restore
 #sudo chcon -Rt svirt_sandbox_file_t $PGCONF
 # add this next line to the docker run to override pg config files
 
-BACKUP=/tmp/backups/master/2016-03-02-14-26-23
+BACKUP=/tmp/backups/master/2016-03-03-10-31-34
 
 DATA_DIR=/tmp/master-restore
 sudo rm -rf $DATA_DIR
@@ -52,5 +52,5 @@ sudo docker run \
 	-e PG_DATABASE=testdb \
 	--name=master-restore \
 	--hostname=master-restore \
-	-d crunchydata/crunchy-ose-pg:latest
+	-d crunchydata/crunchy-pg:latest
 

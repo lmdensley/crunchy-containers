@@ -115,7 +115,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "crunchy-ose-pg:latest"
+                "name": "crunchy-pg:latest"
               }
             }
           },
@@ -137,7 +137,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchy-ose-pg",
+                        "image": "crunchy-pg",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"
@@ -216,7 +216,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "crunchy-ose-pg:latest"
+                "name": "crunchy-pg:latest"
               }
             }
           },
@@ -238,7 +238,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchy-ose-pg",
+                        "image": "crunchy-pg",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"

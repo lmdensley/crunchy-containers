@@ -1,8 +1,8 @@
 FROM rhel7.2
 MAINTAINER crunchy
 
-LABEL Name crunchydata/crunchy-ose-pg:9.3
-LABEL Release crunchy-postgresql:9.3
+LABEL Name crunchydata/crunchy-pg:9.3
+LABEL Release crunchy-pg:9.3
 LABEL Vendor Crunchy Data Solutions
 LABEL Version 9.3
 

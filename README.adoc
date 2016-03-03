@@ -95,10 +95,10 @@ make
 
 This will build the following Docker images:
 
- * crunchy-ose-pg
- * crunchy-ose-backup
- * crunchy-ose-pgpool
- * crunchy-ose-pgbadger
+ * crunchy-pg
+ * crunchy-backup
+ * crunchy-pgpool
+ * crunchy-pgbadger
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 
@@ -110,7 +110,7 @@ sudo yum -y install postgresql94-server postgresql94
 The installation of postgres locally is also required to create a postgres user and group which are
 used by the examples to set the correct file permissions on local files used by the containers.
 
-=== crunchy-ose-pg Configuration Options
+=== crunchy-pg Configuration Options
 
 You can adjust the following Postgres configuration parameters
 by setting environment variables:

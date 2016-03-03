@@ -83,7 +83,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchydata/crunchy-ose-pgpool",
+                        "image": "crunchydata/crunchy-pgpool",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"

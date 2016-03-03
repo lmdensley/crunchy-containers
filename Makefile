@@ -3,22 +3,22 @@ PGVERSION=9.3
 docbuild:
 	cd docs && ./build-docs.sh
 pg:
-	sudo docker build -t crunchy-ose-pg -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-ose-pg:latest crunchydata/crunchy-ose-pg
+	sudo docker build -t crunchy-pg -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-pg:latest crunchydata/crunchy-pg
 watch:
-	sudo docker build -t crunchy-ose-watch -f $(PGVERSION)/Dockerfile.watch.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-ose-watch:latest crunchydata/crunchy-ose-watch
+	sudo docker build -t crunchy-watch -f $(PGVERSION)/Dockerfile.watch.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-watch:latest crunchydata/crunchy-watch
 pgpool:
-	sudo docker build -t crunchy-ose-pgpool -f $(PGVERSION)/Dockerfile.pgpool.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-ose-pgpool:latest crunchydata/crunchy-ose-pgpool
+	sudo docker build -t crunchy-pgpool -f $(PGVERSION)/Dockerfile.pgpool.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-pgpool:latest crunchydata/crunchy-pgpool
 pgbadger:
 	go get github.com/tools/godep
 	cd src/github.com/crunchydata/openshift-dedicated-container/badger && godep restore && godep go install badgerserver.go
-	sudo docker build -t crunchy-ose-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-ose-pgbadger:latest crunchydata/crunchy-ose-pgbadger
+	sudo docker build -t crunchy-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-pgbadger:latest crunchydata/crunchy-pgbadger
 backup:
-	sudo docker build -t crunchy-ose-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-ose-backup:latest crunchydata/crunchy-ose-backup
+	sudo docker build -t crunchy-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
 
 all:
 	make pg
