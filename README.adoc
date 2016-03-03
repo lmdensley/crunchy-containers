@@ -34,7 +34,7 @@ To build the containers, add the following lines to your
 environment, adjusting the GOPATH as fits your actual path:
 
 ....
-export GOPATH=$HOME/openshift-dedicated-container
+export GOPATH=$HOME/crunchy-containers
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 ....
