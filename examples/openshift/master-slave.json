@@ -43,9 +43,9 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "ms-master",
             "labels": {
-                "name": "pg-master"
+                "name": "ms-master"
             }
         },
         "spec": {
@@ -56,7 +56,7 @@
                 "nodePort": 0
             }],
             "selector": {
-                "name": "pg-master"
+                "name": "ms-master"
             },
             "portalIP": "None",
             "type": "ClusterIP",
@@ -69,9 +69,9 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-slave",
+            "name": "ms-slave",
             "labels": {
-                "name": "pg-slave"
+                "name": "ms-slave"
             }
         },
         "spec": {
@@ -82,7 +82,7 @@
                 "nodePort": 0
             }],
             "selector": {
-                "name": "pg-slave"
+                "name": "ms-slave"
             },
             "portalIP": "None",
             "type": "ClusterIP",
@@ -92,14 +92,14 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "ms-master",
             "labels": {
-                "name": "pg-master"
+                "name": "ms-master"
             }
         },
         "spec": {
             "containers": [{
-                "name": "pg-master",
+                "name": "ms-master",
                 "image": "crunchydata/crunchy-pg",
                 "ports": [{
                     "containerPort": 5432,
@@ -148,14 +148,14 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-slave",
+            "name": "ms-slave",
             "labels": {
-                "name": "pg-slave"
+                "name": "ms-slave"
             }
         },
         "spec": {
             "containers": [{
-                "name": "pg-slave",
+                "name": "ms-slave",
                 "image": "crunchydata/crunchy-pg",
                 "ports": [{
                     "containerPort": 5432,
@@ -172,7 +172,7 @@
                     "value": "${PG_MASTER_PASSWORD}"
                 }, {
                     "name": "PG_MASTER_HOST",
-                    "value": "pg-master"
+                    "value": "ms-master"
                 }, {
                     "name": "PG_MASTER_PORT",
                     "value": "5432"

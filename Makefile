@@ -1,5 +1,5 @@
 OSFLAVOR=rhel7
-PGVERSION=9.3
+PGVERSION=9.5
 docbuild:
 	cd docs && ./build-docs.sh
 pg:
