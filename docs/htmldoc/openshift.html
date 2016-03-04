@@ -477,6 +477,66 @@ PG_USER and PG_PASSWORD environment variables are NOT
 set when using this mechanism.  Other environment variables
 can be overridden using secrets as well, see the check-for-secrets.sh
 script that gets executed during database initialization.</p></div>
+<h2 id="openshift_example_12_automated_failover">1.13. Openshift Example 12 - Automated Failover</h2>
+<div class="paragraph"><p>This example shows how a form of automated failover can be
+configured for a master and slave deployment.</p></div>
+<div class="paragraph"><p>First, create a master and slave:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>oc process -f master-slave.json</pre>
+</div></div>
+<div class="paragraph"><p>Next, create an Openshift service account which is used by the pg-watch
+container to perform the failover, also set policies that allow the
+service account the ability to edit resources within the openshift and
+default projects :</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>oc create -f sa.json
+oc policy add-role-to-group edit system:serviceaccounts -n openshift
+oc policy add-role-to-group edit system:serviceaccounts -n default</pre>
+</div></div>
+<div class="paragraph"><p>Next, create the container that will <em>watch</em> the Postgresql cluster:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>oc process -f watch.json | oc create -f -</pre>
+</div></div>
+<div class="paragraph"><p>At this point, the watcher will sleep every 20 seconds (configurable) to
+see if the master is responding.  If the master doesn&#8217;t respond, the watcher
+will perform the following logic:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+log into openshift using the service account
+</p>
+</li>
+<li>
+<p>
+set its current project
+</p>
+</li>
+<li>
+<p>
+find the first slave pod
+</p>
+</li>
+<li>
+<p>
+create the trigger file on the slave pod
+</p>
+</li>
+<li>
+<p>
+wait 20 seconds for the failover to complete on the slave pod
+</p>
+</li>
+<li>
+<p>
+edit the slave pod&#8217;s lable to match that of the master
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>At this point, clients when access the master&#8217;s service will actually
+be accessing the new master.</p></div>
 </div>
 <div class="section">
     <h1 class="page-header" id="openshift_tips">2. Openshift Tips</h1>

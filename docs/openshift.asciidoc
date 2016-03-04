@@ -426,6 +426,48 @@ set when using this mechanism.  Other environment variables
 can be overridden using secrets as well, see the check-for-secrets.sh
 script that gets executed during database initialization.
 
+=== Openshift Example 12 - Automated Failover
+
+This example shows how a form of automated failover can be
+configured for a master and slave deployment.
+
+First, create a master and slave:
+
+....
+oc process -f master-slave.json
+....
+
+Next, create an Openshift service account which is used by the pg-watch
+container to perform the failover, also set policies that allow the
+service account the ability to edit resources within the openshift and 
+default projects :
+
+....
+oc create -f sa.json
+oc policy add-role-to-group edit system:serviceaccounts -n openshift
+oc policy add-role-to-group edit system:serviceaccounts -n default
+....
+
+Next, create the container that will 'watch' the Postgresql cluster:
+
+....
+oc process -f watch.json | oc create -f -
+....
+
+At this point, the watcher will sleep every 20 seconds (configurable) to
+see if the master is responding.  If the master doesn't respond, the watcher
+will perform the following logic:
+
+ * log into openshift using the service account
+ * set its current project
+ * find the first slave pod
+ * create the trigger file on the slave pod
+ * wait 20 seconds for the failover to complete on the slave pod
+ * edit the slave pod's lable to match that of the master
+
+At this point, clients when access the master's service will actually
+be accessing the new master.
+
 == Openshift Tips
 
 === Tip 1: Finding the Postgresql Passwords

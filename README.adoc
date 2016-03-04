@@ -61,15 +61,14 @@ Both of these files can be obtained with the following procedure:
 
 To build the documentation, you need some things installed:
 ....
-yum -y install asciidoc
+yum -y install asciidoc ruby
+gem install --pre asciidoctor-pdf
+cd $HOME
 wget http://laurent-laville.org/asciidoc/bootstrap/bootstrap-4.5.0.zip
 asciidoc --backend install ./bootstrap-4.5.0.zip
-cd $HOME
 mv .asciidoc/backends/asciidoc/asciidoc-bootstrap-backend-4.5.0/* .asciidoc/backends/bootstrap
 mkdir -p .asciidoc/backends/bootstrap/js
-cp ./openshift-dedicated-container/docs/bootstrap.js .asciidoc/backends/bootstrap/js/
-sudo yum -y install ruby
-gem install --pre asciidoctor-pdf
+cp ./crunchy-containers/docs/bootstrap.js .asciidoc/backends/bootstrap/js/
 ....
 
 
