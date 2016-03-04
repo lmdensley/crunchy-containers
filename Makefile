@@ -6,6 +6,7 @@ pg:
 	sudo docker build -t crunchy-pg -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pg:latest crunchydata/crunchy-pg
 watch:
+	cp /usr/bin/oc bin/watch
 	sudo docker build -t crunchy-watch -f $(PGVERSION)/Dockerfile.watch.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-watch:latest crunchydata/crunchy-watch
 pgpool:

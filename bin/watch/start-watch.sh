@@ -14,7 +14,11 @@
 # limitations under the License.
 
 #export OSE_HOST=openshift.default.svc.cluster.local
-export SLEEP_TIME=$SLEEP_TIME
+if [ ! -v SLEEP_TIME ]; then
+	SLEEP_TIME=10
+fi
+echo "SLEEP_TIME is set to " $SLEEP_TIME
+
 export PG_MASTER_SERVICE=$PG_MASTER_SERVICE
 export PG_SLAVE_SERVICE=$PG_SLAVE_SERVICE
 export PG_MASTER_PORT=$PG_MASTER_PORT
@@ -57,12 +61,15 @@ function standalone_failover() {
 function ose_failover() {
 	TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
 	oc login https://$OSE_HOST --insecure-skip-tls-verify=true --token="$TOKEN"
+	oc projects $OSE_PROJECT
 	echo "performing failover..."
-	oc get pod --selector=name=$PG_SLAVE_SERVICE
-	oc exec -it $PG_SLAVE_SERVICE 'touch /tmp/pg-failover-trigger'
-	oc label --overwrite=true pod $PG_SLAVE_SERVICE name=$PG_MASTER_SERVICE
-	echo "sleeping 15 seconds to give failover a chance to work..."
-	sleep 15
+	SLAVE_TO_TRIGGER=`oc get pod --selector=name=$PG_SLAVE_SERVICE --no-headers | cut -f1 -d' ' | head -1`
+	echo "going to trigger failover on slave:" $SLAVE_TO_TRIGGER
+	oc exec $SLAVE_TO_TRIGGER touch /tmp/pg-failover-trigger
+	echo "sleeping " $SLEEP_TIME " to give failover a chance before setting label"
+	sleep $SLEEP_TIME
+	echo "changing label of slave to " $PG_MASTER_SERVICE
+	oc label --overwrite=true pod $SLAVE_TO_TRIGGER name=$PG_MASTER_SERVICE
 	echo "failover completed @ " `date`
 }
 
