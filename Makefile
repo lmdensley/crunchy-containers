@@ -25,7 +25,6 @@ all:
 	make pgpool
 	make pgbadger
 	make backup
-	make docbuild
 default:
 	all
 

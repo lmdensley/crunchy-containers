@@ -11,11 +11,12 @@ You set up the SA using this:
 
 oc create -f sa.json
 
-You then set up permissions for the SA to do stuff:
+You then set up permissions for the SA to edit stuff in the openshift project,
+this example allows all service accounts to edit resources in the 'openshift'
+project:
 
 ~~~~~~~~~~~
-oc policy add-role-to-group edit system:serviceaccounts -n pgproject
-oc policy add-role-to-group view system:serviceaccounts -n pgproject
+oc policy add-role-to-group edit system:serviceaccounts -n openshift
 ~~~~~~~~~~~
 
 You then reference the SA within the POD spec:
