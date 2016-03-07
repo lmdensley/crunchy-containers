@@ -11,7 +11,7 @@
     "accessModes": [ "ReadWriteMany" ],
     "nfs": {
         "path": "/jeffnfs",
-        "server": "192.168.0.105"
+        "server": "192.168.122.140"
     },
     "persistentVolumeReclaimPolicy": "Retain"
   }

@@ -34,13 +34,13 @@
                     }],
                     "env": [{
                         "name": "BACKUP_HOST",
-                        "value": "master-nfs.default.svc.cluster.local"
+                        "value": "pg-master"
                     }, {
                         "name": "BACKUP_USER",
                         "value": "master"
                     }, {
                         "name": "BACKUP_PASS",
-                        "value": "QofSxBfEJ231"
+                        "value": "TYq8sYM1BT3s"
                     }, {
                         "name": "BACKUP_PORT",
                         "value": "5432"
