@@ -31,12 +31,11 @@ all:
 	make watch
 default:
 	all
-blah:
-	./tests/standalone/test-master2.sh
 test:
 	./tests/standalone/test-master.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-backup.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-restore.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-replica.sh; /usr/bin/test "$$?" -eq 0
+	./tests/standalone/test-badger.sh; /usr/bin/test "$$?" -eq 0
 	sudo docker stop master
 
