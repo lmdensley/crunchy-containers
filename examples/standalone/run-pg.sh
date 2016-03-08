@@ -41,6 +41,7 @@ sudo docker run \
 	-e PG_MODE=master \
 	-e PG_USER=testuser \
 	-e PG_PASSWORD=testpsw \
+	-e PG_ROOT_PASSWORD=postgres \
 	-e PG_DATABASE=testdb \
 	--name=crunchy-pg \
 	--hostname=crunchy-pg \

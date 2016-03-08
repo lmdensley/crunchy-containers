@@ -13,6 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+if [ ! -v PG_MODE ]; then
+	echo "PG_MODE env var is not set, aborting"
+	exit 1
+fi
+if [ ! -v PG_MASTER_USER ]; then
+	echo "PG_MASTER_USER env var is not set, aborting"
+	exit 1
+fi
+if [ ! -v PG_MASTER_PASSWORD ]; then
+	echo "PG_MASTER_PASSWORD env var is not set, aborting"
+	exit 1
+fi
+if [ ! -v PG_USER ]; then
+	echo "PG_USER env var is not set, aborting"
+	exit 1
+fi
+if [ ! -v PG_PASSWORD ]; then
+	echo "PG_PASSWORD env var is not set, aborting"
+	exit 1
+fi
+if [ ! -v PG_DATABASE ]; then
+	echo "PG_DATABASE env var is not set, aborting"
+	exit 1
+fi
+if [ ! -v PG_ROOT_PASSWORD ]; then
+	echo "PG_ROOT_PASSWORD env var is not set, aborting"
+	exit 1
+fi
+
 export PG_MODE=$PG_MODE
 export PG_MASTER_HOST=$PG_MASTER_HOST
 export PG_MASTER_PORT=$PG_MASTER_PORT
