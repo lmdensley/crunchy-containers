@@ -14,10 +14,11 @@
 # limitations under the License.
 
 echo "starting crunchy-container..."
-PGCONF=$HOME/openshift-dedicated-container/pgconf
-sudo chown postgres:postgres $PGCONF
-sudo chmod 0700 $PGCONF
-sudo chcon -Rt svirt_sandbox_file_t $PGCONF
+#PGCONF=$HOME/openshift-dedicated-container/pgconf
+#sudo chown postgres:postgres $PGCONF
+#sudo chmod 0700 $PGCONF
+#sudo chcon -Rt svirt_sandbox_file_t $PGCONF
+#	-v $PGCONF:/pgconf \
 
 docker stop crunchy-pg
 docker rm crunchy-pg
@@ -30,12 +31,13 @@ sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
 sudo docker run \
 	-p 12000:5432 \
 	-v $DATA_DIR:/pgdata \
-	-v $PGCONF:/pgconf \
 	-e TEMP_BUFFERS=9MB \
 	-e MAX_CONNECTIONS=101 \
 	-e SHARED_BUFFERS=129MB \
 	-e MAX_WAL_SENDERS=7 \
 	-e WORK_MEM=5MB \
+	-e PG_MASTER_USER=master \
+	-e PG_MASTER_PASSWORD=master \
 	-e PG_MODE=master \
 	-e PG_USER=testuser \
 	-e PG_PASSWORD=testpsw \
