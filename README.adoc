@@ -117,6 +117,15 @@ sudo yum -y install postgresql94-server postgresql94
 The installation of postgres locally is also required to create a postgres user and group which are
 used by the examples to set the correct file permissions on local files used by the containers.
 
+=== Testing
+
+There is a small test suite to test out your initial installation, you
+run it with the following command:
+
+....
+make test
+....
+
 === crunchy-pg Configuration Options
 
 You can adjust the following Postgres configuration parameters
