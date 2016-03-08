@@ -1,5 +1,7 @@
 OSFLAVOR=rhel7
 PGVERSION=9.5
+export BUILDBASE=$(HOME)/crunchy-containers
+
 docbuild:
 	cd docs && ./build-docs.sh
 pg:
@@ -26,6 +28,12 @@ all:
 	make pgpool
 	make pgbadger
 	make backup
+	make watch
 default:
 	all
+blah:
+	./tests/standalone/test-master2.sh
+test:
+	./tests/standalone/test-master.sh; /usr/bin/test "$$?" -eq 0
+	./tests/standalone/test-replica.sh
 

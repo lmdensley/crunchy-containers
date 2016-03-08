@@ -145,7 +145,7 @@ here:</p></div>
 <div class="paragraph"><p>On that server, the /etc/exports file looks like this:</p></div>
 <div class="literalblock">
 <div class="content monospaced">
-<pre>/jeffnfs * (rw,sync)</pre>
+<pre>/jeffnfs *(rw,sync)</pre>
 </div></div>
 <div class="paragraph"><p>if you are running your client on a VM, you will need to
 add <em>insecure</em> to the exportfs file on the NFS server, this is because
@@ -298,6 +298,15 @@ values as follows:</p></div>
 <pre>echo -n 'myuserid' | base64</pre>
 </div></div>
 <div class="paragraph"><p>You will paste these values into  your JSON secrets files for values.</p></div>
+<h2 id="tip_11_dns_host_entry_and_deploymentconfig">2.11. Tip 11: DNS host entry and DeploymentConfig</h2>
+<div class="paragraph"><p>If your openshift environment can not resolve your hostname via
+a DNS server (external to openshift!), you will get errors when trying
+to create a DeploymentConfig.  So, you can either install dnsmasq
+and reconfigure openshift for that, or, you can run a DNS server
+on another host and add the openshift host entry to that DNS server.  I
+use the skybridge2 Docker container for this purpose.  You have
+to remember to adjust your /etc/resolv.conf to specify this new DNS
+server.</p></div>
 </div>
 <div class="section">
     <h1 class="page-header" id="legal_notices">3. Legal Notices</h1>
