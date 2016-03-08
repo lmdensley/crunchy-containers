@@ -36,5 +36,7 @@ blah:
 test:
 	./tests/standalone/test-master.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-backup.sh; /usr/bin/test "$$?" -eq 0
-	./tests/standalone/test-replica.sh
+	./tests/standalone/test-restore.sh; /usr/bin/test "$$?" -eq 0
+	./tests/standalone/test-replica.sh; /usr/bin/test "$$?" -eq 0
+	sudo docker stop master
 
