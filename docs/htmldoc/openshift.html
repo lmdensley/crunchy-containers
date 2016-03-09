@@ -480,10 +480,11 @@ script that gets executed during database initialization.</p></div>
 <h2 id="openshift_example_12_automated_failover">1.13. Openshift Example 12 - Automated Failover</h2>
 <div class="paragraph"><p>This example shows how a form of automated failover can be
 configured for a master and slave deployment.</p></div>
-<div class="paragraph"><p>First, create a master and slave:</p></div>
+<div class="paragraph"><p>First, create a master and 2 slaves:</p></div>
 <div class="literalblock">
 <div class="content monospaced">
-<pre>oc process -f master-slave.json</pre>
+<pre>oc process -f master-slave.json
+oc scale rc pg-slave-rc-dc-1 --replicas=2</pre>
 </div></div>
 <div class="paragraph"><p>Next, create an Openshift service account which is used by the crunchy-watch
 container to perform the failover, also set policies that allow the
@@ -521,7 +522,12 @@ find the first slave pod
 </li>
 <li>
 <p>
-create the trigger file on the slave pod
+delete the master service saving off the master service definition
+</p>
+</li>
+<li>
+<p>
+create the trigger file on the first slave pod
 </p>
 </li>
 <li>
@@ -534,9 +540,22 @@ wait 20 seconds for the failover to complete on the slave pod
 edit the slave pod&#8217;s lable to match that of the master
 </p>
 </li>
+<li>
+<p>
+recreate the master service using the stored service definition
+</p>
+</li>
+<li>
+<p>
+loop through the other remaining slave and delete its pod
+</p>
+</li>
 </ul></div>
 <div class="paragraph"><p>At this point, clients when access the master&#8217;s service will actually
-be accessing the new master.</p></div>
+be accessing the new master.  Also, Openshift will recreate the number
+of slaves to its original configuration which each slave pointed to the
+new master.  Replication from the master to the new slaves will be
+started as each new slave is started by Openshift.</p></div>
 </div>
 <div class="section">
     <h1 class="page-header" id="openshift_tips">2. Openshift Tips</h1>
