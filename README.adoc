@@ -106,12 +106,13 @@ This will build the following Docker images:
  * crunchy-backup
  * crunchy-pgpool
  * crunchy-pgbadger
+ * crunchy-watch
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 
 ....
-sudo rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
-sudo yum -y install postgresql94-server postgresql94
+sudo cp crunchypg93.repo /etc/yum.repos.d
+sudo yum -y install postgresql93-server postgresql93
 ....
 
 The installation of postgres locally is also required to create a postgres user and group which are

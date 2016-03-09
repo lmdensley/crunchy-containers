@@ -1,6 +1,9 @@
 OSFLAVOR=rhel7
-PGVERSION=9.5
-export BUILDBASE=$(HOME)/crunchy-containers
+PGVERSION=9.3
+
+ifndef BUILDBASE
+	export BUILDBASE=$(HOME)/crunchy-containers
+endif
 
 docbuild:
 	cd docs && ./build-docs.sh
@@ -25,10 +28,10 @@ backup:
 
 all:
 	make pg
-	make pgpool
-	make pgbadger
 	make backup
 	make watch
+	make pgpool
+	make pgbadger
 default:
 	all
 test:
