@@ -437,7 +437,7 @@ First, create a master and slave:
 oc process -f master-slave.json
 ....
 
-Next, create an Openshift service account which is used by the pg-watch
+Next, create an Openshift service account which is used by the crunchy-watch
 container to perform the failover, also set policies that allow the
 service account the ability to edit resources within the openshift and 
 default projects :
