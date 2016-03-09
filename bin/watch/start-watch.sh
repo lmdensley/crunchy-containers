@@ -59,17 +59,38 @@ function standalone_failover() {
 }
 
 function ose_failover() {
+
 	TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
 	oc login https://$OSE_HOST --insecure-skip-tls-verify=true --token="$TOKEN"
 	oc projects $OSE_PROJECT
 	echo "performing failover..."
-	SLAVE_TO_TRIGGER=`oc get pod --selector=name=$PG_SLAVE_SERVICE --no-headers | cut -f1 -d' ' | head -1`
-	echo "going to trigger failover on slave:" $SLAVE_TO_TRIGGER
-	oc exec $SLAVE_TO_TRIGGER touch /tmp/pg-failover-trigger
-	echo "sleeping " $SLEEP_TIME " to give failover a chance before setting label"
-	sleep $SLEEP_TIME
-	echo "changing label of slave to " $PG_MASTER_SERVICE
-	oc label --overwrite=true pod $SLAVE_TO_TRIGGER name=$PG_MASTER_SERVICE
+	echo "deleting master service to block slaves..."
+	oc get service $PG_MASTER_SERVICE -o json > /tmp/master-service.json
+	oc delete service $PG_MASTER_SERVICE
+	echo "sleeping for 10 to give slaves chance to halt..."
+	sleep 10
+
+	SLAVES=`oc get pod --selector=name=$PG_SLAVE_SERVICE --no-headers | cut -f1 -d' '`
+	declare -a arr=($SLAVES)
+	firstslave=true
+	for i in  "${arr[@]}"
+	do
+		if [ "$firstslave" = true ] ; then
+                	echo 'first slave is:' $i
+			firstslave=false
+			echo "going to trigger failover on slave:" $i
+			oc exec $i touch /tmp/pg-failover-trigger
+			echo "sleeping " $SLEEP_TIME " to give failover a chance before setting label"
+			sleep $SLEEP_TIME
+			echo "changing label of slave to " $PG_MASTER_SERVICE
+			oc label --overwrite=true pod $i name=$PG_MASTER_SERVICE
+			echo "recreating master service..."
+			oc create -f /tmp/master-service.json
+		else
+			echo "deleting old slave " $i 
+			oc delete pod $i
+		fi
+	done
 	echo "failover completed @ " `date`
 }
 
@@ -82,6 +103,5 @@ while true; do
 	else
 		echo "Could not reach master @ " `date`
 		failover
-		exit 0
 	fi
 done

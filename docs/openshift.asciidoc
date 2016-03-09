@@ -431,10 +431,11 @@ script that gets executed during database initialization.
 This example shows how a form of automated failover can be
 configured for a master and slave deployment.
 
-First, create a master and slave:
+First, create a master and 2 slaves:
 
 ....
 oc process -f master-slave.json
+oc scale rc pg-slave-rc-dc-1 --replicas=2
 ....
 
 Next, create an Openshift service account which is used by the crunchy-watch
@@ -461,12 +462,18 @@ will perform the following logic:
  * log into openshift using the service account
  * set its current project
  * find the first slave pod
- * create the trigger file on the slave pod
+ * delete the master service saving off the master service definition
+ * create the trigger file on the first slave pod
  * wait 20 seconds for the failover to complete on the slave pod
  * edit the slave pod's lable to match that of the master
+ * recreate the master service using the stored service definition
+ * loop through the other remaining slave and delete its pod
 
 At this point, clients when access the master's service will actually
-be accessing the new master.
+be accessing the new master.  Also, Openshift will recreate the number
+of slaves to its original configuration which each slave pointed to the
+new master.  Replication from the master to the new slaves will be
+started as each new slave is started by Openshift.
 
 == Openshift Tips
 
