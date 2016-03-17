@@ -3,30 +3,53 @@ Crunchy Data Solutions, Inc.
 v1.0.2, {docdate}
 :title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
-== Cluster-wide Metrics
+[format="csv", options="header"]
+|===
+Metric,Description,Scope
+connections,the number of active connections,per database and per cluster
+tablesize-top10,the top 10 tables in terms of number of pages,per table
+databasesize,the size in Megabytes of a database,per database
+xact_commit, Number of transactions in this database that have been committed , per database
+xact_rollback, Number of transactions in this database that have been rolled back, per database
+blks_read, Number of disk blocks read in this database, per database
+blks_hit,Number of times disk blocks were found already in the buffer cache, so that a read was not necessary (this only includes hits in the PostgreSQL buffer cache, not the operating system's file system cache), per database
+tup_returned, Number of rows returned by queries in this database, per database
+tup_fetched, Number of rows fetched by queries in this database, per database
+tup_inserted, Number of rows inserted by queries in this database, per database
+tup_updated, Number of rows updated by queries in this database, per database
+tup_deleted, Number of rows deleted by queries in this database, per database
+temp_files, Number of temporary files created by queries in this database, per database
+deadlocks, Number of deadlocks detected in this database, per database
+blk_read_time, Time spent reading data file blocks by backends in this database in milliseconds, per database
+blk_write_time, Time spent writing data file blocks by backends in this database in milliseconds, per database
 
-The following metrics are collected for database containers that apply
-to the whole Postgres cluster:
 
-=== Open Connections
 
-This metric shows the number of connections open to the database at the 
-collection time.  Having more than 100 open connections indicates the
-possible need for a connection pooler like pgbouncer.
 
-=== Locks Being Waited Upon by Queries
+
+
+
+
+
+
+
+
+
+|===
+
+== Locks Being Waited Upon by Queries
 
 This metric shows locks being waited upon by queries.  Queries
 waiting on locaks for any extended period shows a problem like
 heavy lock contention.
 
-=== Heap Hits
+== Heap Hits
 
 This metric shows the amount of reads hitting the memory buffers, and also the amount of reads hitting the disk (or disk caches on the operating system). Also the heap hit ratio is calculated based on these values.
 
 Notice that the read amounts are not actual read queries, but the amount of blocks read. You will get good idea of amount of reads hitting your database, when comparing these values with the transaction rate.
 
-=== Replication Delay
+== Replication Delay
 
 This metric shows the amount of bytes the replication delay is behind master per each slave. If the slave and the master are in synchronous state, the replication delay is zero.
 
@@ -34,28 +57,28 @@ This metric shows the amount of bytes the replication delay is behind master per
 
 The following metrics are collected for each database on a given Postgres cluster:
 
-=== Database Size
+== Database Size
 
 This metric shows the size of each of your databases in bytes.
 
-=== Transaction Rate
+== Transaction Rate
 
 Shows the rate of transactions executed per second since the last call of this function. 
 
-=== Time Since Last Vacuum per Table 
+== Time Since Last Vacuum per Table 
 
 This metric shows the amount of time passed in seconds since the last vacuum was run per table in your database
 
-=== Oldest Transaction
+== Oldest Transaction
 
 This metric shows the time the longest running transaction has been open in 
 your database. 
 
-=== Index Hit Rates 
+== Index Hit Rates 
 
 This metric shows you the amount of reads hitting the table indexes versus the amount of reads requiring sequential scan through the table.
 
-=== Table Bloat
+== Table Bloat
 
 This metric shows the amount of wasted space in the database table due to the MVCC process. Deletes and updates to the table just mark the obsolete data free, but does not really delete it. Vacuums do free some of this wasted data, but to get totally rid of table bloat you must re-create the table with vacuum full. 
 

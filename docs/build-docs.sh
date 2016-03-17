@@ -43,3 +43,13 @@ asciidoc \
 ./origin-install.asciidoc
 
 asciidoctor-pdf ./origin-install.asciidoc --out-file ./pdf/origin-install.pdf
+
+asciidoc \
+-b bootstrap \
+-f ./demo.conf \
+-o ./htmldoc/metrics.html \
+-a toc2 \
+-a toc-placement=right \
+./metrics.asciidoc
+
+asciidoctor-pdf ./metrics.asciidoc --out-file ./pdf/metrics.pdf
