@@ -22,19 +22,10 @@ temp_files, Number of temporary files created by queries in this database, per d
 deadlocks, Number of deadlocks detected in this database, per database
 blk_read_time, Time spent reading data file blocks by backends in this database in milliseconds, per database
 blk_write_time, Time spent writing data file blocks by backends in this database in milliseconds, per database
-
-
-
-
-
-
-
-
-
-
-
-
-
+index_hit_ratio, index hit ratio, per table
+heap_hit_ratio, heap hit ratio, per database
+bgwriter, bgwriter stats alloc_mbps and checkpoint_mbps and clean_mbps and backend_mbps and write_mbps, per cluster
+disk_usage_db, disk usage in megabytes for a database, per database
 |===
 
 == Locks Being Waited Upon by Queries
@@ -43,23 +34,9 @@ This metric shows locks being waited upon by queries.  Queries
 waiting on locaks for any extended period shows a problem like
 heavy lock contention.
 
-== Heap Hits
-
-This metric shows the amount of reads hitting the memory buffers, and also the amount of reads hitting the disk (or disk caches on the operating system). Also the heap hit ratio is calculated based on these values.
-
-Notice that the read amounts are not actual read queries, but the amount of blocks read. You will get good idea of amount of reads hitting your database, when comparing these values with the transaction rate.
-
 == Replication Delay
 
 This metric shows the amount of bytes the replication delay is behind master per each slave. If the slave and the master are in synchronous state, the replication delay is zero.
-
-== Per-Database Metrics
-
-The following metrics are collected for each database on a given Postgres cluster:
-
-== Database Size
-
-This metric shows the size of each of your databases in bytes.
 
 == Transaction Rate
 
@@ -73,14 +50,6 @@ This metric shows the amount of time passed in seconds since the last vacuum was
 
 This metric shows the time the longest running transaction has been open in 
 your database. 
-
-== Index Hit Rates 
-
-This metric shows you the amount of reads hitting the table indexes versus the amount of reads requiring sequential scan through the table.
-
-== Table Bloat
-
-This metric shows the amount of wasted space in the database table due to the MVCC process. Deletes and updates to the table just mark the obsolete data free, but does not really delete it. Vacuums do free some of this wasted data, but to get totally rid of table bloat you must re-create the table with vacuum full. 
 
 == Legal Notices
 
