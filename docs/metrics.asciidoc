@@ -1,0 +1,69 @@
+= Crunchy Containers
+Crunchy Data Solutions, Inc.
+v1.0.2, {docdate}
+:title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
+
+== Cluster-wide Metrics
+
+The following metrics are collected for database containers that apply
+to the whole Postgres cluster:
+
+=== Open Connections
+
+This metric shows the number of connections open to the database at the 
+collection time.  Having more than 100 open connections indicates the
+possible need for a connection pooler like pgbouncer.
+
+=== Locks Being Waited Upon by Queries
+
+This metric shows locks being waited upon by queries.  Queries
+waiting on locaks for any extended period shows a problem like
+heavy lock contention.
+
+=== Heap Hits
+
+This metric shows the amount of reads hitting the memory buffers, and also the amount of reads hitting the disk (or disk caches on the operating system). Also the heap hit ratio is calculated based on these values.
+
+Notice that the read amounts are not actual read queries, but the amount of blocks read. You will get good idea of amount of reads hitting your database, when comparing these values with the transaction rate.
+
+=== Replication Delay
+
+This metric shows the amount of bytes the replication delay is behind master per each slave. If the slave and the master are in synchronous state, the replication delay is zero.
+
+== Per-Database Metrics
+
+The following metrics are collected for each database on a given Postgres cluster:
+
+=== Database Size
+
+This metric shows the size of each of your databases in bytes.
+
+=== Transaction Rate
+
+Shows the rate of transactions executed per second since the last call of this function. 
+
+=== Time Since Last Vacuum per Table 
+
+This metric shows the amount of time passed in seconds since the last vacuum was run per table in your database
+
+=== Oldest Transaction
+
+This metric shows the time the longest running transaction has been open in 
+your database. 
+
+=== Index Hit Rates 
+
+This metric shows you the amount of reads hitting the table indexes versus the amount of reads requiring sequential scan through the table.
+
+=== Table Bloat
+
+This metric shows the amount of wasted space in the database table due to the MVCC process. Deletes and updates to the table just mark the obsolete data free, but does not really delete it. Vacuums do free some of this wasted data, but to get totally rid of table bloat you must re-create the table with vacuum full. 
+
+== Legal Notices
+
+Copyright © 2016 Crunchy Data Solutions, Inc.
+
+CRUNCHY DATA SOLUTIONS, INC. PROVIDES THIS GUIDE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+Crunchy, Crunchy Data Solutions, Inc. and the Crunchy Hippo Logo are trademarks of Crunchy Data Solutions, Inc.
+
