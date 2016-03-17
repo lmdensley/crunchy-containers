@@ -1,4 +1,6 @@
 == Crunchy PostgreSQL Containers
+v1.0.9, {docdate}
+:title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 This project includes a set of Dockerfiles that lets you build
 the Crunchy Certified PostgreSQL 9.5 Docker images.  
