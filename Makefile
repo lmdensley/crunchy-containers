@@ -22,6 +22,10 @@ pgbadger:
 	cd badger && godep restore && godep go install badgerserver.go
 	sudo docker build -t crunchy-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgbadger:latest crunchydata/crunchy-pgbadger
+collect:
+	cd collect && godep restore && godep go install collectserver.go
+	sudo docker build -t crunchy-collect -f $(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
 backup:
 	sudo docker build -t crunchy-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
