@@ -23,8 +23,7 @@ hostname  \
 #
 RUN mkdir -p /opt/cpm/bin
 
-ADD bin/collectserver /opt/cpm/bin
-ADD bin /opt/cpm/bin
+ADD bin/collect /opt/cpm/bin
 
 RUN chown -R postgres:postgres /opt/cpm/bin
 

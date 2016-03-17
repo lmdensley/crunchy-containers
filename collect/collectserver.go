@@ -17,6 +17,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/crunchydata/crunchy-containers/collectapi"
 	"os"
 	"strconv"
 	"time"
@@ -45,7 +46,7 @@ func main() {
 		//collect.Collecthc()
 		time.Sleep(time.Duration(POLL_INT) * time.Minute)
 		fmt.Println("sleeping..")
-		GetDatabases()
+		collectapi.GetDatabases()
 	}
 
 }
