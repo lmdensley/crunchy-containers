@@ -19,7 +19,7 @@ pgpool:
 	sudo docker tag -f crunchy-pgpool:latest crunchydata/crunchy-pgpool
 pgbadger:
 	go get github.com/tools/godep
-	cd src/github.com/crunchydata/openshift-dedicated-container/badger && godep restore && godep go install badgerserver.go
+	cd badger && godep restore && godep go install badgerserver.go
 	sudo docker build -t crunchy-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgbadger:latest crunchydata/crunchy-pgbadger
 backup:
