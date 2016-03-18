@@ -21,18 +21,15 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func GetDatabases() []string {
-	var dbs = make([]string, 0)
-	fmt.Println("get databases")
-	return dbs
-
-}
-
 func GetMetrics(HOSTNAME string, conn *sql.DB) ([]Metric, error) {
 	var err error
 	metrics := GetConnectionMetrics(HOSTNAME, conn)
 	metric := GetConnectionUtilMetrics(HOSTNAME, conn)
-	metrics = append(metrics, metric)
+	metrics = append(metrics, *metric)
+	sizeMetrics := GetDatabaseSizeMetrics(HOSTNAME, conn)
+	for i := 0; i < len(sizeMetrics); i++ {
+		metrics = append(metrics, sizeMetrics[i])
+	}
 	return metrics, err
 }
 
@@ -61,4 +58,33 @@ func GetMonitoringConnection(dbHost string, dbUser string, dbPort string, databa
 		fmt.Println("error in getting connection :" + err.Error())
 	}
 	return dbConn, err
+}
+
+func GetDatabases(dbConn *sql.DB) []string {
+	fmt.Println("get databases")
+
+	var dbs = make([]string, 0)
+	var rows *sql.Rows
+	var err error
+
+	rows, err = dbConn.Query("select datname from pg_database")
+	if err != nil {
+		fmt.Println("error: " + err.Error())
+		return dbs
+	}
+	defer rows.Close()
+
+	var dbname string
+
+	for rows.Next() {
+		if err = rows.Scan(&dbname); err != nil {
+			fmt.Println("error:" + err.Error())
+			return dbs
+		}
+
+		dbs = append(dbs, dbname)
+
+	}
+	return dbs
+
 }

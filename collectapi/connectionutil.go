@@ -21,11 +21,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func GetConnectionUtilMetrics(HOSTNAME string, dbConn *sql.DB) Metric {
+func GetConnectionUtilMetrics(HOSTNAME string, dbConn *sql.DB) *Metric {
 	fmt.Println("get connection util metrics")
-	metric := Metric{}
+	metric := new(Metric)
 
-	var rows *sql.Rows
 	var bootval int64
 	var usedval int64
 	err := dbConn.QueryRow("select boot_val::numeric , (select sum(numbackends) from pg_stat_database) as used_val from pg_settings where name = 'max_connections'").Scan(&bootval, &usedval)
@@ -33,7 +32,6 @@ func GetConnectionUtilMetrics(HOSTNAME string, dbConn *sql.DB) Metric {
 		fmt.Println("error: " + err.Error())
 		return metric
 	}
-	defer rows.Close()
 
 	metric.Hostname = HOSTNAME
 	metric.MetricName = "connectionutil"
