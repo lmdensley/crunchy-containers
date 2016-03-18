@@ -16,6 +16,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/crunchydata/crunchy-containers/collectapi"
 	"os"
@@ -46,7 +47,41 @@ func main() {
 		//collect.Collecthc()
 		time.Sleep(time.Duration(POLL_INT) * time.Minute)
 		fmt.Println("sleeping..")
-		collectapi.GetDatabases()
+		//process()
 	}
 
+}
+
+func process() {
+	var err error
+	var metrics []collectapi.Metric
+
+	var conn *sql.DB
+	var host = "127.0.0.1"
+	var user = "postgres"
+	var port = "5432"
+	var database = "postgres"
+	var password = ""
+
+	conn, err = collectapi.GetMonitoringConnection(host, user, port, database, password)
+	if err != nil {
+		fmt.Println("could not connect to " + host)
+		fmt.Println(err.Error())
+		return
+	}
+
+	metrics, err = collectapi.GetMetrics(conn)
+	if err != nil {
+		fmt.Println("error getting metrics from " + host)
+		fmt.Println(err.Error())
+		return
+	}
+	//write metrics to Cockpit
+
+	err = collectapi.WriteMetrics(metrics)
+	if err != nil {
+		fmt.Println("error writing metrics from " + host)
+		fmt.Println(err.Error())
+		return
+	}
 }

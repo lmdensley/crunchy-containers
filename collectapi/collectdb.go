@@ -16,11 +16,50 @@
 package collectapi
 
 import (
+	"database/sql"
 	"fmt"
 )
 
-func GetDatabases() {
+type Database struct {
+	Name string
+}
+type Metric struct {
+	Name string
+}
 
+func GetDatabases() []Database {
+	var dbs = make([]Database, 0)
 	fmt.Println("get databases")
+	return dbs
 
+}
+
+func GetMetrics(conn *sql.DB) ([]Metric, error) {
+	var err error
+	var metrics = make([]Metric, 0)
+	return metrics, err
+}
+
+func WriteMetrics([]Metric) error {
+	var err error
+	fmt.Println("writing metrics")
+	return err
+}
+
+func GetMonitoringConnection(dbHost string, dbUser string, dbPort string, database string, dbPassword string) (*sql.DB, error) {
+
+	var dbConn *sql.DB
+	var err error
+
+	if dbPassword == "" {
+		fmt.Println("a open db with dbHost=[" + dbHost + "] dbUser=[" + dbUser + "] dbPort=[" + dbPort + "] database=[" + database + "]")
+		dbConn, err = sql.Open("postgres", "sslmode=disable user="+dbUser+" host="+dbHost+" port="+dbPort+" dbname="+database)
+	} else {
+		fmt.Println("b open db with dbHost=[" + dbHost + "] dbUser=[" + dbUser + "] dbPort=[" + dbPort + "] database=[" + database + "] password=[" + dbPassword + "]")
+		dbConn, err = sql.Open("postgres", "sslmode=disable user="+dbUser+" host="+dbHost+" port="+dbPort+" dbname="+database+" password="+dbPassword)
+	}
+	if err != nil {
+		fmt.Println("error in getting connection :" + err.Error())
+	}
+	return dbConn, err
 }

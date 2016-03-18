@@ -1,5 +1,5 @@
-OSFLAVOR=rhel7
-PGVERSION=9.3
+OSFLAVOR=centos7
+PGVERSION=9.5
 
 ifndef BUILDBASE
 	export BUILDBASE=$(HOME)/crunchy-containers
