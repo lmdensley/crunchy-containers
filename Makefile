@@ -1,8 +1,8 @@
-OSFLAVOR=centos7
+OSFLAVOR=rhel7
 PGVERSION=9.5
 
 ifndef BUILDBASE
-	export BUILDBASE=$(HOME)/crunchy-containers
+	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers
 endif
 
 docbuild:
@@ -19,12 +19,12 @@ pgpool:
 	sudo docker tag -f crunchy-pgpool:latest crunchydata/crunchy-pgpool
 pgbadger:
 	cd badger && godep restore && godep go install badgerserver.go
-	cp $(GOBIN)/badgerserver bin
+	cp $(GOBIN)/badgerserver bin/collect
 	sudo docker build -t crunchy-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgbadger:latest crunchydata/crunchy-pgbadger
 collectserver:
 	cd collect && godep restore && godep go install collectserver.go
-	cp $(GOBIN)/collectserver bin
+	cp $(GOBIN)/collectserver bin/collect
 	sudo docker build -t crunchy-collect -f $(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
 backup:
@@ -37,6 +37,7 @@ all:
 	make watch
 	make pgpool
 	make pgbadger
+	make collectserver
 default:
 	all
 test:

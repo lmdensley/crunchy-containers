@@ -17,6 +17,7 @@ package main
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/crunchydata/crunchy-containers/collectapi"
 	"os"
@@ -24,30 +25,26 @@ import (
 	"time"
 )
 
+var POLL_INT = int64(3)
+var PG_ROOT_PASSWORD string
+var PG_PORT = "5432"
+var HOSTNAME string
+
 func main() {
 
 	fmt.Println("collectserver: starting")
 
-	//get the polling interval (in minutes, 3 minutes is the default)
-	var err error
-	var POLL_INT = int64(3)
-	var tempval = os.Getenv("POLL_INT")
-	if tempval != "" {
-		POLL_INT, err = strconv.ParseInt(tempval, 10, 64)
-		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("error in POLL_INT env var format")
-			return
-		}
+	getEnvVars()
 
-	}
 	fmt.Printf("collectserver: POLL_INT %d\n", POLL_INT)
+	fmt.Printf("collectserver: HOSTNAME %s\n", HOSTNAME)
+	fmt.Printf("collectserver: PG_PORT %s\n", PG_PORT)
 
 	for true {
 		//collect.Collecthc()
 		time.Sleep(time.Duration(POLL_INT) * time.Minute)
 		fmt.Println("sleeping..")
-		//process()
+		process()
 	}
 
 }
@@ -57,11 +54,11 @@ func process() {
 	var metrics []collectapi.Metric
 
 	var conn *sql.DB
-	var host = "127.0.0.1"
+	var host = HOSTNAME
 	var user = "postgres"
-	var port = "5432"
+	var port = PG_PORT
 	var database = "postgres"
-	var password = ""
+	var password = PG_ROOT_PASSWORD
 
 	conn, err = collectapi.GetMonitoringConnection(host, user, port, database, password)
 	if err != nil {
@@ -69,19 +66,53 @@ func process() {
 		fmt.Println(err.Error())
 		return
 	}
+	defer conn.Close()
 
-	metrics, err = collectapi.GetMetrics(conn)
+	metrics, err = collectapi.GetMetrics(HOSTNAME, conn)
 	if err != nil {
 		fmt.Println("error getting metrics from " + host)
 		fmt.Println(err.Error())
 		return
 	}
-	//write metrics to Cockpit
 
+	//write metrics to Cockpit
 	err = collectapi.WriteMetrics(metrics)
 	if err != nil {
 		fmt.Println("error writing metrics from " + host)
 		fmt.Println(err.Error())
 		return
 	}
+}
+
+func getEnvVars() error {
+	//get the polling interval (in minutes, 3 minutes is the default)
+	var err error
+	var tempval = os.Getenv("POLL_INT")
+	if tempval != "" {
+		POLL_INT, err = strconv.ParseInt(tempval, 10, 64)
+		if err != nil {
+			fmt.Println(err.Error())
+			fmt.Println("error in POLL_INT env var format")
+			return err
+		}
+
+	}
+	HOSTNAME = os.Getenv("HOSTNAME")
+	if HOSTNAME == "" {
+		fmt.Println("error in HOSTNAME env var, not set")
+		return errors.New("HOSTNAME env var not set")
+	}
+	PG_ROOT_PASSWORD = os.Getenv("PG_ROOT_PASSWORD")
+	if PG_ROOT_PASSWORD == "" {
+		fmt.Println("error in PG_ROOT_PASSWORD env var, not set")
+		return errors.New("PG_ROOT_PASSWORD env var not set")
+	}
+	PG_PORT = os.Getenv("PG_PORT")
+	if PG_ROOT_PASSWORD == "" {
+		fmt.Println("possible error in PG_PORT env var, not set, using default value")
+		return nil
+	}
+
+	return err
+
 }

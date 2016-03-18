@@ -18,31 +18,30 @@ package collectapi
 import (
 	"database/sql"
 	"fmt"
+	_ "github.com/lib/pq"
 )
 
-type Database struct {
-	Name string
-}
-type Metric struct {
-	Name string
-}
-
-func GetDatabases() []Database {
-	var dbs = make([]Database, 0)
+func GetDatabases() []string {
+	var dbs = make([]string, 0)
 	fmt.Println("get databases")
 	return dbs
 
 }
 
-func GetMetrics(conn *sql.DB) ([]Metric, error) {
+func GetMetrics(HOSTNAME string, conn *sql.DB) ([]Metric, error) {
 	var err error
-	var metrics = make([]Metric, 0)
+	metrics := GetConnectionMetrics(HOSTNAME, conn)
+	metric := GetConnectionUtilMetrics(HOSTNAME, conn)
+	metrics = append(metrics, metric)
 	return metrics, err
 }
 
-func WriteMetrics([]Metric) error {
+func WriteMetrics(metrics []Metric) error {
 	var err error
 	fmt.Println("writing metrics")
+	for i := 0; i < len(metrics); i++ {
+		metrics[i].Print()
+	}
 	return err
 }
 
