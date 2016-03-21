@@ -21,7 +21,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func GetMetrics(HOSTNAME string, conn *sql.DB) ([]Metric, error) {
+func GetMetrics(HOSTNAME string, USER string, PORT string, PASS string, conn *sql.DB) ([]Metric, error) {
 	var err error
 	metrics := GetConnectionMetrics(HOSTNAME, conn)
 	metric := GetConnectionUtilMetrics(HOSTNAME, conn)
@@ -29,6 +29,30 @@ func GetMetrics(HOSTNAME string, conn *sql.DB) ([]Metric, error) {
 	sizeMetrics := GetDatabaseSizeMetrics(HOSTNAME, conn)
 	for i := 0; i < len(sizeMetrics); i++ {
 		metrics = append(metrics, sizeMetrics[i])
+	}
+	statMetrics := PgStatDatabaseMetrics(HOSTNAME, conn)
+	for i := 0; i < len(statMetrics); i++ {
+		metrics = append(metrics, statMetrics[i])
+	}
+	bgwriterMetrics := BgwriterMetrics(HOSTNAME, conn)
+	for i := 0; i < len(bgwriterMetrics); i++ {
+		metrics = append(metrics, bgwriterMetrics[i])
+	}
+	lockMetrics := LockMetrics(HOSTNAME, conn)
+	for i := 0; i < len(lockMetrics); i++ {
+		metrics = append(metrics, lockMetrics[i])
+	}
+	tableSizeMetrics := TableSizesMetrics(HOSTNAME, USER, PORT, PASS, conn)
+	for i := 0; i < len(tableSizeMetrics); i++ {
+		metrics = append(metrics, tableSizeMetrics[i])
+	}
+	deadRowMetrics := DeadRowsMetrics(HOSTNAME, USER, PORT, PASS, conn)
+	for i := 0; i < len(deadRowMetrics); i++ {
+		metrics = append(metrics, deadRowMetrics[i])
+	}
+	xlogMetrics := XlogCountMetrics(HOSTNAME, conn)
+	for i := 0; i < len(xlogMetrics); i++ {
+		metrics = append(metrics, xlogMetrics[i])
 	}
 	return metrics, err
 }

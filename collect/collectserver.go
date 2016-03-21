@@ -68,7 +68,7 @@ func process() {
 	}
 	defer conn.Close()
 
-	metrics, err = collectapi.GetMetrics(HOSTNAME, conn)
+	metrics, err = collectapi.GetMetrics(HOSTNAME, user, PG_PORT, PG_ROOT_PASSWORD, conn)
 	if err != nil {
 		fmt.Println("error getting metrics from " + host)
 		fmt.Println(err.Error())
