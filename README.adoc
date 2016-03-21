@@ -36,10 +36,11 @@ To build the containers, add the following lines to your
 environment, adjusting the GOPATH as fits your actual path:
 
 ....
-export GOPATH=$HOME/crunchy-containers
+export GOPATH=$HOME/cdev
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOBIN
 ....
+
 
 3) Setting up config files for compilation
 
@@ -97,9 +98,15 @@ OSFLAVOR=rhel7
 PGVERSION=9.3
 ....
 
-Docker image builds are performed by issuing the make command:
+A complete build is performed as follows:
 ....
-make
+mkdir -p $HOME/cdev/pkg $HOME/cdev/bin $HOME/cdev/src
+cd $GOPATH
+go get github.com/tools/godep
+cd $GOPATH/src/github.com/
+git clone https://github.com/crunchydata/crunchy-containers.git
+cd crunchydata/crunchy-containers
+make all
 ....
 
 This will build the following Docker images:
@@ -109,6 +116,7 @@ This will build the following Docker images:
  * crunchy-pgpool
  * crunchy-pgbadger
  * crunchy-watch
+ * crunchy-collect
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 
