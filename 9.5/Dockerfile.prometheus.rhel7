@@ -1,0 +1,32 @@
+FROM rhel7.2
+MAINTAINER crunchy
+
+LABEL Name crunchydata/crunchy-prometheus:9.5
+LABEL Release crunchy-prometheus:9.5
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.5
+
+RUN yum -y install procps-ng \
+openssh-clients \
+hostname  \
+ && yum clean all -y
+
+VOLUME ["/data"]
+
+# set up cpm directory
+#
+RUN mkdir -p /opt/cpm/bin /opt/cpm/conf
+RUN chown -R daemon:daemon /opt/cpm
+
+# open up the prometheus port
+EXPOSE 9090
+
+ADD prometheus.tar.gz /opt/cpm/bin
+ADD bin/prometheus /opt/cpm/bin
+ADD conf/prometheus /opt/cpm/conf
+
+
+USER daemon
+
+CMD ["/opt/cpm/bin/start-prometheus.sh"]
+

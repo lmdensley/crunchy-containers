@@ -30,6 +30,16 @@ collectserver:
 backup:
 	sudo docker build -t crunchy-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
+downloadprometheus:
+	wget -O prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/0.17.0/prometheus-0.17.0.linux-amd64.tar.gz 
+prometheus:
+	sudo docker build -t crunchy-prometheus -f $(PGVERSION)/Dockerfile.prometheus.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-prometheus:latest crunchydata/crunchy-prometheus
+downloadgrafana:
+	wget -O grafana.tar.gz  https://grafanarel.s3.amazonaws.com/builds/grafana-2.6.0.linux-x64.tar.gz
+grafana:
+	sudo docker build -t crunchy-grafana -f $(PGVERSION)/Dockerfile.grafana.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-grafana:latest crunchydata/crunchy-grafana
 
 all:
 	make pg
