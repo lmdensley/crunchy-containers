@@ -15,6 +15,8 @@
 
 export PATH=$PATH:/opt/cpm/bin
 
+/opt/cpm/bin/pushgateway &
+
 /opt/cpm/bin/prometheus*/prometheus \
 	-config.file=/opt/cpm/conf/prometheus.yml \
 	-storage.local.path=/data

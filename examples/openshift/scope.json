@@ -40,6 +40,13 @@
                 "nodePort": 0
             },
 	    {
+                "name": "pushgateway",
+                "protocol": "TCP",
+                "port": 9091,
+                "targetPort": 9091,
+                "nodePort": 0
+            },
+	    {
                 "name": "grafana",
                 "protocol": "TCP",
                 "port": 3000,
@@ -70,10 +77,16 @@
             "containers": [{
                 "name": "crunchy-prometheus",
                 "image": "crunchydata/crunchy-prometheus",
-                "ports": [{
+                "ports": [
+		{
                     "containerPort": 9090,
                     "protocol": "TCP"
-                }],
+                },
+		{
+                    "containerPort": 9091,
+                    "protocol": "TCP"
+                }
+		],
                 "env": [{
                     "name": "PG_MASTER_USER",
                     "value": "${PG_MASTER_USER}"

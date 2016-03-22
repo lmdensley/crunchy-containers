@@ -31,6 +31,7 @@ backup:
 	sudo docker build -t crunchy-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
 downloadprometheus:
+	wget -O prometheus-pushgateway.tar.gz https://github.com/prometheus/pushgateway/releases/download/0.2.0/pushgateway-0.2.0.linux-amd64.tar.gz
 	wget -O prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/0.17.0/prometheus-0.17.0.linux-amd64.tar.gz 
 prometheus:
 	sudo docker build -t crunchy-prometheus -f $(PGVERSION)/Dockerfile.prometheus.$(OSFLAVOR) .
