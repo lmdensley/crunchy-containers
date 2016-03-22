@@ -75,8 +75,8 @@ func process() {
 		return
 	}
 
-	//write metrics to Cockpit
-	err = collectapi.WriteMetrics(metrics)
+	//write metrics to Prometheus
+	err = collectapi.WritePrometheusMetrics(metrics)
 	if err != nil {
 		fmt.Println("error writing metrics from " + host)
 		fmt.Println(err.Error())
