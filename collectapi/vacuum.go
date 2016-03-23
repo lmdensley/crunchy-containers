@@ -23,6 +23,7 @@ import (
 
 //get tables with dead rows
 func DeadRowsMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+	logger.Println("DeadRowsMetrics")
 	var metrics = make([]Metric, 0)
 	for i := 0; i < len(dbs); i++ {
 

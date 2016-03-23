@@ -22,7 +22,7 @@ import (
 )
 
 func ObjectSizeMetrics(logger *log.Logger, dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
-	logger.Println("get object size metrics")
+	logger.Println("ObjectSizeMetrics")
 
 	var metrics = make([]Metric, 0)
 
@@ -50,6 +50,7 @@ func ObjectSizeMetrics(logger *log.Logger, dbs []string, HOSTNAME string, dbConn
 
 //get the top 10 objects by size in a database
 func TableSizesMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+	logger.Println("TableSizeMetrics")
 	var metrics = make([]Metric, 0)
 	for i := 0; i < len(dbs); i++ {
 

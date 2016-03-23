@@ -58,7 +58,7 @@ func GetMetrics(logger *log.Logger, HOSTNAME string, USER string, PORT string, P
 	return metrics, err
 }
 
-func WriteMetrics(logger *log.Logger, metrics []Metric) error {
+func PrintMetrics(logger *log.Logger, metrics []Metric) error {
 	var err error
 	logger.Println("writing metrics")
 	for i := 0; i < len(metrics); i++ {
@@ -86,7 +86,7 @@ func GetMonitoringConnection(logger *log.Logger, dbHost string, dbUser string, d
 }
 
 func GetDatabases(logger *log.Logger, dbConn *sql.DB) []string {
-	logger.Println("get databases 3.0")
+	logger.Println("get databases")
 
 	var dbs = make([]string, 0)
 	var rows *sql.Rows

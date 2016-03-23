@@ -38,8 +38,6 @@ var logger *log.Logger
 func main() {
 	logger = log.New(os.Stdout, "logger: ", log.Lshortfile|log.Ldate|log.Ltime)
 
-	logger.Println("Hello, log file!")
-
 	logger.Println("collectserver " + VERSION + ": starting")
 
 	getEnvVars()

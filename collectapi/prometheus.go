@@ -6,14 +6,16 @@ import (
 	"strconv"
 )
 
+const PREFIX = "crunchy_"
+
 func WritePrometheusMetrics(logger *log.Logger, PROM_GATEWAY string, HOST string, metrics []Metric) error {
 	var err error
-	logger.Println("writing %d metrics\n", len(metrics))
+	logger.Printf("writing %d metrics\n", len(metrics))
 	for i := 0; i < len(metrics); i++ {
-		metrics[i].Print()
+		//metrics[i].Print()
 
 		opts := prometheus.GaugeOpts{
-			Name: metrics[i].MetricName,
+			Name: PREFIX + metrics[i].MetricName,
 			Help: "no help available",
 		}
 
@@ -58,7 +60,7 @@ func WritePrometheusMetrics(logger *log.Logger, PROM_GATEWAY string, HOST string
 			PROM_GATEWAY,
 			newMetric,
 		); err != nil {
-			logger.Println("Could not push completion time to Pushgateway:", err)
+			logger.Println("Could not push " + metrics[i].MetricName + "completion time to Pushgateway:" + err.Error())
 			return err
 		}
 	}
