@@ -3,6 +3,7 @@ package collectapi
 import (
 	"fmt"
 	"github.com/prometheus/client_golang/prometheus"
+	"strconv"
 )
 
 func WritePrometheusMetrics(PROM_GATEWAY string, HOST string, metrics []Metric) error {
@@ -27,6 +28,25 @@ func WritePrometheusMetrics(PROM_GATEWAY string, HOST string, metrics []Metric) 
 		if metrics[i].LockType != "" {
 			labels["LockType"] = metrics[i].LockType
 			labels["LockMode"] = metrics[i].LockMode
+		}
+		if metrics[i].LastVacuum != "" {
+			labels["LastVacuum"] = metrics[i].LastVacuum
+			labels["LastAnalyze"] = metrics[i].LastAnalyze
+			labels["AvNeeded"] = metrics[i].AvNeeded
+		}
+		if metrics[i].Age != "" {
+			labels["Age"] = metrics[i].Age
+			labels["Kind"] = metrics[i].Kind
+		}
+		if metrics[i].MetricName == "wraparound" {
+			labels["TableSz"] = strconv.FormatInt(metrics[i].TableSz, 10)
+			labels["TotalSz"] = strconv.FormatInt(metrics[i].TotalSz, 10)
+		}
+		if metrics[i].MetricName == "pct_dead" {
+			labels["DeadTup"] = strconv.FormatInt(metrics[i].DeadTup, 10)
+			labels["RelTup"] = strconv.FormatInt(metrics[i].RelTup, 10)
+			labels["TableSz"] = strconv.FormatInt(metrics[i].TableSz, 10)
+			labels["TotalSz"] = strconv.FormatInt(metrics[i].TotalSz, 10)
 		}
 
 		opts.ConstLabels = labels
