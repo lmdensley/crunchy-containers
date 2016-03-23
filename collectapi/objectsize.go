@@ -64,20 +64,20 @@ func TableSizesMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER s
 
 		var tableName string
 		var tableSize, indexSize, totalSize int64
-		err = d.QueryRow("SELECT table_name, "+
+		err = d.QueryRow("SELECT tablename, "+
 			"(table_size/1024/1024) AS table_size, "+
 			"(indexes_size/1024/1024) AS indexes_size, "+
 			"(total_size/1024/1024) AS total_size "+
 			"FROM ("+
 			" SELECT "+
-			" table_name, "+
-			" pg_table_size(table_name) AS table_size, "+
-			" pg_indexes_size(table_name) AS indexes_size, "+
-			" pg_total_relation_size(table_name) AS total_size "+
+			" tablename, "+
+			" pg_table_size(tablename) AS table_size, "+
+			" pg_indexes_size(tablename) AS indexes_size, "+
+			" pg_total_relation_size(tablename) AS total_size "+
 			" FROM ( "+
-			" SELECT table_name "+
-			" FROM information_schema.tables "+
-			" WHERE table_schema NOT IN ('information_schema','pg_catalog') "+
+			" SELECT schemaname||'.'||tablename as tablename, "+
+			" FROM pg_tables "+
+			" WHERE schemaname NOT IN ('tiger', 'topology', 'information_schema','pg_catalog') "+
 			" ) AS all_tables ORDER BY total_size  DESC limit 10 "+
 			" ) AS pretty_sizes").Scan(&tableName, &tableSize, &indexSize, &totalSize)
 		if err != nil {
