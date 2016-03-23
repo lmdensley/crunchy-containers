@@ -29,6 +29,7 @@ var POLL_INT = int64(3)
 var PG_ROOT_PASSWORD string
 var PG_PORT = "5432"
 var HOSTNAME string
+var PROM_GATEWAY = "http://crunchy-scope:9091"
 
 func main() {
 
@@ -39,6 +40,7 @@ func main() {
 	fmt.Printf("collectserver: POLL_INT %d\n", POLL_INT)
 	fmt.Printf("collectserver: HOSTNAME %s\n", HOSTNAME)
 	fmt.Printf("collectserver: PG_PORT %s\n", PG_PORT)
+	fmt.Printf("collectserver: PROM_GATEWAY %s\n", PROM_GATEWAY)
 
 	for true {
 		//collect.Collecthc()
@@ -76,7 +78,7 @@ func process() {
 	}
 
 	//write metrics to Prometheus
-	err = collectapi.WritePrometheusMetrics(metrics)
+	err = collectapi.WritePrometheusMetrics(PROM_GATEWAY, HOSTNAME, metrics)
 	if err != nil {
 		fmt.Println("error writing metrics from " + host)
 		fmt.Println(err.Error())
@@ -101,6 +103,11 @@ func getEnvVars() error {
 	if HOSTNAME == "" {
 		fmt.Println("error in HOSTNAME env var, not set")
 		return errors.New("HOSTNAME env var not set")
+	}
+	PROM_GATEWAY = os.Getenv("PROM_GATEWAY")
+	if PROM_GATEWAY == "" {
+		fmt.Println("error in PROM_GATEWAY env var, not set")
+		return errors.New("PROM_GATEWAY env var not set, using default")
 	}
 	PG_ROOT_PASSWORD = os.Getenv("PG_ROOT_PASSWORD")
 	if PG_ROOT_PASSWORD == "" {
