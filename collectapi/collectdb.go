@@ -23,14 +23,15 @@ import (
 
 func GetMetrics(HOSTNAME string, USER string, PORT string, PASS string, conn *sql.DB) ([]Metric, error) {
 	var err error
+	dbs := GetDatabases(conn)
 	metrics := GetConnectionMetrics(HOSTNAME, conn)
 	metric := GetConnectionUtilMetrics(HOSTNAME, conn)
 	metrics = append(metrics, *metric)
-	sizeMetrics := GetDatabaseSizeMetrics(HOSTNAME, conn)
+	sizeMetrics := GetDatabaseSizeMetrics(dbs, HOSTNAME, conn)
 	for i := 0; i < len(sizeMetrics); i++ {
 		metrics = append(metrics, sizeMetrics[i])
 	}
-	statMetrics := PgStatDatabaseMetrics(HOSTNAME, conn)
+	statMetrics := PgStatDatabaseMetrics(dbs, HOSTNAME, conn)
 	for i := 0; i < len(statMetrics); i++ {
 		metrics = append(metrics, statMetrics[i])
 	}
@@ -38,15 +39,15 @@ func GetMetrics(HOSTNAME string, USER string, PORT string, PASS string, conn *sq
 	for i := 0; i < len(bgwriterMetrics); i++ {
 		metrics = append(metrics, bgwriterMetrics[i])
 	}
-	lockMetrics := LockMetrics(HOSTNAME, conn)
+	lockMetrics := LockMetrics(dbs, HOSTNAME, conn)
 	for i := 0; i < len(lockMetrics); i++ {
 		metrics = append(metrics, lockMetrics[i])
 	}
-	tableSizeMetrics := TableSizesMetrics(HOSTNAME, USER, PORT, PASS, conn)
+	tableSizeMetrics := TableSizesMetrics(dbs, HOSTNAME, USER, PORT, PASS, conn)
 	for i := 0; i < len(tableSizeMetrics); i++ {
 		metrics = append(metrics, tableSizeMetrics[i])
 	}
-	deadRowMetrics := DeadRowsMetrics(HOSTNAME, USER, PORT, PASS, conn)
+	deadRowMetrics := DeadRowsMetrics(dbs, HOSTNAME, USER, PORT, PASS, conn)
 	for i := 0; i < len(deadRowMetrics); i++ {
 		metrics = append(metrics, deadRowMetrics[i])
 	}
@@ -85,13 +86,13 @@ func GetMonitoringConnection(dbHost string, dbUser string, dbPort string, databa
 }
 
 func GetDatabases(dbConn *sql.DB) []string {
-	fmt.Println("get databases")
+	fmt.Println("get databases 3.0")
 
 	var dbs = make([]string, 0)
 	var rows *sql.Rows
 	var err error
 
-	rows, err = dbConn.Query("select datname from pg_database")
+	rows, err = dbConn.Query("select datname from pg_database where datname NOT LIKE 'template%'")
 	if err != nil {
 		fmt.Println("error: " + err.Error())
 		return dbs

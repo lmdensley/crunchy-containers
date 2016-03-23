@@ -21,18 +21,17 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func LockMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get lock metrics")
+func LockMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
+	fmt.Println("get lock metrics 3.1")
 
 	var metrics = make([]Metric, 0)
 
-	dbs := GetDatabases(dbConn)
 	for i := 0; i < len(dbs); i++ {
 		metric := Metric{}
 
 		var lockCount int64
 		var lockType, lockMode string
-		err := dbConn.QueryRow("select locktype,mode, count(*) from pg_locks, pg_database where pg_locks.database = pg_database.oid and pg_database.datname = '"+dbs[i]+"'").Scan(&lockType, &lockMode, &lockCount)
+		err := dbConn.QueryRow("select locktype,mode, count(*) from pg_locks, pg_database where pg_locks.database = pg_database.oid and pg_database.datname = '"+dbs[i]+"' group by pg_locks.locktype, pg_locks.mode").Scan(&lockType, &lockMode, &lockCount)
 		if err != nil {
 			fmt.Println("error: " + err.Error())
 			return metrics

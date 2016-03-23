@@ -22,9 +22,8 @@ import (
 )
 
 //get tables that are approaching a wraparound
-func WraparoundMetrics(HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func WraparoundMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
-	dbs := GetDatabases(dbConn)
 	for i := 0; i < len(dbs); i++ {
 
 		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)

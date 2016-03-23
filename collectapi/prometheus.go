@@ -8,7 +8,7 @@ import (
 
 func WritePrometheusMetrics(PROM_GATEWAY string, HOST string, metrics []Metric) error {
 	var err error
-	fmt.Println("writing metrics")
+	fmt.Println("writing %d metrics\n", len(metrics))
 	for i := 0; i < len(metrics); i++ {
 		metrics[i].Print()
 

@@ -21,12 +21,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func GetDatabaseSizeMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
+func GetDatabaseSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
 	fmt.Println("get database size metrics")
 
 	var metrics = make([]Metric, 0)
 
-	dbs := GetDatabases(dbConn)
 	for i := 0; i < len(dbs); i++ {
 		metric := Metric{}
 

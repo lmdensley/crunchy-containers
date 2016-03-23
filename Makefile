@@ -23,12 +23,12 @@ pgpool:
 	sudo docker build -t crunchy-pgpool -f $(PGVERSION)/Dockerfile.pgpool.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgpool:latest crunchydata/crunchy-pgpool
 pgbadger:
-	cd badger && godep restore && godep go install badgerserver.go
+	cd badger && godep go install badgerserver.go
 	cp $(GOBIN)/badgerserver bin/collect
 	sudo docker build -t crunchy-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgbadger:latest crunchydata/crunchy-pgbadger
 collectserver:
-	cd collect && godep restore && godep go install collectserver.go
+	cd collect && godep go install collectserver.go
 	cp $(GOBIN)/collectserver bin/collect
 	sudo docker build -t crunchy-collect -f $(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect

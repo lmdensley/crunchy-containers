@@ -21,12 +21,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func PgStatDatabaseMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
+func PgStatDatabaseMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
 	fmt.Println("get pg_stat_database metrics")
 
 	var metrics = make([]Metric, 0)
 
-	dbs := GetDatabases(dbConn)
 	var xact_commit, xact_rollback int64
 	var tup_returned, tup_fetched, tup_inserted, tup_updated, tup_deleted int64
 	var conflicts, temp_files, temp_bytes, deadlocks int64

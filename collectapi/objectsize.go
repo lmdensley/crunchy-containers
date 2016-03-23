@@ -21,12 +21,11 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func ObjectSizeMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
+func ObjectSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
 	fmt.Println("get object size metrics")
 
 	var metrics = make([]Metric, 0)
 
-	dbs := GetDatabases(dbConn)
 	for i := 0; i < len(dbs); i++ {
 		metric := Metric{}
 
@@ -50,9 +49,8 @@ func ObjectSizeMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
 }
 
 //get the top 10 objects by size in a database
-func TableSizesMetrics(HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func TableSizesMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
-	dbs := GetDatabases(dbConn)
 	for i := 0; i < len(dbs); i++ {
 
 		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)

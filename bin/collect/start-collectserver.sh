@@ -15,5 +15,9 @@
 
 export PATH=$PATH:/opt/cpm/bin
 
-/opt/cpm/bin/collectserver 
+#/opt/cpm/bin/collectserver 
+
+while true; do
+	sleep 1000
+done
 

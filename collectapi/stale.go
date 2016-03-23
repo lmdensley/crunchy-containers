@@ -22,9 +22,8 @@ import (
 )
 
 //get tables with stale statistics
-func StaleTablesMetrics(HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func StaleTablesMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
-	dbs := GetDatabases(dbConn)
 	for i := 0; i < len(dbs); i++ {
 
 		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)

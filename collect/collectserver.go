@@ -31,9 +31,11 @@ var PG_PORT = "5432"
 var HOSTNAME string
 var PROM_GATEWAY = "http://crunchy-scope:9091"
 
+const VERSION = "3.1"
+
 func main() {
 
-	fmt.Println("collectserver: starting")
+	fmt.Println("collectserver " + VERSION + ": starting")
 
 	getEnvVars()
 
@@ -43,9 +45,8 @@ func main() {
 	fmt.Printf("collectserver: PROM_GATEWAY %s\n", PROM_GATEWAY)
 
 	for true {
-		//collect.Collecthc()
-		time.Sleep(time.Duration(POLL_INT) * time.Minute)
 		fmt.Println("sleeping..")
+		time.Sleep(time.Duration(POLL_INT) * time.Minute)
 		process()
 	}
 
