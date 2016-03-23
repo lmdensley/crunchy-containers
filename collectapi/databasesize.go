@@ -17,12 +17,12 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func GetDatabaseSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get database size metrics")
+func GetDatabaseSizeMetrics(logger *log.Logger, dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
+	logger.Println("get database size metrics")
 
 	var metrics = make([]Metric, 0)
 
@@ -32,7 +32,7 @@ func GetDatabaseSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Met
 		var dbsize int64
 		err := dbConn.QueryRow("select pg_database_size('" + dbs[i] + "') / 1024 / 1024").Scan(&dbsize)
 		if err != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 

@@ -17,19 +17,19 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func GetConnectionMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
+func GetConnectionMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
-	fmt.Println("get connection metrics")
+	logger.Println("get connection metrics")
 
 	var rows *sql.Rows
 	var err error
 	rows, err = dbConn.Query("select numbackends, datname from pg_stat_database")
 	if err != nil {
-		fmt.Println("error: " + err.Error())
+		logger.Println("error: " + err.Error())
 		return metrics
 	}
 	defer rows.Close()
@@ -43,14 +43,14 @@ func GetConnectionMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
 		if err = rows.Scan(
 			&metric.Value,
 			&metric.DatabaseName); err != nil {
-			fmt.Println("error:" + err.Error())
+			logger.Println("error:" + err.Error())
 			return metrics
 		}
 
 		metrics = append(metrics, metric)
 	}
 	if err = rows.Err(); err != nil {
-		fmt.Println("error:" + err.Error())
+		logger.Println("error:" + err.Error())
 		return metrics
 	}
 

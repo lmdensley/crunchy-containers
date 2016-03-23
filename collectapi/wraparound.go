@@ -17,19 +17,19 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
 //get tables that are approaching a wraparound
-func WraparoundMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func WraparoundMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
 	for i := 0; i < len(dbs); i++ {
 
-		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)
+		d, err := GetMonitoringConnection(logger, HOSTNAME, USER, PORT, dbs[i], PASSWORD)
 		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("error getting db connection to " + dbs[i])
+			logger.Println(err.Error())
+			logger.Println("error getting db connection to " + dbs[i])
 			return metrics
 		}
 		defer d.Close()
@@ -68,7 +68,7 @@ func WraparoundMetrics(dbs []string, HOSTNAME string, USER string, PORT string, 
 				" WHERE age(relfrozenxid) > (0.85 * freeze_max_age) " +
 				" ORDER BY age(relfrozenxid) DESC, pg_total_relation_size(oid) DESC")
 		if err2 != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 		defer rows.Close()
@@ -78,7 +78,7 @@ func WraparoundMetrics(dbs []string, HOSTNAME string, USER string, PORT string, 
 				&nspname, &relname, &kind,
 				&table_sz, &total_sz,
 				&age, &last_vacuum); err != nil {
-				fmt.Println("error: " + err.Error())
+				logger.Println("error: " + err.Error())
 				return metrics
 			}
 

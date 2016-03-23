@@ -17,12 +17,12 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func ObjectSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get object size metrics")
+func ObjectSizeMetrics(logger *log.Logger, dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
+	logger.Println("get object size metrics")
 
 	var metrics = make([]Metric, 0)
 
@@ -32,7 +32,7 @@ func ObjectSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
 		var dbSize int64
 		err := dbConn.QueryRow("select pg_database_size(d.datname)/1024/1024 from pg_database d where d.datname = '" + dbs[i] + "'").Scan(&dbSize)
 		if err != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 
@@ -49,14 +49,14 @@ func ObjectSizeMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
 }
 
 //get the top 10 objects by size in a database
-func TableSizesMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func TableSizesMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
 	for i := 0; i < len(dbs); i++ {
 
-		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)
+		d, err := GetMonitoringConnection(logger, HOSTNAME, USER, PORT, dbs[i], PASSWORD)
 		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("error getting db connection to " + dbs[i])
+			logger.Println(err.Error())
+			logger.Println("error getting db connection to " + dbs[i])
 			return metrics
 		}
 		defer d.Close()
@@ -80,36 +80,38 @@ func TableSizesMetrics(dbs []string, HOSTNAME string, USER string, PORT string, 
 			" ) AS all_tables ORDER BY total_size  DESC limit 10 "+
 			" ) AS pretty_sizes").Scan(&tableName, &tableSize, &indexSize, &totalSize)
 		if err != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 
-		metric := Metric{}
-		metric.Hostname = HOSTNAME
-		metric.MetricName = "table_size"
-		metric.Units = "megabytes"
-		metric.Value = tableSize
-		metric.DatabaseName = dbs[i]
-		metric.TableName = tableName
-		metrics = append(metrics, metric)
+		if tableSize > 0 {
+			metric := Metric{}
+			metric.Hostname = HOSTNAME
+			metric.MetricName = "table_size"
+			metric.Units = "megabytes"
+			metric.Value = tableSize
+			metric.DatabaseName = dbs[i]
+			metric.TableName = tableName
+			metrics = append(metrics, metric)
 
-		metric2 := Metric{}
-		metric2.Hostname = HOSTNAME
-		metric2.MetricName = "index_size"
-		metric2.Units = "megabytes"
-		metric2.Value = indexSize
-		metric2.DatabaseName = dbs[i]
-		metric2.TableName = tableName
-		metrics = append(metrics, metric2)
+			metric2 := Metric{}
+			metric2.Hostname = HOSTNAME
+			metric2.MetricName = "index_size"
+			metric2.Units = "megabytes"
+			metric2.Value = indexSize
+			metric2.DatabaseName = dbs[i]
+			metric2.TableName = tableName
+			metrics = append(metrics, metric2)
 
-		metric3 := Metric{}
-		metric3.Hostname = HOSTNAME
-		metric3.MetricName = "total_size"
-		metric3.Units = "megabytes"
-		metric3.Value = totalSize
-		metric3.DatabaseName = dbs[i]
-		metric3.TableName = tableName
-		metrics = append(metrics, metric3)
+			metric3 := Metric{}
+			metric3.Hostname = HOSTNAME
+			metric3.MetricName = "total_size"
+			metric3.Units = "megabytes"
+			metric3.Value = totalSize
+			metric3.DatabaseName = dbs[i]
+			metric3.TableName = tableName
+			metrics = append(metrics, metric3)
+		}
 	}
 
 	return metrics

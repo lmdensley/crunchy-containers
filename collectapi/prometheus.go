@@ -1,14 +1,14 @@
 package collectapi
 
 import (
-	"fmt"
 	"github.com/prometheus/client_golang/prometheus"
+	"log"
 	"strconv"
 )
 
-func WritePrometheusMetrics(PROM_GATEWAY string, HOST string, metrics []Metric) error {
+func WritePrometheusMetrics(logger *log.Logger, PROM_GATEWAY string, HOST string, metrics []Metric) error {
 	var err error
-	fmt.Println("writing %d metrics\n", len(metrics))
+	logger.Println("writing %d metrics\n", len(metrics))
 	for i := 0; i < len(metrics); i++ {
 		metrics[i].Print()
 
@@ -58,7 +58,7 @@ func WritePrometheusMetrics(PROM_GATEWAY string, HOST string, metrics []Metric) 
 			PROM_GATEWAY,
 			newMetric,
 		); err != nil {
-			fmt.Println("Could not push completion time to Pushgateway:", err)
+			logger.Println("Could not push completion time to Pushgateway:", err)
 			return err
 		}
 	}

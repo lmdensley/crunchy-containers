@@ -17,12 +17,12 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func BgwriterMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get pg_stat_bgwriter metrics")
+func BgwriterMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) []Metric {
+	logger.Println("get pg_stat_bgwriter metrics")
 
 	var metrics = make([]Metric, 0)
 
@@ -38,7 +38,7 @@ func BgwriterMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
 		&buffers_checkpoint, &buffers_clean, &maxwritten_clean,
 		&buffers_backend, &buffers_backend_fsync, &buffers_alloc)
 	if err != nil {
-		fmt.Println("error: " + err.Error())
+		logger.Println("error: " + err.Error())
 		return metrics
 	}
 

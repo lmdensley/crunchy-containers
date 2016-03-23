@@ -17,12 +17,12 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func LockMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get lock metrics 3.1")
+func LockMetrics(logger *log.Logger, dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
+	logger.Println("get lock metrics 3.1")
 
 	var metrics = make([]Metric, 0)
 
@@ -33,7 +33,7 @@ func LockMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
 		var lockType, lockMode string
 		err := dbConn.QueryRow("select locktype,mode, count(*) from pg_locks, pg_database where pg_locks.database = pg_database.oid and pg_database.datname = '"+dbs[i]+"' group by pg_locks.locktype, pg_locks.mode").Scan(&lockType, &lockMode, &lockCount)
 		if err != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 

@@ -17,19 +17,19 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
 //get tables with stale statistics
-func StaleTablesMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func StaleTablesMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
 	for i := 0; i < len(dbs); i++ {
 
-		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)
+		d, err := GetMonitoringConnection(logger, HOSTNAME, USER, PORT, dbs[i], PASSWORD)
 		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("error getting db connection to " + dbs[i])
+			logger.Println(err.Error())
+			logger.Println("error getting db connection to " + dbs[i])
 			return metrics
 		}
 		defer d.Close()
@@ -63,7 +63,7 @@ func StaleTablesMetrics(dbs []string, HOSTNAME string, USER string, PORT string,
 				" WHERE    (NOT nspname IN ('pg_catalog', 'information_schema')) " +
 				" ORDER BY last_analyze NULLS FIRST ")
 		if err2 != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 		defer rows.Close()
@@ -73,7 +73,7 @@ func StaleTablesMetrics(dbs []string, HOSTNAME string, USER string, PORT string,
 				&nspname, &relname, &kind,
 				&last_vacuum, &last_analyze,
 				&age); err != nil {
-				fmt.Println("error: " + err.Error())
+				logger.Println("error: " + err.Error())
 				return metrics
 			}
 

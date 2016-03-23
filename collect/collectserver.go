@@ -18,8 +18,8 @@ package main
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"github.com/crunchydata/crunchy-containers/collectapi"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -31,21 +31,25 @@ var PG_PORT = "5432"
 var HOSTNAME string
 var PROM_GATEWAY = "http://crunchy-scope:9091"
 
-const VERSION = "3.1"
+const VERSION = "1.0.9"
+
+var logger *log.Logger
 
 func main() {
+	logger = log.New(os.Stdout, "logger: ", log.Lshortfile|log.Ldate|log.Ltime)
 
-	fmt.Println("collectserver " + VERSION + ": starting")
+	logger.Println("Hello, log file!")
+
+	logger.Println("collectserver " + VERSION + ": starting")
 
 	getEnvVars()
 
-	fmt.Printf("collectserver: POLL_INT %d\n", POLL_INT)
-	fmt.Printf("collectserver: HOSTNAME %s\n", HOSTNAME)
-	fmt.Printf("collectserver: PG_PORT %s\n", PG_PORT)
-	fmt.Printf("collectserver: PROM_GATEWAY %s\n", PROM_GATEWAY)
+	logger.Printf("collectserver: POLL_INT %d\n", POLL_INT)
+	logger.Printf("collectserver: HOSTNAME %s\n", HOSTNAME)
+	logger.Printf("collectserver: PG_PORT %s\n", PG_PORT)
+	logger.Printf("collectserver: PROM_GATEWAY %s\n", PROM_GATEWAY)
 
 	for true {
-		fmt.Println("sleeping..")
 		time.Sleep(time.Duration(POLL_INT) * time.Minute)
 		process()
 	}
@@ -63,26 +67,26 @@ func process() {
 	var database = "postgres"
 	var password = PG_ROOT_PASSWORD
 
-	conn, err = collectapi.GetMonitoringConnection(host, user, port, database, password)
+	conn, err = collectapi.GetMonitoringConnection(logger, host, user, port, database, password)
 	if err != nil {
-		fmt.Println("could not connect to " + host)
-		fmt.Println(err.Error())
+		logger.Println("could not connect to " + host)
+		logger.Println(err.Error())
 		return
 	}
 	defer conn.Close()
 
-	metrics, err = collectapi.GetMetrics(HOSTNAME, user, PG_PORT, PG_ROOT_PASSWORD, conn)
+	metrics, err = collectapi.GetMetrics(logger, HOSTNAME, user, PG_PORT, PG_ROOT_PASSWORD, conn)
 	if err != nil {
-		fmt.Println("error getting metrics from " + host)
-		fmt.Println(err.Error())
+		logger.Println("error getting metrics from " + host)
+		logger.Println(err.Error())
 		return
 	}
 
 	//write metrics to Prometheus
-	err = collectapi.WritePrometheusMetrics(PROM_GATEWAY, HOSTNAME, metrics)
+	err = collectapi.WritePrometheusMetrics(logger, PROM_GATEWAY, HOSTNAME, metrics)
 	if err != nil {
-		fmt.Println("error writing metrics from " + host)
-		fmt.Println(err.Error())
+		logger.Println("error writing metrics from " + host)
+		logger.Println(err.Error())
 		return
 	}
 }
@@ -94,30 +98,30 @@ func getEnvVars() error {
 	if tempval != "" {
 		POLL_INT, err = strconv.ParseInt(tempval, 10, 64)
 		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("error in POLL_INT env var format")
+			logger.Println(err.Error())
+			logger.Println("error in POLL_INT env var format")
 			return err
 		}
 
 	}
 	HOSTNAME = os.Getenv("HOSTNAME")
 	if HOSTNAME == "" {
-		fmt.Println("error in HOSTNAME env var, not set")
+		logger.Println("error in HOSTNAME env var, not set")
 		return errors.New("HOSTNAME env var not set")
 	}
 	PROM_GATEWAY = os.Getenv("PROM_GATEWAY")
 	if PROM_GATEWAY == "" {
-		fmt.Println("error in PROM_GATEWAY env var, not set")
+		logger.Println("error in PROM_GATEWAY env var, not set")
 		return errors.New("PROM_GATEWAY env var not set, using default")
 	}
 	PG_ROOT_PASSWORD = os.Getenv("PG_ROOT_PASSWORD")
 	if PG_ROOT_PASSWORD == "" {
-		fmt.Println("error in PG_ROOT_PASSWORD env var, not set")
+		logger.Println("error in PG_ROOT_PASSWORD env var, not set")
 		return errors.New("PG_ROOT_PASSWORD env var not set")
 	}
 	PG_PORT = os.Getenv("PG_PORT")
 	if PG_ROOT_PASSWORD == "" {
-		fmt.Println("possible error in PG_PORT env var, not set, using default value")
+		logger.Println("possible error in PG_PORT env var, not set, using default value")
 		return nil
 	}
 

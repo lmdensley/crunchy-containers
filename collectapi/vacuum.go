@@ -4,32 +4,32 @@
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+ http://www.apache.org/licenses/LICENSE-2.0
 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
 
 package collectapi
 
 import (
 	"database/sql"
-	"fmt"
-	_ "github.com/lib/pq"
+	"log"
+	//_ "github.com/lib/pq"
 )
 
 //get tables with dead rows
-func DeadRowsMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
+func DeadRowsMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER string, PORT string, PASSWORD string, dbConn *sql.DB) []Metric {
 	var metrics = make([]Metric, 0)
 	for i := 0; i < len(dbs); i++ {
 
-		d, err := GetMonitoringConnection(HOSTNAME, USER, PORT, dbs[i], PASSWORD)
+		d, err := GetMonitoringConnection(logger, HOSTNAME, USER, PORT, dbs[i], PASSWORD)
 		if err != nil {
-			fmt.Println(err.Error())
-			fmt.Println("error getting db connection to " + dbs[i])
+			logger.Println(err.Error())
+			logger.Println("error getting db connection to " + dbs[i])
 			return metrics
 		}
 		defer d.Close()
@@ -79,7 +79,7 @@ func DeadRowsMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PA
 				" WHERE n_dead_tup > 100000" +
 				" ORDER BY n_dead_tup DESC")
 		if err != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 		defer rows.Close()
@@ -90,7 +90,7 @@ func DeadRowsMetrics(dbs []string, HOSTNAME string, USER string, PORT string, PA
 				&n_dead_tup, &reltuples, &table_sz, &total_sz,
 				&last_vacuum, &last_analyze,
 				&av_needed, &pct_dead); err != nil {
-				fmt.Println("error: " + err.Error())
+				logger.Println("error: " + err.Error())
 				return metrics
 			}
 

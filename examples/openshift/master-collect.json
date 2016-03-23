@@ -93,6 +93,11 @@
                 }, {
                     "name": "PG_ROOT_PASSWORD",
                     "value": "${PG_ROOT_PASSWORD}"
+                }],
+                "volumeMounts": [{
+                    "mountPath": "/pgdata",
+                    "name": "pgdata",
+                    "readOnly": true
                 }]
             }, {
                 "name": "pg-master",

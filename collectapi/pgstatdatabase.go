@@ -17,12 +17,12 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func PgStatDatabaseMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get pg_stat_database metrics")
+func PgStatDatabaseMetrics(logger *log.Logger, dbs []string, HOSTNAME string, dbConn *sql.DB) []Metric {
+	logger.Println("get pg_stat_database metrics")
 
 	var metrics = make([]Metric, 0)
 
@@ -40,7 +40,7 @@ func PgStatDatabaseMetrics(dbs []string, HOSTNAME string, dbConn *sql.DB) []Metr
 			&deadlocks, &blks_read, &blks_hit,
 			&blk_read_time, &blk_write_time)
 		if err != nil {
-			fmt.Println("error: " + err.Error())
+			logger.Println("error: " + err.Error())
 			return metrics
 		}
 

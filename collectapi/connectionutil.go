@@ -17,19 +17,19 @@ package collectapi
 
 import (
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 )
 
-func GetConnectionUtilMetrics(HOSTNAME string, dbConn *sql.DB) *Metric {
-	fmt.Println("get connection util metrics")
+func GetConnectionUtilMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) *Metric {
+	logger.Println("get connection util metrics")
 	metric := new(Metric)
 
 	var bootval int64
 	var usedval int64
 	err := dbConn.QueryRow("select boot_val::numeric , (select sum(numbackends) from pg_stat_database) as used_val from pg_settings where name = 'max_connections'").Scan(&bootval, &usedval)
 	if err != nil {
-		fmt.Println("error: " + err.Error())
+		logger.Println("error: " + err.Error())
 		return metric
 	}
 

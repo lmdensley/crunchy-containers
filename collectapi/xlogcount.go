@@ -18,14 +18,15 @@ package collectapi
 import (
 	"bytes"
 	"database/sql"
-	"fmt"
 	_ "github.com/lib/pq"
+	"log"
 	"os/exec"
 	"strconv"
+	"strings"
 )
 
-func XlogCountMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
-	fmt.Println("get pg_xlog count metrics")
+func XlogCountMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) []Metric {
+	logger.Println("XlogCountMetrics 1.0.9")
 
 	var metrics = make([]Metric, 0)
 
@@ -39,11 +40,11 @@ func XlogCountMetrics(HOSTNAME string, dbConn *sql.DB) []Metric {
 	cmd.Stderr = &stderr
 	err := cmd.Run()
 	if err != nil {
-		fmt.Println("error:" + err.Error())
+		logger.Println("error:" + err.Error())
 		return metrics
 	}
-	fmt.Println("xlog count got back " + out.String())
-	count, err = strconv.Atoi(out.String())
+	logger.Println("xlog count got back " + strings.TrimSpace(out.String()))
+	count, err = strconv.Atoi(strings.TrimSpace(out.String()))
 
 	metric := Metric{}
 	metric.Hostname = HOSTNAME
