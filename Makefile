@@ -5,6 +5,11 @@ ifndef BUILDBASE
 	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers
 endif
 
+gendeps:
+	godep save \
+	github.com/crunchydata/crunchy-containers/collectapi \
+	github.com/crunchydata/crunchy-containers/badger 
+
 docbuild:
 	cd docs && ./build-docs.sh
 pg:

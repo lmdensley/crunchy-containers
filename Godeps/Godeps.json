@@ -1,19 +1,25 @@
 {
-	"ImportPath": "github.com/crunchydata/crunchy-containers/collect",
+	"ImportPath": "github.com/crunchydata/crunchy-containers",
 	"GoVersion": "go1.4",
 	"GodepVersion": "v58",
 	"Packages": [
-		"github.com/crunchydata/crunchy-containers/collectapi"
+		"github.com/crunchydata/crunchy-containers/collectapi",
+		"github.com/crunchydata/crunchy-containers/badger"
 	],
 	"Deps": [
 		{
-			"ImportPath": "github.com/beorn7/perks/quantile",
-			"Rev": "3ac7bf7a47d159a033b107610db8a1b6575507a4"
+			"ImportPath": "github.com/ant0ine/go-json-rest/rest",
+			"Comment": "v3.3.1",
+			"Rev": "37ad7dc626602a8355801da6acd85155655520f8"
 		},
 		{
-			"ImportPath": "github.com/crunchydata/crunchy-containers/collectapi",
-			"Comment": "1.0.8-20-ge3f48db",
-			"Rev": "e3f48db6f20d48e30b75dc18d2701536bd46f5e4"
+			"ImportPath": "github.com/ant0ine/go-json-rest/rest/trie",
+			"Comment": "v3.3.1",
+			"Rev": "37ad7dc626602a8355801da6acd85155655520f8"
+		},
+		{
+			"ImportPath": "github.com/beorn7/perks/quantile",
+			"Rev": "3ac7bf7a47d159a033b107610db8a1b6575507a4"
 		},
 		{
 			"ImportPath": "github.com/golang/protobuf/proto",

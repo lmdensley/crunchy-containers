@@ -3,8 +3,6 @@ package collectapi
 import (
 	"fmt"
 	"github.com/prometheus/client_golang/prometheus"
-	"os"
-	"time"
 )
 
 func WritePrometheusMetrics(PROM_GATEWAY string, HOST string, metrics []Metric) error {
