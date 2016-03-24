@@ -1,0 +1,129 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "crunchy-scope-example",
+        "creationTimestamp": null,
+        "annotations": {
+            "description": "Crunchy PostgreSQL Scope Example",
+            "iconClass": "icon-database",
+            "tags": "database,postgresql,replication"
+        }
+    },
+    "parameters": [{
+        "name": "PG_MASTER_USER",
+        "description": "The username used for master-slave replication",
+        "value": "master"
+    }, {
+        "name": "PG_ROOT_PASSWORD",
+        "description": "The password for the PG adminitrator",
+        "generate": "expression",
+        "from": "[a-zA-Z0-9]{12}"
+    }],
+
+    "objects": [{
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "crunchy-scope",
+                "labels": {
+                    "name": "crunchy-scope"
+                }
+            },
+            "spec": {
+                "ports": [{
+                    "name": "prometheus",
+                    "protocol": "TCP",
+                    "port": 9090,
+                    "targetPort": 9090,
+                    "nodePort": 0
+                }, {
+                    "name": "pushgateway",
+                    "protocol": "TCP",
+                    "port": 9091,
+                    "targetPort": 9091,
+                    "nodePort": 0
+                }, {
+                    "name": "grafana",
+                    "protocol": "TCP",
+                    "port": 3000,
+                    "targetPort": 3000,
+                    "nodePort": 0
+                }],
+                "selector": {
+                    "name": "crunchy-scope"
+                },
+                "portalIP": "None",
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        }, {
+            "kind": "Pod",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "crunchy-scope",
+                "labels": {
+                    "name": "crunchy-scope"
+                }
+            },
+            "spec": {
+                "containers": [{
+                    "name": "crunchy-prometheus",
+                    "image": "crunchydata/crunchy-prometheus",
+                    "ports": [{
+                        "containerPort": 9090,
+                        "protocol": "TCP"
+                    }, {
+                        "containerPort": 9091,
+                        "protocol": "TCP"
+                    }],
+                    "env": [{
+                        "name": "PG_MASTER_USER",
+                        "value": "${PG_MASTER_USER}"
+                    }, {
+                        "name": "PG_ROOT_PASSWORD",
+                        "value": "${PG_ROOT_PASSWORD}"
+                    }],
+                    "volumeMounts": [{
+                        "mountPath": "/data",
+                        "name": "data",
+                        "readOnly": false
+                    }]
+                }, {
+                    "name": "crunchy-grafana",
+                    "image": "crunchydata/crunchy-grafana",
+                    "ports": [{
+                        "containerPort": 3000,
+                        "protocol": "TCP"
+                    }],
+                    "env": [{
+                        "name": "PG_MASTER_USER",
+                        "value": "${PG_MASTER_USER}"
+                    }, {
+                        "name": "PG_MODE",
+                        "value": "master"
+                    }, {
+                        "name": "PG_ROOT_PASSWORD",
+                        "value": "${PG_ROOT_PASSWORD}"
+                    }],
+                    "securityContext": {
+                        "capabilities": {}
+                    },
+
+                    "volumeMounts": [{
+                        "mountPath": "/data",
+                        "name": "data",
+                        "readOnly": false
+                    }]
+                }],
+                "volumes": [{
+                    "name": "data",
+                    "persistentVolumeClaim": {
+                        "claimName": "scope-nfs-pvc"
+                    }
+                }]
+            }]
+    }
