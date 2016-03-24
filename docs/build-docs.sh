@@ -52,4 +52,5 @@ asciidoc \
 -a toc-placement=right \
 ./metrics.asciidoc
 
+cd htmldoc
 asciidoctor-pdf ./metrics.asciidoc --out-file ./pdf/metrics.pdf

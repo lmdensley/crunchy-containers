@@ -136,6 +136,30 @@ Metric,Description,Scope,unit
 *crunchy_xlog_count*,count of pg_xlog archive files,cluster,count
 |===
 
+<<<
+== Grafana Dashboard
+
+You can create dashboards of various graphs using the Grafana Dashboard
+editor:
+
+image::grafana-dashboard-sample.png[]
+
+<<<
+== Grafana Data Source
+
+You create a grafana data source that represents the prometheus
+database running within crunchy-prometheus:
+
+image::grafana-data-source.png[]
+
+<<<
+== Prometheus Console
+
+You can issue raw queries to prometheus using its web
+console:
+
+image::prometheus-console.png[]
+
 == Legal Notices
 
 Copyright © 2016 Crunchy Data Solutions, Inc.
