@@ -27,6 +27,7 @@ func GetConnectionMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) [
 
 	var rows *sql.Rows
 	var err error
+	var total = int64(0)
 	rows, err = dbConn.Query("select numbackends, datname from pg_stat_database")
 	if err != nil {
 		logger.Println("error: " + err.Error())
@@ -47,12 +48,22 @@ func GetConnectionMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) [
 			return metrics
 		}
 
+		total = total + metric.Value
 		metrics = append(metrics, metric)
 	}
 	if err = rows.Err(); err != nil {
 		logger.Println("error:" + err.Error())
 		return metrics
 	}
+
+	//enter a metric for the whole cluster
+	metric := Metric{}
+	metric.Hostname = HOSTNAME
+	metric.MetricName = "connections"
+	metric.Units = "count"
+	metric.Value = total
+	metric.DatabaseName = "cluster"
+	metrics = append(metrics, metric)
 
 	return metrics
 

@@ -44,86 +44,96 @@ example as follows:
 oc process -f master-collect.json | oc create -f -
 ....
 
-== Connection Metrics
+== Collected Metrics
 
+.Table Connection Metrics
 [format="csv", options="header"]
 |===
 Metric,Description,Scope,Unit
-crunchy_connections,the number of active connections,database/cluster,count
+crunchy_connections, the number of active connections, database/cluster,count
+|===
 
-== Connection Utilization Metrics
-
+.Table Connection Utilization Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-connection_util,the percent utilization of max connections,per cluster
+Metric,Description,Scope,Unit
+crunchy_connectionutil, the percent utilization of max connections, cluster, percent
+|===
 
-== Database Size Metrics
-
+.Table Database Size Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-tablesize-top10,the top 10 tables in terms of number of pages,per table
-databasesize,the size in Megabytes of a database,per database
+Metric,Description,Scope,Unit
+crunchy_databasesize, the size in Megabytes of a database, database, megabytes
+|===
 
-== pg_stat_database Metrics
-
+.Table pg_stat_database Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-xact_commit, Number of transactions in this database that have been committed , per database
-xact_rollback, Number of transactions in this database that have been rolled back, per database
+Metric,Description,Scope,Unit
+crunchy_xact_commit, Number of transactions in this database that have been committed, database, count
+crunchy_xact_rollback, Number of transactions in this database that have been rolled back, database, count
+crunchy_tup_returned, tup_returned, database, count
+crunchy_tup_fetched, tup_fetched, database, count
+crunchy_tup_inserted, tup_inserted, database, count
+crunchy_tup_updated, tup_updated, database, count
+crunchy_tup_deleted, tup_deleted, database, count
+crunchy_conflicts, conflicts, database, count
+crunchy_temp_files, temp_files, database, count
+crunchy_temp_bytes, temp_bytes, database, count
+crunchy_deadlocks, deadlocks, database, count
+crunchy_blks_read, blks_read, database, count
+crunchy_blks_hit, blks_hit, database, count
+crunchy_hit_ratio, hit_ratio, database, percent
+crunchy_blk_read_time, blk_read_time, database, time
+crunchy_blk_write_time, blk_write_time, database, time
+|===
 
-== bgwriter Metrics
-
+.Table bgwriter Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-bgwriter, alloc_mbps checkpoint_mbps clean_mbps backend_mbps write_mbps, per cluster
+Metric,Description,Scope,Unit
+crunchy_checkpoints_timed, checkpoints_timed, cluster, count
+crunchy_checkpoints_req, checkpoints_req, cluster, count
+crunchy_checkpoint_write_time, checkpoint_write_time, cluster, count
+crunchy_checkpoint_sync_time, checkpoint_sync_time, cluster, count
+crunchy_buffers_checkpoint, buffers_checkpoint, cluster, count
+crunchy_buffers_clean, buffers_clean, cluster, count
+crunchy_maxwritten_clean, maxwritten_clean, cluster, count
+crunchy_buffers_backend, buffers_backend, cluster, count
+crunchy_buffers_backend_fsync, buffers_backend_fsync, cluster, count
+crunchy_buffers_alloc, buffers_alloc, cluster, count
+|===
 
-== Table Size Metrics
-
+.Table Table Size Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-tablesize-top10,the top 10 tables in terms of number of pages,per table
+Metric,Description,Scope,Unit
+crunchy_database_size, database_size in megs, database, megabytes
+crunchy_table_size, table size in megs, database, megabytes
+crunchy_index_size, index size in megs, database, megabytes
+crunchy_total_size, total size in megs, database, megabytes
+|===
 
-== Dead Rows Metrics
-
+.Table Dead Rows Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
+Metric,Description,Scope,Unit
+crunchy_pct_dead, percentage dead rows in table, database, item
+|===
 
-== Lock Metrics
-
+.Table Lock Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-locks_db, locks held for a database, per database
+Metric,Description,Scope,Unit
+crunchy_lock_count, locks held for a database, database, count
+|===
 
-== pg_xlog Metrics
-
+.Table pg_xlog Metrics
 [format="csv", options="header"]
 |===
-Metric,Description,Scope
-
-blks_read, Number of disk blocks read in this database, per database
-blks_hit,Number of times disk blocks were found already in the buffer cache so that a read was not necessary (this only includes hits in the PostgreSQL buffer cache not the operating system's file system cache), per database
-tup_returned, Number of rows returned by queries in this database, per database
-tup_fetched, Number of rows fetched by queries in this database, per database
-tup_inserted, Number of rows inserted by queries in this database, per database
-tup_updated, Number of rows updated by queries in this database, per database
-tup_deleted, Number of rows deleted by queries in this database, per database
-temp_files, Number of temporary files created by queries in this database, per database
-temp_bytes, Number of temporary files in bytes created by queries in this database, per database
-deadlocks, Number of deadlocks detected in this database, per database
-blk_read_time, Time spent reading data file blocks by backends in this database in milliseconds, per database
-blk_write_time, Time spent writing data file blocks by backends in this database in milliseconds, per database
-index_hit_ratio, index hit ratio, per table
-heap_hit_ratio, heap hit ratio, per database
-
-disk_usage_db, disk usage in megabytes for a database, per database
-
+Metric,Description,Scope,unit
+*crunchy_xlog_count*,count of pg_xlog archive files,cluster,count
 |===
 
 == Legal Notices
