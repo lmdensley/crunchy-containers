@@ -56,7 +56,7 @@ func WritePrometheusMetrics(logger *log.Logger, PROM_GATEWAY string, HOST string
 		newMetric := prometheus.NewGauge(opts)
 		newMetric.Set(float64(metrics[i].Value))
 		if err := prometheus.PushCollectors(
-			"crunchy_collect", HOST,
+			metrics[i].MetricName, HOST,
 			PROM_GATEWAY,
 			newMetric,
 		); err != nil {
