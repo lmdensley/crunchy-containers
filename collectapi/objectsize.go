@@ -75,7 +75,7 @@ func TableSizesMetrics(logger *log.Logger, dbs []string, HOSTNAME string, USER s
 			" pg_indexes_size(tablename) AS indexes_size, "+
 			" pg_total_relation_size(tablename) AS total_size "+
 			" FROM ( "+
-			" SELECT schemaname||'.'||tablename as tablename, "+
+			" SELECT schemaname||'.'||tablename as tablename "+
 			" FROM pg_tables "+
 			" WHERE schemaname NOT IN ('tiger', 'topology', 'information_schema','pg_catalog') "+
 			" ) AS all_tables ORDER BY total_size  DESC limit 10 "+
