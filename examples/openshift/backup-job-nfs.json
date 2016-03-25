@@ -34,13 +34,13 @@
                     }],
                     "env": [{
                         "name": "BACKUP_HOST",
-                        "value": "pg-master"
+                        "value": "pg-master-rc"
                     }, {
                         "name": "BACKUP_USER",
                         "value": "master"
                     }, {
                         "name": "BACKUP_PASS",
-                        "value": "TYq8sYM1BT3s"
+                        "value": "DTBXdEPC6KoR"
                     }, {
                         "name": "BACKUP_PORT",
                         "value": "5432"

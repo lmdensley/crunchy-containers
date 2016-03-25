@@ -17,7 +17,7 @@
     }, {
         "name": "PG_PASSWORD",
         "description": "The password configured in pgpool for client access",
-        "value": "77Q570WWfPFV"
+        "value": "8dpBnylIxkQc"
     }, {
         "name": "PGPOOL_SERVICE_NAME",
         "description": "The name of the pgpool Service",
@@ -25,11 +25,11 @@
     }, {
         "name": "PG_MASTER_SERVICE_NAME",
         "description": "The master configured in pgpool",
-        "value": "ms-master"
+        "value": "pg-master-rc"
     }, {
         "name": "PG_SLAVE_SERVICE_NAME",
         "description": "The slave configured in pgpool",
-        "value": "ms-slave"
+        "value": "pg-slave-rc"
     }],
     "objects": [{
         "kind": "Service",

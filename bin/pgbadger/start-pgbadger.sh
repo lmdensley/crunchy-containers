@@ -13,7 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export BADGER_TARGET=$BADGER_TARGET
+if [ -v BADGER_TARGET ]; then
+	echo "BADGER_TARGET set for standalone environment"
+	export BADGER_TARGET=$BADGER_TARGET
+fi
 
 export PATH=$PATH:/opt/cpm/bin
 

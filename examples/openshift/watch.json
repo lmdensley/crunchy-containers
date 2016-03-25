@@ -35,10 +35,10 @@
                     "value": "20"
                 }, {
                     "name": "PG_MASTER_SERVICE",
-                    "value": "pg-master-rc-dc"
+                    "value": "pg-master-rc"
                 }, {
                     "name": "PG_SLAVE_SERVICE",
-                    "value": "pg-slave-rc-dc"
+                    "value": "pg-slave-rc"
                 }, {
                     "name": "PG_MASTER_PORT",
                     "value": "5432"
