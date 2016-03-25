@@ -2,10 +2,10 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "crunchy-pg-replication-example",
+        "name": "simple-master--example",
         "creationTimestamp": null,
         "annotations": {
-            "description": "Crunchy PostgreSQL Replication Example",
+            "description": "Crunchy PostgreSQL Master Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
@@ -43,9 +43,9 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "single-master",
             "labels": {
-                "name": "pg-master"
+                "name": "single-master"
             }
         },
         "spec": {
@@ -56,7 +56,7 @@
                 "nodePort": 0
             }],
             "selector": {
-                "name": "pg-master"
+                "name": "single-master"
             },
             "portalIP": "None",
             "type": "ClusterIP",
@@ -69,14 +69,14 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "single-master",
             "labels": {
-                "name": "pg-master"
+                "name": "single-master"
             }
         },
         "spec": {
             "containers": [{
-                "name": "pg-master",
+                "name": "single-master",
                 "image": "crunchydata/crunchy-pg",
                 "ports": [{
                     "containerPort": 5432,
