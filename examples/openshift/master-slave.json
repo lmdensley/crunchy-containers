@@ -162,6 +162,12 @@
                     "protocol": "TCP"
                 }],
                 "env": [{
+                    "name": "PG_USER",
+                    "value": "${PG_USER}"
+                }, {
+                    "name": "PG_PASSWORD",
+                    "value": "${PG_PASSWORD}"
+                }, {
                     "name": "PG_MASTER_USER",
                     "value": "${PG_MASTER_USER}"
                 }, {
@@ -170,6 +176,9 @@
                 }, {
                     "name": "PG_MASTER_PASSWORD",
                     "value": "${PG_MASTER_PASSWORD}"
+                }, {
+                    "name": "PG_ROOT_PASSWORD",
+                    "value": "${PG_ROOT_PASSWORD}"
                 }, {
                     "name": "PG_MASTER_HOST",
                     "value": "ms-master"

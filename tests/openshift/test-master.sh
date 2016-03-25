@@ -40,11 +40,11 @@ rc=$?
 
 echo $rc is the rc
 
-#chmod 777 $PGPASSFILE
-#/usr/bin/rm $PGPASSFILE
+chmod 777 $PGPASSFILE
+/usr/bin/rm $PGPASSFILE
 # always delete the pod and service even on a failure
-#oc delete pod single-master
-#oc delete service single-master
+oc delete pod single-master
+oc delete service single-master
 
 if [ 0 -eq $rc ]; then
 	echo "test master passed"
