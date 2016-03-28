@@ -556,6 +556,29 @@ be accessing the new master.  Also, Openshift will recreate the number
 of slaves to its original configuration which each slave pointed to the
 new master.  Replication from the master to the new slaves will be
 started as each new slave is started by Openshift.</p></div>
+<h2 id="openshift_example_13_metrics_collection">1.14. Openshift Example 13 - Metrics Collection</h2>
+<div class="paragraph"><p>This example shows how postgres metrics can be collected
+and stored in prometheus and graphed with grafana.</p></div>
+<div class="paragraph"><p>First, create the crunchy-scope pod which contains
+the prometheus data store and the grafana graphing web application:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>edit scope-pv.json to update the NFS share info
+oc create -f scope-pv.json
+oc create -f scope-pvc.json
+oc process -f scope-nfs.json | oc create -f -</pre>
+</div></div>
+<div class="paragraph"><p>At this point, you can view the prometheus web console at
+crunchy-scope:9090, the prometheus push gateway at crunchy-scope:9091,
+and the grafana web app at crunchy-scope:3000.</p></div>
+<div class="paragraph"><p>Next, start a postgres pod that has the crunchy-collect container
+as follows:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>oc process -f master-collect.json | oc create -f -</pre>
+</div></div>
+<div class="paragraph"><p>At this point, metrics will be collected every 3 minutes and pushed
+to prometheus.  You can build graphs off the metrics using grafana.</p></div>
 </div>
 <div class="section">
     <h1 class="page-header" id="openshift_tips">2. Openshift Tips</h1>

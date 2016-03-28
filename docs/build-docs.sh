@@ -53,4 +53,4 @@ asciidoc \
 ./metrics.asciidoc
 
 cd htmldoc
-asciidoctor-pdf ./metrics.asciidoc --out-file ./pdf/metrics.pdf
+asciidoctor-pdf ../metrics.asciidoc --out-file ./pdf/metrics.pdf
