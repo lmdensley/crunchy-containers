@@ -83,7 +83,7 @@
             }, {
                 "name": "backup",
                 "persistentVolumeClaim": {
-                    "claimName": "master-restore-pvc"
+                    "claimName": "master-restore-nfs-pvc"
                 }
             }],
             "containers": [{

@@ -13,8 +13,8 @@
         },
         "accessModes": ["ReadWriteMany"],
         "nfs": {
-            "path": "/jeffnfs",
-            "server": "192.168.0.105"
+            "path": "/nfsfileshare",
+            "server": "192.168.122.138"
         },
         "persistentVolumeReclaimPolicy": "Retain"
     }
