@@ -43,9 +43,9 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-            "name": "master-nfs",
+            "name": "master-nfs-badger",
             "labels": {
-                "name": "master-nfs"
+                "name": "master-nfs-badger"
             }
         },
         "spec": {
@@ -66,7 +66,7 @@
             }
             ],
             "selector": {
-                "name": "master-nfs"
+                "name": "master-nfs-badger"
             },
             "portalIP": "None",
             "type": "ClusterIP",
@@ -79,16 +79,16 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "master-nfs",
+            "name": "master-nfs-badger",
             "labels": {
-                "name": "master-nfs"
+                "name": "master-nfs-badger"
             }
         },
         "spec": {
             "volumes": [{
                 "name": "pgdata",
 		"persistentVolumeClaim": {
-                "claimName": "master-nfs-pvc"
+                "claimName": "master-nfs-badger-pvc"
 		}
             }],
             "containers": [
@@ -96,7 +96,7 @@
                 "name": "pg-badger",
                 "image": "crunchydata/crunchy-pgbadger",
                 "ports": [{
-                    "containerPort": 15000,
+                    "containerPort": 10000,
                     "protocol": "TCP"
                 }],
                 "env": [{
@@ -134,7 +134,7 @@
                 }]
             },
 		{
-                "name": "master-nfs",
+                "name": "master-nfs-badger",
                 "image": "crunchydata/crunchy-pg",
                 "ports": [{
                     "containerPort": 5432,
