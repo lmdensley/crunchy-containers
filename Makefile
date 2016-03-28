@@ -63,4 +63,6 @@ test:
 	./tests/standalone/test-replica.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-badger.sh; /usr/bin/test "$$?" -eq 0
 	sudo docker stop master
+testopenshift:
+	./tests/openshift/test-master.sh; /usr/bin/test "$$?" -eq 0
 
