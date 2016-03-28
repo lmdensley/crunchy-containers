@@ -29,7 +29,7 @@ ADD bin/prometheus /opt/cpm/bin
 ADD conf/prometheus /opt/cpm/conf
 
 
-USER daemon
+USER root
 
 CMD ["/opt/cpm/bin/start-prometheus.sh"]
 

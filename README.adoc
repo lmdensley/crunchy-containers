@@ -23,13 +23,13 @@ The containers will execute in a couple of environments:
 On an EL7 system, docker can be installed with the following commands:
  * sudo yum -y install docker
  * sudo groupadd docker
- * sudo gpasswd -a ${USER} docker
- * newgrp docker
+ * sudo usermod -a -G docker ${USER}
  * sudo systemctl start docker
 
 2) Installing / configuring Go
 
 "Go" can be installed with the following command:
+ * subscription-manager repos --enable=rhel-7-server-optional-rpms
  * sudo yum -y install golang
 
 To build the containers, add the following lines to your
@@ -106,6 +106,8 @@ go get github.com/tools/godep
 cd $GOPATH/src/github.com/
 git clone https://github.com/crunchydata/crunchy-containers.git
 cd crunchydata/crunchy-containers
+make downloadprometheus
+make downloadgrafana
 make all
 ....
 
@@ -117,6 +119,8 @@ This will build the following Docker images:
  * crunchy-pgbadger
  * crunchy-watch
  * crunchy-collect
+ * crunchy-prometheus
+ * crunchy-grafana
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 
@@ -135,6 +139,11 @@ run it with the following command:
 
 ....
 make test
+....
+
+Testing openshift is performed as follows:
+....
+make testopenshift
 ....
 
 === crunchy-pg Configuration Options

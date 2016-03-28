@@ -17,11 +17,18 @@ export PATH=$PATH:/opt/cpm/bin
 
 /opt/cpm/bin/pushgateway &
 
+DATA=/data/prometheus
+
+if [ ! -d $DATA ]; then
+	echo "creating initial prometheus data directory "
+	mkdir $DATA
+fi
+
 /opt/cpm/bin/prometheus*/prometheus \
 	-config.file=/opt/cpm/conf/prometheus.yml \
-	-storage.local.path=/data
+	-storage.local.path=$DATA
 
-while true; do
-	sleep 1000
-done
+#while true; do
+#sleep 1000
+#one
 
