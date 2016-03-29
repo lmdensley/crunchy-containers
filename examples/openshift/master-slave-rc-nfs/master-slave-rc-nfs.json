@@ -29,22 +29,22 @@
         "generate": "expression",
         "from": "[a-zA-Z0-9]{12}"
     }, {
+        "name": "PG_ROOT_PASSWORD",
+        "description": "The password for the PostgreSQL superuser user",
+        "generate": "expression",
+        "from": "[a-zA-Z0-9]{12}"
+    }, {
         "name": "PG_DATABASE",
         "description": "The name of the database that will be created",
         "value": "userdb"
     }, {
-        "name": "PG_ADMIN_PASSWORD",
-        "description": "The password for the PostgreSQL administrator",
-        "generate": "expression",
-        "from": "[a-zA-Z0-9]{12}"
-    }, {
         "name": "PG_MASTER_SERVICE_NAME",
         "description": "The name of the PostgreSQL Service (used to DNS lookup, default: 'postgresql-master')",
-        "value": "pg-master-rc-nfs"
+        "value": "m-s-rc-nfs-master"
     }, {
         "name": "PG_SLAVE_SERVICE_NAME",
         "description": "The name of the PostgreSQL Service (used to DNS lookup, default: 'postgresql-slave')",
-        "value": "pg-slave-rc-nfs"
+        "value": "m-s-rc-nfs-slave"
     }],
     "objects": [{
         "kind": "Service",
@@ -130,8 +130,8 @@
                     "name": "PG_DATABASE",
                     "value": "${PG_DATABASE}"
                 }, {
-                    "name": "PG_ADMIN_PASSWORD",
-                    "value": "${PG_ADMIN_PASSWORD}"
+                    "name": "PG_ROOT_PASSWORD",
+                    "value": "${PG_ROOT_PASSWORD}"
                 }],
                 "securityContext": {
                     "privileged": false
@@ -146,7 +146,7 @@
             "volumes": [{
                 "name": "pgdata",
                 "persistentVolumeClaim": {
-                    "claimName": "master-slave-rc-nfs-pvc1"
+                    "claimName": "master-slave-rc-nfs-pvc"
                 }
             }]
 
@@ -210,6 +210,9 @@
                             "name": "PG_PASSWORD",
                             "value": "${PG_PASSWORD}"
                         }, {
+                            "name": "PG_ROOT_PASSWORD",
+                            "value": "${PG_ROOT_PASSWORD}"
+                        }, {
                             "name": "PG_DATABASE",
                             "value": "${PG_DATABASE}"
                         }],
@@ -229,7 +232,7 @@
                     "volumes": [{
                         "name": "pgdata",
                         "persistentVolumeClaim": {
-                            "claimName": "master-slave-rc-nfs-pvc2"
+                            "claimName": "master-slave-rc-nfs-pvc"
                         }
 
                     }],

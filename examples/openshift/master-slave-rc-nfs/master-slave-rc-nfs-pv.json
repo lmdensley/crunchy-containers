@@ -2,9 +2,9 @@
     "apiVersion": "v1",
     "kind": "PersistentVolume",
     "metadata": {
-        "name": "master-slave-rc-nfs-pv1",
+        "name": "master-slave-rc-nfs-pv",
         "labels": {
-            "name": "master-slave-rc-nfs-pv1"
+            "name": "master-slave-rc-nfs-pv"
         }
     },
     "spec": {
@@ -13,8 +13,8 @@
         },
         "accessModes": ["ReadWriteMany"],
         "nfs": {
-            "path": "/jeffnfs",
-            "server": "192.168.0.103"
+            "path": "/nfsfileshare",
+            "server": "192.168.122.138"
         },
         "persistentVolumeReclaimPolicy": "Retain"
     }
