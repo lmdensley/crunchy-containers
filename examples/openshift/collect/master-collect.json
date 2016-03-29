@@ -2,10 +2,10 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "crunchy-pg-replication-example",
+        "name": "crunchy-pg-collect-example",
         "creationTimestamp": null,
         "annotations": {
-            "description": "Crunchy PostgreSQL Replication Example",
+            "description": "Crunchy PostgreSQL collect Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
@@ -43,9 +43,9 @@
         "kind": "Service",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "master-collect",
             "labels": {
-                "name": "pg-master"
+                "name": "master-collect"
             }
         },
         "spec": {
@@ -56,7 +56,7 @@
                 "nodePort": 0
             }],
             "selector": {
-                "name": "pg-master"
+                "name": "master-collect"
             },
             "portalIP": "None",
             "type": "ClusterIP",
@@ -69,14 +69,14 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-master",
+            "name": "master-collect",
             "labels": {
-                "name": "pg-master"
+                "name": "master-collect"
             }
         },
         "spec": {
             "containers": [{
-                "name": "pg-master-collect",
+                "name": "collect",
                 "image": "crunchydata/crunchy-collect",
                 "env": [{
                     "name": "PG_MASTER_USER",
@@ -136,17 +136,11 @@
                     "mountPath": "/pgdata",
                     "name": "pgdata",
                     "readOnly": false
-                }, {
-                    "mountPath": "/backup",
-                    "name": "backup",
-                    "readOnly": true
-                }]
+                }
+                ]
             }],
             "volumes": [{
                 "name": "pgdata",
-                "emptyDir": {}
-            }, {
-                "name": "backup",
                 "emptyDir": {}
             }]
         }
