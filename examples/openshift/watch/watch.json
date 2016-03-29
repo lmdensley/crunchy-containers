@@ -13,16 +13,16 @@
         "kind": "Pod",
         "apiVersion": "v1",
         "metadata": {
-            "name": "pg-watch",
+            "name": "watch",
             "labels": {
-                "name": "pg-watch"
+                "name": "watch"
             }
         },
         "spec": {
 	    "serviceAccount": "pg-watcher",
             "containers": [
 	    {
-                "name": "pg-watcher",
+                "name": "watch",
                 "image": "crunchydata/crunchy-watch",
                 "env": [{
                     "name": "OSE_HOST",
