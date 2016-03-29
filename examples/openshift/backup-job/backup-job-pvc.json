@@ -2,7 +2,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "backup-claim-pg-master"
+        "name": "backup-job-pvc"
       },
       "spec": {
         "accessModes": [
