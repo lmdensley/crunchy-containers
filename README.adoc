@@ -104,8 +104,11 @@ mkdir -p $HOME/cdev/pkg $HOME/cdev/bin $HOME/cdev/src
 cd $GOPATH
 go get github.com/tools/godep
 cd $GOPATH/src/github.com/
+mkdir crunchydata
+cd crunchydata
 git clone https://github.com/crunchydata/crunchy-containers.git
-cd crunchydata/crunchy-containers
+git checkout 1.0.9
+godep restore
 make downloadprometheus
 make downloadgrafana
 make all
