@@ -26,6 +26,7 @@ fi
 sudo chown postgres:postgres $PGDATA
 sudo chcon -Rt svirt_sandbox_file_t $PGDATA
 
+docker stop masterbackup
 docker rm masterbackup
 
 docker run \
