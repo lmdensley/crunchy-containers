@@ -1,5 +1,5 @@
 == Crunchy PostgreSQL Containers
-v1.0.11, {docdate}
+v1.1.0, {docdate}
 :title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 This project includes a set of Dockerfiles that lets you build
@@ -111,7 +111,7 @@ mkdir crunchydata
 cd crunchydata
 git clone https://github.com/crunchydata/crunchy-containers.git
 cd crunchy-containers
-git checkout 1.0.11
+git checkout 1.1.0
 godep restore
 make downloadprometheus
 make downloadgrafana

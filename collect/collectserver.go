@@ -31,7 +31,7 @@ var PG_PORT = "5432"
 var HOSTNAME string
 var PROM_GATEWAY = "http://crunchy-scope:9091"
 
-const VERSION = "1.0.9"
+const VERSION = "1.1.0"
 
 var logger *log.Logger
 

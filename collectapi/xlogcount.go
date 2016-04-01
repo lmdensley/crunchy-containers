@@ -26,7 +26,7 @@ import (
 )
 
 func XlogCountMetrics(logger *log.Logger, HOSTNAME string, dbConn *sql.DB) []Metric {
-	logger.Println("XlogCountMetrics 1.0.9")
+	logger.Println("XlogCountMetrics 1.1.0")
 
 	var metrics = make([]Metric, 0)
 
