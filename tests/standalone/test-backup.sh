@@ -31,5 +31,5 @@ if [ -f $FILE ]; then
 	exit 0
 fi
 
-echo "test replica FAILED"
+echo "test backup FAILED"
 exit 1
