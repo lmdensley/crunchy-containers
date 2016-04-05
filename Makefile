@@ -8,6 +8,7 @@ endif
 gendeps:
 	godep save \
 	github.com/crunchydata/crunchy-containers/collectapi \
+	github.com/crunchydata/crunchy-containers/dnsbridgeapi \
 	github.com/crunchydata/crunchy-containers/badger 
 
 docbuild:
@@ -32,6 +33,12 @@ collectserver:
 	cp $(GOBIN)/collectserver bin/collect
 	sudo docker build -t crunchy-collect -f $(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
+dnsbridgeserver:
+	cd dnsbridge && godep go install dnsbridgeserver.go
+	cp $(GOBIN)/consul bin/dns/
+	cp $(GOBIN)/dnsbridgeserver bin/dns/
+	sudo docker build -t crunchy-dns -f $(PGVERSION)/Dockerfile.dns.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-dns:latest crunchydata/crunchy-dns
 backup:
 	sudo docker build -t crunchy-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
@@ -46,6 +53,11 @@ downloadgrafana:
 grafana:
 	sudo docker build -t crunchy-grafana -f $(PGVERSION)/Dockerfile.grafana.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-grafana:latest crunchydata/crunchy-grafana
+downloadconsul:
+	wget -O /tmp/consul_0.6.4_linux_amd64.zip https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip
+	unzip /tmp/consul*.zip
+	rm /tmp/consul*.zip
+	mv consul $(GOBIN)
 
 all:
 	make pg

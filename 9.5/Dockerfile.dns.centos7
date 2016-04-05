@@ -1,0 +1,23 @@
+FROM centos:7
+MAINTAINER crunchy
+
+LABEL Name crunchydata/crunchy-dns:9.5
+LABEL Release crunchy-dns:9.5
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.5
+
+RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+RUN yum -y install procps-ng openssh-clients hostname  && yum clean all -y
+
+# set up cpm directory
+#
+RUN mkdir -p /opt/cpm/bin
+
+ADD bin/dns /opt/cpm/bin
+
+RUN chown -R postgres:postgres /opt/cpm/bin
+
+USER root
+
+CMD ["/opt/cpm/bin/start-dnsbridgeserver.sh"]
+
