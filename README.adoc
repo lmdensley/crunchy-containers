@@ -1,6 +1,6 @@
 == Crunchy PostgreSQL Containers
 v1.1.0, {docdate}
-:title-logo-image: image:https://github.com/CrunchyData/crunchy-containers/blob/master/docs/crunchy_logo.png?raw=true["CrunchyData Logo",align="center",scaledwidth="80%"]
+:title-logo-image: image:docs/crunchy_logo.png?raw=true["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 image::docs/crunchy_logo.png?raw=true[]
 
