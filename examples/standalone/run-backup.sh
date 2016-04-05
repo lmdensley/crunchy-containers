@@ -35,6 +35,7 @@ docker run \
 	-e BACKUP_USER=masteruser \
 	-e BACKUP_PASS=masterpsw \
 	-e BACKUP_PORT=5432 \
+	--link master:master\
 	--name=masterbackup \
 	--hostname=masterbackup \
 	-d crunchydata/crunchy-backup:latest

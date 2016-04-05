@@ -20,7 +20,7 @@ fi
 
 $BUILDBASE/examples/standalone/run-pg-master.sh
 
-sleep 10
+sleep 30
 
 psql -p 12000 -h 127.0.0.1 -U masteruser testdb -c 'select now()'
 

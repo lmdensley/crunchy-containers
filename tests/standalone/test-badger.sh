@@ -24,5 +24,5 @@ else
 	exit $rc
 fi
 
-docker stop badger-example
+#docker stop badger-example
 exit 0
