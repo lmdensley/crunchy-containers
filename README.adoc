@@ -2,7 +2,7 @@
 v1.1.0, {docdate}
 :title-logo-image: image:https://github.com/CrunchyData/crunchy-containers/blob/master/docs/crunchy_logo.png?raw=true["CrunchyData Logo",align="center",scaledwidth="80%"]
 
-image::doc/crunchy_logo.png[]
+image::doc/crunchy_logo.png?raw=true[]
 
 This project includes a set of Dockerfiles that lets you build
 the Crunchy Certified PostgreSQL 9.5 Docker images.  
