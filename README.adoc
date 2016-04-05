@@ -1,6 +1,6 @@
 == Crunchy PostgreSQL Containers
 v1.1.0, {docdate}
-:title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
+:title-logo-image: image:./docs/crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 This project includes a set of Dockerfiles that lets you build
 the Crunchy Certified PostgreSQL 9.5 Docker images.  
@@ -72,9 +72,8 @@ gem install --pre asciidoctor-pdf
 cd $HOME
 wget http://laurent-laville.org/asciidoc/bootstrap/bootstrap-4.5.0.zip
 asciidoc --backend install ./bootstrap-4.5.0.zip
-mv .asciidoc/backends/asciidoc/asciidoc-bootstrap-backend-4.5.0/* .asciidoc/backends/bootstrap
 mkdir -p .asciidoc/backends/bootstrap/js
-cp ./crunchy-containers/docs/bootstrap.js .asciidoc/backends/bootstrap/js/
+cp $GOPATH/src/github.com/crunchydata/crunchy-containers/docs/bootstrap.js .asciidoc/backends/bootstrap/js/
 ....
 
 To build the watch container, there is a dependency on the openshift oc command, install it as follows:

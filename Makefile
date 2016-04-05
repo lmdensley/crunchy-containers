@@ -1,5 +1,5 @@
-OSFLAVOR=centos7
-PGVERSION=9.3
+OSFLAVOR=rhel7
+PGVERSION=9.5
 
 ifndef BUILDBASE
 	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers
@@ -54,6 +54,7 @@ all:
 	make pgpool
 	make pgbadger
 	make collectserver
+	make docbuild
 default:
 	all
 test:
