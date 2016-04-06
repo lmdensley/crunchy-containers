@@ -1,13 +1,16 @@
 FROM rhel7.2
 MAINTAINER crunchy
 
-
-LABEL Name crunchydata/crunchy-collect:9.3
-LABEL Release crunchy-collect:9.3
+LABEL Name crunchydata/crunchy-collect:1.1.1
+LABEL Release crunchy-collect:1.1.1
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.3
+LABEL Version 1.1.1
+LABEL Postgres Version 9.3
 
-# set up Crunchy repo
+# PGDG Postgres repo
+#RUN rpm -Uvh http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-centos93-9.3-1.noarch.rpm
+
+# Crunchy Postgres repo
 ADD conf/CRUNCHY-GPG-KEY.public  /
 ADD conf/crunchypg93.repo /etc/yum.repos.d/
 RUN rpm --import CRUNCHY-GPG-KEY.public
