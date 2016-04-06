@@ -1,5 +1,5 @@
-OSFLAVOR=centos7
-PGVERSION=9.5
+OSFLAVOR=rhel7
+PGVERSION=9.3
 
 ifndef BUILDBASE
 	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers

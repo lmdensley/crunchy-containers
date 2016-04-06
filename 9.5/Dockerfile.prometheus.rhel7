@@ -5,11 +5,9 @@ LABEL Name crunchydata/crunchy-prometheus:1.1.1
 LABEL Release crunchy-prometheus:1.1.1
 LABEL Vendor Crunchy Data Solutions
 LABEL Version 1.1.1
+LABEL Postgres Version 9.5
 
-RUN yum -y install procps-ng \
-openssh-clients \
-hostname  \
- && yum clean all -y
+RUN yum -y install procps-ng openssh-clients hostname  && yum clean all -y
 
 VOLUME ["/data"]
 

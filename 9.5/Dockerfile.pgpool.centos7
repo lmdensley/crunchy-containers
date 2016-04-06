@@ -5,9 +5,10 @@ LABEL Name crunchydata/crunchy-pgpool:1.1.1
 LABEL Release crunchy-pgpool:1.1.1
 LABEL Vendor Crunchy Data Solutions
 LABEL Version 1.1.1
+LABEL Postgres Version 9.5
 
 # PGDG Postgres repo
-#RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+#RUN rpm -Uvh http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-1.noarch.rpm
 
 # Crunchy Postgres repo
 ADD conf/CRUNCHY-GPG-KEY.public  /

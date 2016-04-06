@@ -7,7 +7,6 @@ MAINTAINER crunchy
 # Crunchy Postgres repo
 ADD conf/CRUNCHY-GPG-KEY.public  /
 ADD conf/crunchypg95.repo /etc/yum.repos.d/
-
 RUN rpm --import CRUNCHY-GPG-KEY.public
 
 RUN yum install -y procps-ng postgresql95 postgresql95-server unzip openssh-clients hostname bind-utils && yum clean all -y

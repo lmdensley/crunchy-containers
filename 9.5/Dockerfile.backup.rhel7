@@ -2,7 +2,7 @@ FROM rhel7.2
 MAINTAINER crunchy
 
 # PGDG Postgres repo
-#RUN rpm -Uvh http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-1.noarch.rpm
+#RUN rpm -Uvh http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-redhat95-9.5-2.noarch.rpm
 
 
 # Crunchy Postgres repo
