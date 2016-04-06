@@ -1,11 +1,13 @@
 FROM rhel7.2
 MAINTAINER crunchy
 
-
-LABEL Name crunchydata/crunchy-pgpool:0.0.1
-LABEL Release crunchy-pgpool:0.0.1
+LABEL Name crunchydata/crunchy-pgpool:1.1.0
+LABEL Release crunchy-pgpool:1.1.0
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 0.0.1
+LABEL Version 1.1.0
+
+# PGDG Postgres repo
+#RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
 
 # set up Crunchy repo
 ADD conf/CRUNCHY-GPG-KEY.public  /

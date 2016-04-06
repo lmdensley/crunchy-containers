@@ -6,11 +6,14 @@ LABEL Release crunchy-postgresql:9.5
 LABEL Vendor Crunchy Data Solutions
 LABEL Version 9.5
 
-# Install crunchy postgresql repo info
+# PGDG Postgres repo
+#RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+
+# Crunchy Postgres repo
 ADD conf/CRUNCHY-GPG-KEY.public  /
 ADD conf/crunchypg95.repo /etc/yum.repos.d/
-
 RUN rpm --import CRUNCHY-GPG-KEY.public
+
 RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 RUN yum -y install rsync libxslt libxml2 procps-ng \
 postgresql95-server  \
