@@ -16,9 +16,12 @@ RUN mkdir -p /opt/cpm/bin
 
 ADD bin/dns /opt/cpm/bin
 
-RUN chown -R postgres:postgres /opt/cpm/bin
-
 USER root
 
-CMD ["/opt/cpm/bin/start-dnsbridgeserver.sh"]
+# expose the consul port used for DNS
+EXPOSE 8600
+
+VOLUME ["consuldata"]
+
+CMD ["/opt/cpm/bin/start-dnsbridge.sh"]
 

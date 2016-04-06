@@ -1,5 +1,5 @@
-OSFLAVOR=rhel7
-PGVERSION=9.3
+OSFLAVOR=centos7
+PGVERSION=9.5
 
 ifndef BUILDBASE
 	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers
@@ -33,7 +33,7 @@ collectserver:
 	cp $(GOBIN)/collectserver bin/collect
 	sudo docker build -t crunchy-collect -f $(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
-dnsbridgeserver:
+dns:
 	cd dnsbridge && godep go install dnsbridgeserver.go
 	cp $(GOBIN)/consul bin/dns/
 	cp $(GOBIN)/dnsbridgeserver bin/dns/

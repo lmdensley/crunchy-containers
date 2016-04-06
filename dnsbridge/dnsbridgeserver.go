@@ -32,7 +32,7 @@ var MAX_TRIES = 3
 const delaySeconds = 5
 const delay = (delaySeconds * 1000) * time.Millisecond
 
-var DOCKER_HOST string
+var DOCKER_URL string
 var TTL uint64
 var DOMAIN string
 
@@ -51,7 +51,7 @@ func main() {
 	var docker *dockerapi.Client
 	var err error
 	for tries = 0; tries < MAX_TRIES; tries++ {
-		docker, err = dockerapi.NewClient(DOCKER_HOST)
+		docker, err = dockerapi.NewClient(DOCKER_URL)
 		err = docker.Ping()
 		if err != nil {
 			logger.Println("could not ping docker host")
@@ -101,12 +101,12 @@ func getEnvVars() error {
 		return errors.New("CONSUL env var not set")
 	}
 	logger.Printf("dnsbridgeserver: CONSUL %s\n", CONSUL)
-	DOCKER_HOST = os.Getenv("DOCKER_HOST")
-	if DOCKER_HOST == "" {
-		logger.Println("error in DOCKER_HOST env var, not set")
-		return errors.New("DOCKER_HOST env var not set")
+	DOCKER_URL = os.Getenv("DOCKER_URL")
+	if DOCKER_URL == "" {
+		logger.Println("error in DOCKER_URL env var, not set")
+		return errors.New("DOCKER_URL env var not set")
 	}
-	logger.Printf("dnsbridgeserver: DOCKER_HOST %s\n", DOCKER_HOST)
+	logger.Printf("dnsbridgeserver: DOCKER_URL %s\n", DOCKER_URL)
 	var tempTTL = os.Getenv("TTL")
 	if tempTTL == "" {
 		logger.Println("error in TTL env var, not set, using default")
