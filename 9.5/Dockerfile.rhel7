@@ -1,10 +1,10 @@
 FROM rhel7.2
 MAINTAINER crunchy
 
-LABEL Name crunchydata/crunchy-ose-pg:9.5
-LABEL Release crunchy-postgresql:9.5
+LABEL Name crunchydata/crunchy-ose-pg:1.1.1
+LABEL Release crunchy-postgresql:1.1.1
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.5
+LABEL Version 1.1.1
 
 # PGDG Postgres repo
 #RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm

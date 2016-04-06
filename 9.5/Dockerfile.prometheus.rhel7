@@ -1,10 +1,10 @@
 FROM rhel7.2
 MAINTAINER crunchy
 
-LABEL Name crunchydata/crunchy-prometheus:9.5
-LABEL Release crunchy-prometheus:9.5
+LABEL Name crunchydata/crunchy-prometheus:1.1.1
+LABEL Release crunchy-prometheus:1.1.1
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.5
+LABEL Version 1.1.1
 
 RUN yum -y install procps-ng \
 openssh-clients \
