@@ -226,6 +226,11 @@ containername
 
 You can alter the DNS domain name within the startup script if desired.
 
+You can also browse the consul web UI at:
+....
+http://<your ip address>:8500/ui
+....
+
 
 == Legal Notices
 

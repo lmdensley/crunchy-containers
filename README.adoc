@@ -23,6 +23,7 @@ The containers will execute in a couple of environments:
 1) Installing / configuring Docker
 
 On an EL7 system, docker can be installed with the following commands:
+
  * sudo yum -y install docker
  * sudo groupadd docker
  * sudo usermod -a -G docker ${USER}
@@ -31,6 +32,7 @@ On an EL7 system, docker can be installed with the following commands:
 2) Installing / configuring Go
 
 "Go" can be installed with the following command:
+
  * subscription-manager repos --enable=rhel-7-server-optional-rpms
  * sudo yum -y install golang
 
