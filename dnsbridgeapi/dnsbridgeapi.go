@@ -1,14 +1,27 @@
 package dnsbridgeapi
 
 import (
+	"bytes"
+	"encoding/json"
+	"errors"
 	"fmt"
 	dockerapi "github.com/fsouza/go-dockerclient"
 	"log"
+	"net/http"
 	"strings"
 )
 
 //global TTL
 //global skydns url
+
+//consul API
+const REGISTER = "/v1/agent/service/register"
+const DEREGISTER = "/v1/agent/service/deregister/"
+
+type Service struct {
+	Name    string
+	Address string
+}
 
 //adds a service entry and a PTR entry
 func AddEntry(logger *log.Logger, hostname string, ip string, TTL uint64, CONSUL string) {
@@ -70,4 +83,49 @@ func Action(logger *log.Logger, action string, containerId string, docker *docke
 	default:
 	}
 
+}
+
+func deregister(logger *log.Logger, serviceName string) error {
+	var httpresponse *http.Response
+	var err error
+
+	httpresponse, err = http.Get("http://192.168.122.138:8500" + DEREGISTER + "/" + serviceName)
+	if err != nil {
+		logger.Println(err.Error())
+		return err
+	}
+
+	logger.Printf("deregister status code: %d\n", httpresponse.StatusCode)
+	if httpresponse.StatusCode != 200 {
+		return errors.New("deregister: invalid status code " + httpresponse.Status)
+	}
+
+	return err
+}
+
+func register(logger *log.Logger, service *Service) error {
+	var httpresponse *http.Response
+	var err error
+	var buf []byte
+
+	buf, err = json.Marshal(service)
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
+
+	body := bytes.NewBuffer(buf)
+	log.Println(body.String())
+
+	httpresponse, err = http.Post("http://192.168.122.138:8500"+REGISTER, "application/json", body)
+	if err != nil {
+		logger.Println(err.Error())
+		return err
+	}
+
+	logger.Printf("register status code: %d\n", httpresponse.StatusCode)
+	if httpresponse.StatusCode != 200 {
+		return errors.New("register: invalid status code " + httpresponse.Status)
+	}
+	return err
 }
