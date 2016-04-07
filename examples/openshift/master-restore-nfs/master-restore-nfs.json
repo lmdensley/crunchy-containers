@@ -88,7 +88,7 @@
             }],
             "containers": [{
                 "name": "master-restore",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-postgres",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"

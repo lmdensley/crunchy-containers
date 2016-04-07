@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "crunchy-pg-replication-example",
+        "name": "replication-example",
         "creationTimestamp": null,
         "annotations": {
             "description": "Crunchy PostgreSQL Replication Example",
@@ -100,7 +100,7 @@
         "spec": {
             "containers": [{
                 "name": "ms-master",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-postgres",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"
@@ -156,7 +156,7 @@
         "spec": {
             "containers": [{
                 "name": "ms-slave",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-postgres",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"

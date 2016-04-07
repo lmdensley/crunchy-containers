@@ -2,10 +2,10 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "pg-replica-example",
+        "name": "replica-on-slaves-example",
         "creationTimestamp": null,
         "annotations": {
-            "description": "PostgreSQL Replication Example",
+            "description": "Replication with dc on slaves only Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
@@ -106,7 +106,7 @@
         "spec": {
             "containers": [{
                 "name": "server",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-postgres",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"
@@ -187,7 +187,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchydata/crunchy-pg",
+                        "image": "crunchydata/crunchy-postgres",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"

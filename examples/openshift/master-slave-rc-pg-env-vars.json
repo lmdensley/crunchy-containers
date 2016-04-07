@@ -2,10 +2,10 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "pg-replica-example",
+        "name": "replication-rc-env-vars-example",
         "creationTimestamp": null,
         "annotations": {
-            "description": "PostgreSQL Replication Example",
+            "description": "Replication using rc and env vars Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
@@ -121,7 +121,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchydata/crunchy-pg",
+                        "image": "crunchydata/crunchy-postgres",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"
@@ -216,7 +216,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchydata/crunchy-pg",
+                        "image": "crunchydata/crunchy-postgres",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"

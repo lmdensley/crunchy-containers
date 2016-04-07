@@ -101,7 +101,7 @@
                 }]
             }, {
                 "name": "pg-master",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-postgres",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"

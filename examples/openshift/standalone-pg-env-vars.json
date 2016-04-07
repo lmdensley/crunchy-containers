@@ -2,10 +2,10 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "crunchy-pg-replication-example",
+        "name": "standalone-env-vars-example",
         "creationTimestamp": null,
         "annotations": {
-            "description": "Crunchy PostgreSQL Replication Example",
+            "description": "standalone database using env vars Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
@@ -72,7 +72,7 @@
     "spec": {
         "containers": [{
             "name": "pg-standalone",
-            "image": "crunchydata/crunchy-pg",
+            "image": "crunchydata/crunchy-postgres",
             "ports": [{
                 "containerPort": 5432,
                 "protocol": "TCP"

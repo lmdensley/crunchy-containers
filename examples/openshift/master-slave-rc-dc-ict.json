@@ -2,10 +2,10 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "pg-replica-example",
+        "name": "replica-using-ict-example",
         "creationTimestamp": null,
         "annotations": {
-            "description": "PostgreSQL Replication Example",
+            "description": "Replication using ict Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
@@ -115,7 +115,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "crunchy-pg:latest"
+                "name": "crunchy-postgres:latest"
               }
             }
           },
@@ -137,7 +137,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchy-pg",
+                        "image": "crunchy-postgres",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"
@@ -216,7 +216,7 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "crunchy-pg:latest"
+                "name": "crunchy-postgres:latest"
               }
             }
           },
@@ -238,7 +238,7 @@
                 "spec": {
                     "containers": [{
                         "name": "server",
-                        "image": "crunchy-pg",
+                        "image": "crunchy-postgres",
                         "ports": [{
                             "containerPort": 5432,
                             "protocol": "TCP"

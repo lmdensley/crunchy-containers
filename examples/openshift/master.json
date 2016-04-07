@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "simple-master--example",
+        "name": "simple-master-example",
         "creationTimestamp": null,
         "annotations": {
             "description": "Crunchy PostgreSQL Master Example",
@@ -77,7 +77,7 @@
         "spec": {
             "containers": [{
                 "name": "single-master",
-                "image": "crunchydata/crunchy-pg",
+                "image": "crunchydata/crunchy-postgres",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"

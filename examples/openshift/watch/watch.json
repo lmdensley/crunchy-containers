@@ -2,9 +2,9 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "crunchy-pg-watch-example",
+        "name": "crunchy-watch-example",
         "annotations": {
-            "description": "Crunchy PostgreSQL watch Example",
+            "description": "crunchy-watch Example",
             "iconClass": "icon-database",
             "tags": "database,postgresql,replication"
         }
