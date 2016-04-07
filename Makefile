@@ -14,8 +14,8 @@ gendeps:
 docbuild:
 	cd docs && ./build-docs.sh
 pg:
-	sudo docker build -t crunchy-pg -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-pg:latest crunchydata/crunchy-pg
+	sudo docker build -t crunchy-postgres -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-postgres:latest crunchydata/crunchy-postgres
 watch:
 	cp /usr/bin/oc bin/watch
 	sudo docker build -t crunchy-watch -f $(PGVERSION)/Dockerfile.watch.$(OSFLAVOR) .
@@ -35,8 +35,10 @@ collectserver:
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
 dns:
 	cd dnsbridge && godep go install dnsbridgeserver.go
+	cd dnsbridge && godep go install consulclient.go
 	cp $(GOBIN)/consul bin/dns/
 	cp $(GOBIN)/dnsbridgeserver bin/dns/
+	cp $(GOBIN)/consulclient bin/dns/
 	sudo docker build -t crunchy-dns -f $(PGVERSION)/Dockerfile.dns.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-dns:latest crunchydata/crunchy-dns
 backup:

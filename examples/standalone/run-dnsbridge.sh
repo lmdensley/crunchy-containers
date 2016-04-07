@@ -28,7 +28,7 @@ export HOSTIP=192.168.122.138
 
 sudo docker run \
 	-p $HOSTIP:8500:8500/tcp \
-	-p $HOSTIP:8600:8600/udp \
+	-p $HOSTIP:53:8600/udp \
 	-v $DATA_DIR:/consuldata \
 	--privileged \
 	-v /run/docker.sock:/tmp/docker.sock \

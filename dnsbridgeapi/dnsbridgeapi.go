@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	dockerapi "github.com/fsouza/go-dockerclient"
 	"log"
 	"net/http"
@@ -21,25 +20,6 @@ const DEREGISTER = "/v1/agent/service/deregister/"
 type Service struct {
 	Name    string
 	Address string
-}
-
-//adds a service entry and a PTR entry
-func AddEntry(logger *log.Logger, hostname string, ip string, TTL uint64, CONSUL string) {
-
-	logger.Println("addEntry called")
-
-	//delete any existing entries with this name or ip address
-	DeleteEntry(logger, hostname, ip, CONSUL)
-
-	fmt.Println("AddEntry completed")
-
-}
-
-//delete both the service entry and the PTR entry
-func DeleteEntry(logger *log.Logger, hostname string, ip string, CONSUL string) {
-	logger.Println("DeleteEntry called...")
-	logger.Println("DeleteEntry completed...")
-
 }
 
 //return the reverse ip
@@ -62,7 +42,7 @@ func Action(logger *log.Logger, action string, containerId string, docker *docke
 		logger.Printf("unable to inspect container:%s %s", containerId, dockerErr)
 		return
 	}
-	var hostname = container.Name[1:] + "." + DOMAIN
+	var hostname = container.Name[1:]
 	var ipaddress = container.NetworkSettings.IPAddress
 
 	if ipaddress == "" {
@@ -73,13 +53,15 @@ func Action(logger *log.Logger, action string, containerId string, docker *docke
 	switch action {
 	case "start":
 		logger.Println("new container name=" + container.Name[1:] + " ip:" + ipaddress)
-		AddEntry(logger, hostname, ipaddress, TTL, CONSUL)
+		Deregister(CONSUL, logger, hostname)
+		service := Service{Name: hostname, Address: ipaddress}
+		Register(CONSUL, logger, &service)
 	case "stop":
 		logger.Println("removing container name=" + container.Name[1:] + " ip:" + ipaddress)
-		DeleteEntry(logger, hostname, ipaddress, CONSUL)
+		Deregister(CONSUL, logger, hostname)
 	case "destroy":
 		logger.Println("removing container name=" + container.Name[1:] + " ip:" + ipaddress)
-		DeleteEntry(logger, hostname, ipaddress, CONSUL)
+		Deregister(CONSUL, logger, hostname)
 	default:
 	}
 
@@ -89,7 +71,7 @@ func Deregister(consulURL string, logger *log.Logger, serviceName string) error 
 	var httpresponse *http.Response
 	var err error
 
-	httpresponse, err = http.Get(consulURL + DEREGISTER + "/" + serviceName)
+	httpresponse, err = http.Get(consulURL + DEREGISTER + serviceName)
 	if err != nil {
 		logger.Println(err.Error())
 		return err
