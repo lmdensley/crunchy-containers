@@ -1,5 +1,5 @@
 == Crunchy PostgreSQL Containers
-v1.1.0, {docdate}
+v1.1.1, {docdate}
 
 image::docs/crunchy_logo.png?raw=true[]
 
@@ -112,7 +112,7 @@ mkdir crunchydata
 cd crunchydata
 git clone https://github.com/crunchydata/crunchy-containers.git
 cd crunchy-containers
-git checkout 1.1.0
+git checkout 1.1.1
 godep restore
 make downloadprometheus
 make downloadgrafana
@@ -121,7 +121,7 @@ make all
 
 This will build the following Docker images:
 
- * crunchy-pg
+ * crunchy-postgres
  * crunchy-backup
  * crunchy-pgpool
  * crunchy-pgbadger
@@ -129,6 +129,7 @@ This will build the following Docker images:
  * crunchy-collect
  * crunchy-prometheus
  * crunchy-grafana
+ * crunchy-dns
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 
@@ -154,7 +155,7 @@ Testing openshift is performed as follows:
 make testopenshift
 ....
 
-=== crunchy-pg Configuration Options
+=== crunchy-postgres Configuration Options
 
 You can adjust the following Postgres configuration parameters
 by setting environment variables:

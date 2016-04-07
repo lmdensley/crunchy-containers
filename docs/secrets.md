@@ -8,7 +8,7 @@ instead of using system generated passwords as done in the other
 examples.
 
 This set of instructions was tested on the binary version of
-Origin 1.1.0 on centos 7.
+Origin 1.1.1 on centos 7.
 
 To run the example, first create a set of secrets that hold the
 various postgres user ID and passwords used in the examples:
