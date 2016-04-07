@@ -85,11 +85,11 @@ func Action(logger *log.Logger, action string, containerId string, docker *docke
 
 }
 
-func deregister(logger *log.Logger, serviceName string) error {
+func Deregister(consulURL string, logger *log.Logger, serviceName string) error {
 	var httpresponse *http.Response
 	var err error
 
-	httpresponse, err = http.Get("http://192.168.122.138:8500" + DEREGISTER + "/" + serviceName)
+	httpresponse, err = http.Get(consulURL + DEREGISTER + "/" + serviceName)
 	if err != nil {
 		logger.Println(err.Error())
 		return err
@@ -103,7 +103,7 @@ func deregister(logger *log.Logger, serviceName string) error {
 	return err
 }
 
-func register(logger *log.Logger, service *Service) error {
+func Register(consulURL string, logger *log.Logger, service *Service) error {
 	var httpresponse *http.Response
 	var err error
 	var buf []byte
@@ -117,7 +117,7 @@ func register(logger *log.Logger, service *Service) error {
 	body := bytes.NewBuffer(buf)
 	log.Println(body.String())
 
-	httpresponse, err = http.Post("http://192.168.122.138:8500"+REGISTER, "application/json", body)
+	httpresponse, err = http.Post(consulURL+REGISTER, "application/json", body)
 	if err != nil {
 		logger.Println(err.Error())
 		return err

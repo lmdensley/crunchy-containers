@@ -1,6 +1,7 @@
 
 default:
 		godep go install dnsbridgeserver.go
+		godep go install consulclient.go
 
 gendeps:
 		godep save  \
@@ -8,5 +9,6 @@ gendeps:
 
 clean:
 		rm -rf $(GOBIN)/dnsbridgeserver
+		rm -rf $(GOBIN)/consulclient
 
 

@@ -37,7 +37,7 @@ var TTL uint64
 var DOMAIN string
 
 var logger *log.Logger
-var CONSUL string
+var CONSUL_URL string
 
 func main() {
 	logger = log.New(os.Stdout, "logger: ", log.Lshortfile|log.Ldate|log.Ltime)
@@ -77,13 +77,13 @@ func main() {
 		//case "start", "create":
 		case "start":
 			logger.Println("event: " + msg.Status + " ID=" + msg.ID + " From:" + msg.From)
-			dnsbridgeapi.Action(logger, msg.Status, msg.ID, docker, TTL, CONSUL, DOMAIN)
+			dnsbridgeapi.Action(logger, msg.Status, msg.ID, docker, TTL, CONSUL_URL, DOMAIN)
 		case "stop":
 			logger.Println("event: " + msg.Status + " ID=" + msg.ID + " From:" + msg.From)
-			dnsbridgeapi.Action(logger, msg.Status, msg.ID, docker, TTL, CONSUL, DOMAIN)
+			dnsbridgeapi.Action(logger, msg.Status, msg.ID, docker, TTL, CONSUL_URL, DOMAIN)
 		case "destroy":
 			logger.Println("event: " + msg.Status + " ID=" + msg.ID + " From:" + msg.From)
-			dnsbridgeapi.Action(logger, msg.Status, msg.ID, docker, TTL, CONSUL, DOMAIN)
+			dnsbridgeapi.Action(logger, msg.Status, msg.ID, docker, TTL, CONSUL_URL, DOMAIN)
 		case "die":
 			logger.Println("event: " + msg.Status + " ID=" + msg.ID + " From:" + msg.From)
 		default:
@@ -95,12 +95,12 @@ func main() {
 
 func getEnvVars() error {
 	var err error
-	CONSUL = os.Getenv("CONSUL")
-	if CONSUL == "" {
-		logger.Println("error in CONSUL env var, not set")
-		return errors.New("CONSUL env var not set")
+	CONSUL_URL = os.Getenv("CONSUL_URL")
+	if CONSUL_URL == "" {
+		logger.Println("error in CONSUL_URL env var, not set")
+		return errors.New("CONSUL_URL env var not set")
 	}
-	logger.Printf("dnsbridgeserver: CONSUL %s\n", CONSUL)
+	logger.Printf("dnsbridgeserver: CONSUL_URL %s\n", CONSUL_URL)
 	DOCKER_URL = os.Getenv("DOCKER_URL")
 	if DOCKER_URL == "" {
 		logger.Println("error in DOCKER_URL env var, not set")
