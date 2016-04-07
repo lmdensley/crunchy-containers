@@ -34,7 +34,7 @@ sudo docker run \
 	-v /run/docker.sock:/tmp/docker.sock \
 	-e DOCKER_URL=unix:///tmp/docker.sock \
 	-e DC=dc1 \
-	-e DOMAIN=consul. \
+	-e DOMAIN=crunchy.lab. \
 	--name=crunchy-dns \
 	--hostname=crunchy-dns \
 	-d crunchydata/crunchy-dns:latest
