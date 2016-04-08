@@ -1,0 +1,32 @@
+FROM rhel7.2
+MAINTAINER crunchy
+
+# PGDG Postgres repo
+#RUN rpm -Uvh http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-redhat95-9.5-2.noarch.rpm
+
+
+# Crunchy Postgres repo
+ADD conf/CRUNCHY-GPG-KEY.public  /
+ADD conf/crunchypg95.repo /etc/yum.repos.d/
+RUN rpm --import CRUNCHY-GPG-KEY.public
+
+# install deps
+RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+RUN yum -y install libxslt libxml2 procps-ng \
+postgresql95-server  \
+postgresql95 \
+openssh-clients \
+hostname bind-utils \
+ && yum clean all -y
+
+RUN mkdir -p /opt/cpm/bin
+ADD bin/backup/ /opt/cpm/bin
+RUN chown -R postgres:postgres /opt/cpm
+ENV PGROOT /usr/pgsql-9.5
+
+VOLUME ["/pgdata"]
+RUN chown -R postgres:postgres /pgdata
+
+USER postgres
+
+CMD ["/opt/cpm/bin/start-backupjob.sh"]
