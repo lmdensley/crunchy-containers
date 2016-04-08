@@ -13,25 +13,25 @@ gendeps:
 
 docbuild:
 	cd docs && ./build-docs.sh
-pg:
-	sudo docker build -t crunchy-postgres -f $(PGVERSION)/Dockerfile.$(OSFLAVOR) .
+postgres:
+	sudo docker build -t crunchy-postgres -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.postgres.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-postgres:latest crunchydata/crunchy-postgres
 watch:
 	cp /usr/bin/oc bin/watch
-	sudo docker build -t crunchy-watch -f $(PGVERSION)/Dockerfile.watch.$(OSFLAVOR) .
+	sudo docker build -t crunchy-watch -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.watch.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-watch:latest crunchydata/crunchy-watch
 pgpool:
-	sudo docker build -t crunchy-pgpool -f $(PGVERSION)/Dockerfile.pgpool.$(OSFLAVOR) .
+	sudo docker build -t crunchy-pgpool -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.pgpool.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgpool:latest crunchydata/crunchy-pgpool
 pgbadger:
 	cd badger && godep go install badgerserver.go
 	cp $(GOBIN)/badgerserver bin/pgbadger
-	sudo docker build -t crunchy-pgbadger -f $(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
+	sudo docker build -t crunchy-pgbadger -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.pgbadger.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-pgbadger:latest crunchydata/crunchy-pgbadger
 collectserver:
 	cd collect && godep go install collectserver.go
 	cp $(GOBIN)/collectserver bin/collect
-	sudo docker build -t crunchy-collect -f $(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
+	sudo docker build -t crunchy-collect -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
 dns:
 	cd dnsbridge && godep go install dnsbridgeserver.go
@@ -39,21 +39,21 @@ dns:
 	cp $(GOBIN)/consul bin/dns/
 	cp $(GOBIN)/dnsbridgeserver bin/dns/
 	cp $(GOBIN)/consulclient bin/dns/
-	sudo docker build -t crunchy-dns -f $(PGVERSION)/Dockerfile.dns.$(OSFLAVOR) .
+	sudo docker build -t crunchy-dns -f $(OSFLAVOR)/Dockerfile.dns.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-dns:latest crunchydata/crunchy-dns
 backup:
-	sudo docker build -t crunchy-backup -f $(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
+	sudo docker build -t crunchy-backup -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
 downloadprometheus:
 	wget -O prometheus-pushgateway.tar.gz https://github.com/prometheus/pushgateway/releases/download/0.2.0/pushgateway-0.2.0.linux-amd64.tar.gz
 	wget -O prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/0.17.0/prometheus-0.17.0.linux-amd64.tar.gz 
 prometheus:
-	sudo docker build -t crunchy-prometheus -f $(PGVERSION)/Dockerfile.prometheus.$(OSFLAVOR) .
+	sudo docker build -t crunchy-prometheus -f $(OSFLAVOR)/Dockerfile.prometheus.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-prometheus:latest crunchydata/crunchy-prometheus
 downloadgrafana:
 	wget -O grafana.tar.gz  https://grafanarel.s3.amazonaws.com/builds/grafana-2.6.0.linux-x64.tar.gz
 grafana:
-	sudo docker build -t crunchy-grafana -f $(PGVERSION)/Dockerfile.grafana.$(OSFLAVOR) .
+	sudo docker build -t crunchy-grafana -f $(OSFLAVOR)/Dockerfile.grafana.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-grafana:latest crunchydata/crunchy-grafana
 downloadconsul:
 	wget -O /tmp/consul_0.6.4_linux_amd64.zip https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip
