@@ -232,6 +232,38 @@ http://<your ip address>:8500/ui
 ....
 
 
+=== Example 9 - metrics collection
+
+You can collect various Postgres metrics from your database
+container by running a crunchy-collect container that points
+to your database container.
+
+Metrics collection requires you run the crunchy 'scope' set of containers
+that includes:
+ * prometheus 
+ * prometheus push gateway
+ * grafana
+
+To start this set of containers, run the following:
+....
+sudo ./examples/standalone/run-scope.sh
+....
+
+These metrics are described in the link:/metrics.asciidoc[This document] document.
+
+An example has been provided that runs a database container
+and also the associated metrics collection container, run the
+example as follows:
+
+....
+sudo ./examples/standalone/run-collect.sh
+....
+
+Every 3 minutes the collection container will collect postgres
+metrics and push them to the crunchy prometheus database.  You
+can graph them using the crunchy grafana container.
+
+
 == Legal Notices
 
 Copyright © 2016 Crunchy Data Solutions, Inc.
