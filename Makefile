@@ -1,5 +1,5 @@
 OSFLAVOR=centos7
-PGVERSION=9.5
+PGVERSION=9.3
 
 ifndef BUILDBASE
 	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers
@@ -44,22 +44,20 @@ dns:
 backup:
 	sudo docker build -t crunchy-backup -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.backup.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-backup:latest crunchydata/crunchy-backup
-downloadprometheus:
-	wget -O prometheus-pushgateway.tar.gz https://github.com/prometheus/pushgateway/releases/download/0.2.0/pushgateway-0.2.0.linux-amd64.tar.gz
-	wget -O prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/0.17.0/prometheus-0.17.0.linux-amd64.tar.gz 
 prometheus:
 	sudo docker build -t crunchy-prometheus -f $(OSFLAVOR)/Dockerfile.prometheus.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-prometheus:latest crunchydata/crunchy-prometheus
-downloadgrafana:
+download:
+	wget -O prometheus-pushgateway.tar.gz https://github.com/prometheus/pushgateway/releases/download/0.2.0/pushgateway-0.2.0.linux-amd64.tar.gz
+	wget -O prometheus.tar.gz https://github.com/prometheus/prometheus/releases/download/0.17.0/prometheus-0.17.0.linux-amd64.tar.gz 
 	wget -O grafana.tar.gz  https://grafanarel.s3.amazonaws.com/builds/grafana-2.6.0.linux-x64.tar.gz
-grafana:
-	sudo docker build -t crunchy-grafana -f $(OSFLAVOR)/Dockerfile.grafana.$(OSFLAVOR) .
-	sudo docker tag -f crunchy-grafana:latest crunchydata/crunchy-grafana
-downloadconsul:
 	wget -O /tmp/consul_0.6.4_linux_amd64.zip https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip
 	unzip /tmp/consul*.zip
 	rm /tmp/consul*.zip
 	mv consul $(GOBIN)
+grafana:
+	sudo docker build -t crunchy-grafana -f $(OSFLAVOR)/Dockerfile.grafana.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-grafana:latest crunchydata/crunchy-grafana
 
 all:
 	make pg

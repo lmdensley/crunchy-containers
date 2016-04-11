@@ -1,11 +1,9 @@
 FROM centos:7
-MAINTAINER crunchy
 
-LABEL Name crunchydata/crunchy-pg:1.1.1
-LABEL Release crunchy-pg:1.1.1
-LABEL Vendor Crunchy Data Solutions
-LABEL Version 1.1.1
-LABEL Postgres Version 9.3
+LABEL Release="1.1.1"
+LABEL Vendor="Crunchy Data Solutions"
+
+LABEL PostgresVersion="9.3"
 
 # PGDG Postgres repo
 #RUN rpm -Uvh http://yum.postgresql.org/9.3/redhat/rhel-7-x86_64/pgdg-centos93-9.3-1.noarch.rpm
@@ -15,11 +13,9 @@ ADD conf/CRUNCHY-GPG-KEY.public  /
 ADD conf/crunchypg93.repo /etc/yum.repos.d/
 RUN rpm --import CRUNCHY-GPG-KEY.public
 
-RUN yum -y --enablerepo=centosplus install gettext epel-release && \
-	yum install -y rsync procps-ng postgresql93 postgresql93-contrib \
-	postgresql93-server openssh-clients hostname bind-utils \
-	&&  \
-	yum clean all -y
+RUN yum -y --enablerepo=centosplus install rsync procps-ng openssh-clients hostname bind-utils gettext epel-release
+RUN yum install -y postgresql9? postgresql9?-contrib \
+	postgresql9?-server &&  yum clean all -y
 
 # set up cpm directory
 #
@@ -27,10 +23,6 @@ RUN mkdir -p /opt/cpm/bin
 RUN mkdir -p /opt/cpm/conf
 
 RUN chown -R postgres:postgres /opt/cpm
-
-# set environment vars
-ENV PGROOT /usr/pgsql-9.3
-ENV PGDATA /pgdata
 
 # add path settings for postgres user
 ADD conf/.bash_profile /var/lib/pgsql/
