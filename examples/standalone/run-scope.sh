@@ -13,12 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "starting prometheus container..."
+echo "starting scope containers..."
 
-docker stop crunchy-prometheus
-docker rm crunchy-prometheus
+docker stop crunchy-scope
+docker rm crunchy-scope
+docker stop crunchy-grafana
+docker rm crunchy-grafana
 
-DATA_DIR=/tmp/crunchy-prometheus
+DATA_DIR=/tmp/crunchy-scope
 sudo rm -rf $DATA_DIR
 sudo mkdir -p $DATA_DIR
 sudo chown root:root $DATA_DIR
@@ -30,18 +32,14 @@ sudo docker run \
 	-p $HOSTIP:9090:9090/tcp \
 	-p $HOSTIP:9091:9091/tcp \
 	-v $DATA_DIR:/data \
-	-e DC=dc1 \
-	-e DOMAIN=crunchy.lab. \
-	--name=crunchy-prometheus \
-	--hostname=crunchy-prometheus \
+	--name=crunchy-scope \
+	--hostname=crunchy-scope \
 	-d crunchydata/crunchy-prometheus:latest
 
 sudo docker run \
 	-p $HOSTIP:3000:3000/tcp \
 	-v $DATA_DIR:/data \
-	-e DC=dc1 \
-	-e DOMAIN=crunchy.lab. \
-	--link crunchy-prometheus:crunchy-prometheus \
+	--link crunchy-scope:crunchy-scope \
 	--name=crunchy-grafana \
 	--hostname=crunchy-grafana \
 	-d crunchydata/crunchy-grafana:latest
