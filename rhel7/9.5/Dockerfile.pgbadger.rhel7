@@ -15,7 +15,7 @@ RUN rpm --import CRUNCHY-GPG-KEY.public
 RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 RUN yum -y install gettext libxslt libxml2 procps-ng \
 pgbadger* \
-postgresql95-server \
+postgresql9?-server \
 openssh-clients \
 hostname  \
  && yum clean all -y

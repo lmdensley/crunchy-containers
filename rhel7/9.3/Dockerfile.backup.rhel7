@@ -15,16 +15,12 @@ RUN rpm --import CRUNCHY-GPG-KEY.public
 # install deps
 #RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 RUN yum -y install libxslt libxml2 procps-ng \
-postgresql93-server  \
-postgresql93 \
-openssh-clients \
-hostname bind-utils \
+postgresql9?-server   postgresql9?  openssh-clients  hostname bind-utils \
  && yum clean all -y
 
 RUN mkdir -p /opt/cpm/bin
 ADD bin/backup/ /opt/cpm/bin
 RUN chown -R postgres:postgres /opt/cpm
-ENV PGROOT /usr/pgsql-9.3
 
 VOLUME ["/pgdata"]
 RUN chown -R postgres:postgres /pgdata
