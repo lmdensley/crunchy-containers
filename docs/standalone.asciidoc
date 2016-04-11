@@ -240,6 +240,7 @@ to your database container.
 
 Metrics collection requires you run the crunchy 'scope' set of containers
 that includes:
+
  * prometheus 
  * prometheus push gateway
  * grafana
@@ -249,7 +250,7 @@ To start this set of containers, run the following:
 sudo ./examples/standalone/run-scope.sh
 ....
 
-These metrics are described in the link:/metrics.asciidoc[This document] document.
+These metrics are described in this link:/docs/metrics.asciidoc[document.] 
 
 An example has been provided that runs a database container
 and also the associated metrics collection container, run the
