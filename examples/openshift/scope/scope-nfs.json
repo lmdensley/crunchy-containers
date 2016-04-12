@@ -105,7 +105,7 @@
             "volumes": [{
                 "name": "data",
                 "persistentVolumeClaim": {
-                    "claimName": "scope-nfs-pvc"
+                    "claimName": "scope-pvc"
                 }
 
             }]

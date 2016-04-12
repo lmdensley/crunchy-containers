@@ -14,16 +14,16 @@ oc delete service crunchy-scope
 
 sleep 30
 
-oc create -f $BUILDBASE/examples/openshift/scope-pv.json
-oc create -f $BUILDBASE/examples/openshift/scope-pvc.json
-oc process -f $BUILDBASE/examples/openshift/scope.json | oc create -f -
+oc create -f $BUILDBASE/examples/openshift/scope/scope-pv.json
+oc create -f $BUILDBASE/examples/openshift/scope/scope-pvc.json
+oc process -f $BUILDBASE/examples/openshift/scope/scope.json | oc create -f -
 
 echo "sleeping for 20 seconds to allow pods/services to startup"
 sleep 20
-export IP=`oc describe pod test-crunchy-scope | grep IP | cut -f2 -d':' `
+export IP=`oc describe pod crunchy-scope | grep IP | cut -f2 -d':' `
 echo $IP " is the IP address"
 
-curl http://$IP:9090
+curl http://$IP:9090 > /dev/null
 rc=$?
 
 echo $rc is the rc
@@ -34,7 +34,7 @@ else
 	echo "prometheus test FAILED"
 	exit $rc
 fi
-curl http://$IP:9091
+curl http://$IP:9091 > /dev/null
 rc=$?
 
 echo $rc is the rc
@@ -45,7 +45,7 @@ else
 	echo "prometheus pushgateway test FAILED"
 	exit $rc
 fi
-curl http://$IP:3000
+curl http://$IP:3000 > /dev/null
 rc=$?
 
 echo $rc is the rc

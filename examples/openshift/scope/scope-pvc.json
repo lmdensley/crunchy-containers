@@ -2,7 +2,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "scope-nfs-pvc"
+        "name": "scope-pvc"
       },
       "spec": {
         "accessModes": [
