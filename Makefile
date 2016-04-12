@@ -1,5 +1,5 @@
-OSFLAVOR=centos7
-PGVERSION=9.3
+OSFLAVOR=rhel7
+PGVERSION=9.5
 
 ifndef BUILDBASE
 	export BUILDBASE=$(GOPATH)/src/github.com/crunchydata/crunchy-containers
@@ -60,12 +60,16 @@ grafana:
 	sudo docker tag -f crunchy-grafana:latest crunchydata/crunchy-grafana
 
 all:
-	make pg
+	make postgres
 	make backup
 	make watch
 	make pgpool
 	make pgbadger
 	make collectserver
+	make dns
+	make download
+	make grafana
+	make prometheus
 	make docbuild
 default:
 	all
@@ -78,4 +82,5 @@ test:
 	sudo docker stop master
 testopenshift:
 	./tests/openshift/test-master.sh; /usr/bin/test "$$?" -eq 0
+	./tests/openshift/test-scope.sh; /usr/bin/test "$$?" -eq 0
 
