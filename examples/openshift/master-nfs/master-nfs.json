@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "crunchy-pg-nfs-example",
+        "name": "master-nfs-example",
         "creationTimestamp": null,
         "annotations": {
             "description": "Crunchy PostgreSQL on NFS Example",
