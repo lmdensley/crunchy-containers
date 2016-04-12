@@ -7,27 +7,36 @@ echo BUILDBASE is $BUILDBASE
 
 oc login -u system:admin
 oc projects openshift
-oc delete pvc backup-job-pvc
-oc delete pv backup-job-pv
-oc delete job backup-job
+
+echo "cleaning up any leftovers...."
+
+export PGPASSFILE=/tmp/single-master-pgpass
+
+cleanup() {
+$BUILDBASE/examples/openshift/backup-job/delete.sh
+# clear out any previous backups
+sudo rm -rf /nfsfileshare/single-master
 oc delete pod single-master
 oc delete service single-master
-export PGPASSFILE=/tmp/single-master-pgpass
 chmod 777 $PGPASSFILE
 /usr/bin/rm $PGPASSFILE
-echo "sleeping for 20 seconds to allow any existing pods/services to terminate"
+}
+
+cleanup
+echo "sleeping for 40 seconds to allow any existing pods/services to terminate"
 
 sleep 40
 
+echo "creating single-master pod..."
 oc process -f $BUILDBASE/examples/openshift/master.json |  oc create -f -
 
-echo "sleeping for 20 seconds to allow pods/services to startup"
-sleep 20
+echo "sleeping for 40 seconds to allow pods/services to startup"
+sleep 40
+
 export IP=`oc describe pod single-master | grep IP | cut -f2 -d':' `
 echo $IP " is the IP address"
 export MASTERPSW=`oc describe pod single-master | grep MASTER_PASSWORD | cut -f2 -d':' | xargs`
 echo "["$MASTERPSW"] is the master password"
-
 
 echo "creating PGPASSFILE..."
 echo "*:*:*:*:"$MASTERPSW > $PGPASSFILE
@@ -46,33 +55,14 @@ else
 	exit $rc
 fi
 
-export LOCAL_IP=`ifconfig | grep inet | head -1 | xargs | cut -f2 -d' '`
+export IPADDRESS=`hostname --ip-address`
 
-echo "local ip address is " $LOCAL_IP
+echo "local ip address is " $IPADDRESS
 
-cp backup-job.json /tmp/temp-backup-job.json
-cp backup-job-pv.json /tmp/temp-backup-job-pv.json
-sed -i "s/REPLACE_PASSWORD/$MASTERPSW/g" /tmp/temp-backup-job.json
-sed -i "s/REPLACE_IP_ADDRESS/$LOCAL_IP/g" /tmp/temp-backup-job-pv.json
-
-cat /tmp/temp-backup-job.json
-cat /tmp/temp-backup-job-pv.json
-
-# clear out any previous backups
-sudo rm -rf /nfsfileshare/single-master
-
-oc create -f /tmp/temp-backup-job-pv.json
-oc create -f backup-job-pvc.json
-oc create -f /tmp/temp-backup-job.json
+$BUILDBASE/examples/openshift/backup-job/run.sh
 
 echo "sleep while backup executes"
 sleep 30
-
-oc delete pod single-master
-oc delete service single-master
-oc delete job backup-job
-oc delete pvc backup-job-pvc
-oc delete pv backup-job-pv
 
 sudo find /nfsfileshare/single-master/ -name "postgresql.conf"
 rc=$?
@@ -83,4 +73,6 @@ else
 	echo "backup test FAILED"
 	exit $rc
 fi
+
+cleanup
 exit 0

@@ -82,6 +82,6 @@ test:
 	sudo docker stop master
 testopenshift:
 	./tests/openshift/test-master.sh; /usr/bin/test "$$?" -eq 0
-	./tests/openshift/test-restore.sh; /usr/bin/test "$$?" -eq 0
 	./tests/openshift/test-scope.sh; /usr/bin/test "$$?" -eq 0
+	./tests/openshift/test-backup.sh; /usr/bin/test "$$?" -eq 0
 
