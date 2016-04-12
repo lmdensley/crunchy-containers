@@ -11,7 +11,7 @@
     "accessModes": [ "ReadWriteOnce" ],
     "nfs": {
         "path": "/nfsfileshare",
-        "server": "192.168.122.138"
+        "server": "192.168.0.109"
     },
     "persistentVolumeReclaimPolicy": "Retain"
   }
