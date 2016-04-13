@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <meta name="generator" content="AsciiDoc 8.6.8, bootstrap backend 4.5.0">
+    <meta name="generator" content="AsciiDoc 8.6.9, bootstrap backend 4.5.0">
     <title>Crunchy Containers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Crunchy Data Solutions, Inc.">
@@ -325,17 +325,31 @@ containername</p></div>
 container by running a crunchy-collect container that points
 to your database container.</p></div>
 <div class="paragraph"><p>Metrics collection requires you run the crunchy <em>scope</em> set of containers
-that includes:
- * prometheus
- * prometheus push gateway
- * grafana</p></div>
+that includes:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+prometheus
+</p>
+</li>
+<li>
+<p>
+prometheus push gateway
+</p>
+</li>
+<li>
+<p>
+grafana
+</p>
+</li>
+</ul></div>
 <div class="paragraph"><p>To start this set of containers, run the following:</p></div>
 <div class="literalblock">
 <div class="content monospaced">
 <pre>sudo ./examples/standalone/run-scope.sh</pre>
 </div></div>
-<div class="paragraph"><p>These metrics are described in the 
-<a href="/metrics.asciidoc">This document</a> document.</p></div>
+<div class="paragraph"><p>These metrics are described in this 
+<a href="/docs/metrics.asciidoc">document.</a></p></div>
 <div class="paragraph"><p>An example has been provided that runs a database container
 and also the associated metrics collection container, run the
 example as follows:</p></div>
