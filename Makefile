@@ -9,6 +9,8 @@ gendeps:
 	godep save \
 	github.com/crunchydata/crunchy-containers/collectapi \
 	github.com/crunchydata/crunchy-containers/dnsbridgeapi \
+	github.com/crunchydata/crunchy-containers/dbaapi \
+	github.com/crunchydata/crunchy-containers/dba \
 	github.com/crunchydata/crunchy-containers/badger 
 
 docbuild:
@@ -33,6 +35,16 @@ collectserver:
 	cp $(GOBIN)/collectserver bin/collect
 	sudo docker build -t crunchy-collect -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
+dbaserver:
+	cd dba && godep go install dbaserver.go
+	cp $(GOBIN)/dbaserver bin/dba
+	sudo docker build -t crunchy-dba -f $(OSFLAVOR)/Dockerfile.dba.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-dba:latest crunchydata/crunchy-dba
+vacuum:
+	cd dba && godep go install vacuum.go
+	cp $(GOBIN)/vacuum bin/vacuum
+	sudo docker build -t crunchy-vacuum -f $(OSFLAVOR)/Dockerfile.vacuum.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-vacuum:latest crunchydata/crunchy-vacuum
 dns:
 	cd dnsbridge && godep go install dnsbridgeserver.go
 	cd dnsbridge && godep go install consulclient.go
@@ -70,6 +82,7 @@ all:
 	make download
 	make grafana
 	make prometheus
+	make dba
 	make docbuild
 default:
 	all
