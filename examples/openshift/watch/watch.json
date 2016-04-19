@@ -25,9 +25,6 @@
                 "name": "watch",
                 "image": "crunchydata/crunchy-watch",
                 "env": [{
-                    "name": "OSE_HOST",
-                    "value": "openshift.default.svc.cluster.local"
-                }, {
                     "name": "OSE_PROJECT",
                     "value": "openshift"
                 }, {

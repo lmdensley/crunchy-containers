@@ -13,21 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo $PG_USER is PG_USER
-if [ ! -v PG_USER ]; then
-	echo "PG_USER env var is not set, required value"
-	exit 2
-fi
-echo $PG_PASSWORD is PG_PASSWORD
-if [ ! -v PG_PASSWORD ]; then
-	echo "PG_PASSWORD env var is not set, required value"
-	exit 2
-fi
-echo $JOB_HOST is JOB_HOST
-if [ ! -v JOB_HOST ]; then
-	echo "JOB_HOST env var is not set, required value"
-	exit 2
-fi
+echo "starting vacuum container..."
 
+docker stop crunchy-vacuum-job
+docker rm crunchy-vacuum-job
 
-/opt/cpm/bin/vacuum
+sudo docker run \
+	-e VAC_FULL="true" \
+	-e JOB_HOST="10.1.0.2" \
+	-e VAC_ANALYZE="true" \
+	-e VAC_ALL="true" \
+	-e VAC_VERBOSE="true" \
+	-e VAC_FREEZE="true" \
+	-e VAC_TABLE="footable" \
+	-e PG_USER="master" \
+	-e PG_PORT="5432" \
+	-e PG_PASSWORD="6uPjfKbO7SO2" \
+	-e PG_DATABASE="userdb" \
+	--name=crunchy-vacuum-job \
+	--hostname=crunchy-vacuum-job \
+	-d crunchydata/crunchy-vacuum:latest
+

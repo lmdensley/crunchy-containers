@@ -36,12 +36,13 @@ collectserver:
 	sudo docker build -t crunchy-collect -f $(OSFLAVOR)/$(PGVERSION)/Dockerfile.collect.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-collect:latest crunchydata/crunchy-collect
 dbaserver:
+	cp /usr/bin/oc bin/dba
 	cd dba && godep go install dbaserver.go
 	cp $(GOBIN)/dbaserver bin/dba
 	sudo docker build -t crunchy-dba -f $(OSFLAVOR)/Dockerfile.dba.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-dba:latest crunchydata/crunchy-dba
-vacuum:
-	cd dba && godep go install vacuum.go
+vac:
+	cd vacuum && godep go install vacuum.go
 	cp $(GOBIN)/vacuum bin/vacuum
 	sudo docker build -t crunchy-vacuum -f $(OSFLAVOR)/Dockerfile.vacuum.$(OSFLAVOR) .
 	sudo docker tag -f crunchy-vacuum:latest crunchydata/crunchy-vacuum

@@ -13,21 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo $PG_USER is PG_USER
-if [ ! -v PG_USER ]; then
-	echo "PG_USER env var is not set, required value"
-	exit 2
-fi
-echo $PG_PASSWORD is PG_PASSWORD
-if [ ! -v PG_PASSWORD ]; then
-	echo "PG_PASSWORD env var is not set, required value"
-	exit 2
-fi
-echo $JOB_HOST is JOB_HOST
-if [ ! -v JOB_HOST ]; then
-	echo "JOB_HOST env var is not set, required value"
-	exit 2
-fi
+#export TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+#/opt/cpm/bin/oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true --token="$TOKEN"
+#/opt/cpm/bin/oc projects $OSE_PROJECT
 
+echo "create-vac-job.sh......"
+echo $1 is tempfile
 
-/opt/cpm/bin/vacuum
+/opt/cpm/bin/oc create -f $1

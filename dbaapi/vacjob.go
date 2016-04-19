@@ -16,41 +16,63 @@
 package dbaapi
 
 import (
+	"bytes"
+	"github.com/crunchydata/crunchy-containers/vacuumapi"
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
+	"text/template"
 )
 
 type VacJob struct {
-	Logger  *log.Logger
-	Host    string
-	FULL    bool
-	ANALYZE bool
-	ALL     bool
-	VERBOSE bool
-	FREEZE  bool
-	TABLE   string
+	Logger *log.Logger
+	Host   string
 }
 
 // Run this is the func that implements the cron Job interface
 func (t VacJob) Run() {
 
-	getParms(t)
-	t.Logger.Println("running vac job on: " + t.Host)
-	t.Logger.Println("VAC_PARMS")
-	t.Logger.Printf("FULL=%t\n", t.FULL)
-	t.Logger.Printf("VERBOSE=%t\n", t.VERBOSE)
-	t.Logger.Printf("ALL=%t\n", t.ALL)
-	t.Logger.Printf("ANALYZE=%t\n", t.ANALYZE)
-	t.Logger.Printf("FREEZE=%t\n", t.FREEZE)
-	t.Logger.Printf("TABLE=%s\n", t.TABLE)
+	var s = getTemplate(t.Logger)
 
-	var template = getTemplate(t.Logger)
-	t.Logger.Println(template)
+	parms, err := vacuumapi.GetParms(t.Logger)
+	if err != nil {
+		panic(err)
+	}
+
+	tmpl, err := template.New("jobtemplate").Parse(s)
+	if err != nil {
+		panic(err)
+	}
+
+	var tmpfile *os.File
+	tmpfile, err = ioutil.TempFile("/tmp", "vacjob")
+	if err != nil {
+		t.Logger.Println(err.Error())
+		panic(err)
+	}
+	err = tmpl.Execute(tmpfile, parms)
+
+	if err := tmpfile.Close(); err != nil {
+		t.Logger.Println(err.Error())
+		panic(err)
+	}
+	t.Logger.Println("tmpfile is " + tmpfile.Name())
+
+	var stdout, stderr string
+	stdout, stderr, err = createJob(tmpfile.Name())
+	if err != nil {
+		t.Logger.Println(err.Error())
+	}
+	t.Logger.Println(stdout)
+	t.Logger.Println(stderr)
+	//defer os.Remove(tmpfile.Name()) //clean up
+	//err = tmpl.Execute(os.Stdout, parms)
+	//t.Logger.Println(s)
 }
 
 func getTemplate(logger *log.Logger) string {
-	var filename = "/opt/cpm/conf/vacuum-job.json"
+	var filename = "/opt/cpm/conf/vacuum-job-template.json"
 	buff, err := ioutil.ReadFile(filename)
 	if err != nil {
 		logger.Println(err.Error())
@@ -61,41 +83,19 @@ func getTemplate(logger *log.Logger) string {
 	return s
 }
 
-func getParms(t VacJob) {
-	t.FULL = true
-	t.ANALYZE = true
-	t.ALL = true
-	t.VERBOSE = false
-	t.FREEZE = false
-	t.TABLE = "ALL"
+func createJob(templateFile string) (string, string, error) {
 
-	var parm = os.Getenv("VAC_FULL")
-	if parm != "" {
-		t.FULL = true
-	}
+	var cmd *exec.Cmd
+	cmd = exec.Command("create-vac-job.sh", templateFile)
 
-	parm = os.Getenv("VAC_ANALYZE")
-	if parm != "" {
-		t.ANALYZE = true
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &stderr
+	err := cmd.Run()
+	if err != nil {
+		return out.String(), stderr.String(), err
 	}
-
-	parm = os.Getenv("VAC_ALL")
-	if parm != "" {
-		t.ALL = true
-	}
-	parm = os.Getenv("VAC_VERBOSE")
-	if parm != "" {
-		t.VERBOSE = true
-	}
-
-	parm = os.Getenv("VAC_FREEZE")
-	if parm != "" {
-		t.FREEZE = true
-	}
-
-	parm = os.Getenv("VAC_TABLE")
-	if parm != "" {
-		t.TABLE = parm
-	}
+	return out.String(), stderr.String(), err
 
 }

@@ -8,8 +8,10 @@ RUN yum -y install procps-ng iproute bind-utils openssh-clients hostname  && yum
 # set up cpm directory
 #
 RUN mkdir -p /opt/cpm/bin
+RUN mkdir -p /opt/cpm/conf
 
 ADD bin/dba /opt/cpm/bin
+ADD conf/dba /opt/cpm/conf
 
 USER root
 

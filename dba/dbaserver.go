@@ -49,9 +49,10 @@ func main() {
 func LoadSchedules(cron *cron.Cron) {
 	var VAC_SCHEDULE = os.Getenv("VAC_SCHEDULE")
 	var JOB_HOST = os.Getenv("JOB_HOST")
+	logger.Println("VAC_SCHEDULE=" + VAC_SCHEDULE)
+	logger.Println("JOB_HOST=" + JOB_HOST)
 
 	if VAC_SCHEDULE != "" {
-		logger.Println("VAC_SCHEDULE=" + VAC_SCHEDULE)
 
 		job := dbaapi.VacJob{}
 		job.Host = JOB_HOST

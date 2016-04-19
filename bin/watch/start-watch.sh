@@ -61,7 +61,7 @@ function standalone_failover() {
 function ose_failover() {
 
 	TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
-	oc login https://$OSE_HOST --insecure-skip-tls-verify=true --token="$TOKEN"
+	oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true --token="$TOKEN"
 	oc projects $OSE_PROJECT
 	echo "performing failover..."
 	echo "deleting master service to block slaves..."

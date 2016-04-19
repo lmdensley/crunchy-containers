@@ -2,19 +2,19 @@
     "apiVersion": "extensions/v1beta1",
     "kind": "Job",
     "metadata": {
-        "name": "{{.VAC_HOST}}-vacuum-job"
+        "name": "{{.JOB_HOST}}-vacuum-job"
     },
     "spec": {
         "selector": {
             "matchLabels": {
-                "app": "{{.VAC_HOST}}-vacuum-job"
+                "app": "{{.JOB_HOST}}-vacuum-job"
             }
         },
         "template": {
             "metadata": {
-                "name": "{{.VAC_HOST}}-vacuum-job",
+                "name": "{{.JOB_HOST}}-vacuum-job",
                 "labels": {
-                    "app": "{{.VAC_HOST}}-vacuum-job"
+                    "app": "{{.JOB_HOST}}-vacuum-job"
                 }
             },
             "spec": {
@@ -27,8 +27,8 @@
                         "name": "VAC_FULL",
                         "value": "{{.VAC_FULL}}"
                     }, {
-                        "name": "VAC_HOST",
-                        "value": "{{.VAC_HOST}}"
+                        "name": "JOB_HOST",
+                        "value": "{{.JOB_HOST}}"
                     }, {
                         "name": "VAC_ANALYZE",
                         "value": "{{.VAC_ANALYZE}}"
