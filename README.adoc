@@ -29,7 +29,7 @@ The project includes the following containers:
  * crunchy-grafana - graphs Postgres metrics
  * crunchy-dns - standalone DNS server useful for standalone execution
  * crunchy-vacuum - performs a Postgres VACUUM
- * link:dba.asciidoc[crunchy-dba] - cron scheduler, useful for routine DBA tasks
+ * link:docs/dba.asciidoc[crunchy-dba] - cron scheduler, useful for routine DBA tasks
 
 
 === Build Prerequisites
