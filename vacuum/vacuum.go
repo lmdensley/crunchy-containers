@@ -23,7 +23,7 @@ import (
 	"os"
 )
 
-const VERSION = "1.1.2"
+const VERSION = "1.2"
 
 var logger *log.Logger
 
