@@ -2,25 +2,25 @@
     "apiVersion": "extensions/v1beta1",
     "kind": "Job",
     "metadata": {
-        "name": "{{.JOB_HOST}}-vacuum-job"
+        "name": "{{.JOB_HOST}}-vac"
     },
     "spec": {
         "selector": {
             "matchLabels": {
-                "app": "{{.JOB_HOST}}-vacuum-job"
+                "app": "{{.JOB_HOST}}-vac"
             }
         },
         "template": {
             "metadata": {
-                "name": "{{.JOB_HOST}}-vacuum-job",
+                "name": "{{.JOB_HOST}}-vac",
                 "labels": {
-                    "app": "{{.JOB_HOST}}-vacuum-job"
+                    "app": "{{.JOB_HOST}}-vac"
                 }
             },
             "spec": {
                 "volumes": [ ],
                 "containers": [{
-                    "name": "vacuum-job",
+                    "name": "{{.JOB_HOST}}-vac",
                     "image": "crunchydata/crunchy-vacuum",
                     "volumeMounts": [ ],
                     "env": [{

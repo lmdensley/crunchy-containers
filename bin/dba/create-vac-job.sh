@@ -19,5 +19,8 @@
 
 echo "create-vac-job.sh......"
 echo $1 is tempfile
+echo $2 is JOB_HOST
 
+/opt/cpm/bin/oc delete job $2-vac
+sleep 15
 /opt/cpm/bin/oc create -f $1
