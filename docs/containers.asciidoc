@@ -104,6 +104,7 @@ To persist the data and grafana templates long term, you will want to
 use NFS volume types as specified in examples/openshift/scope-nfs.json.
 
 When running crunchy-scope, the following ports are available:
+
  * crunchy-scope:9090 - the prometheus web user interface
  * crunchy-scope:9091 - the prometheus pushgateway REST API
  * crunchy-scope:3000 - the grafana web user interface
@@ -193,9 +194,9 @@ You then set up permissions for the SA to edit stuff in the openshift project,
 this example allows all service accounts to edit resources in the 'openshift'
 project:
 
-~~~~~~~~~~~
+....
 oc policy add-role-to-group edit system:serviceaccounts -n openshift
-~~~~~~~~~~~
+....
 
 You then reference the SA within the POD spec:
 
