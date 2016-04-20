@@ -1,0 +1,64 @@
+= Crunchy Postgres Container
+Crunchy Data Solutions, Inc.
+v1.1.1, {docdate}
+:title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
+
+== Description
+The crunchy-postgres container executes the Postgres database.  
+
+
+=== Packages
+
+The container image is built using either the Crunchy Postgres release
+or the community version based upon a flag in the Makefile.
+
+The Crunchy postgres RPMs are available to Crunchy customers only.  The
+Crunchy release is meant for customers that require enterprise level
+support.
+
+The PGDG community RPMs can be used as well by simply commenting out
+the Crunchy yum repo within the Dockerfiles and uncommenting
+the PGDG yum repo.
+
+=== setup.sql
+
+The setup.sql script is used to define startup SQL commands that are
+executed when the database is first created.
+
+=== Environment Variables
+ 
+ * PG_MODE - either master or slave, this value determines whether
+   the database is set up as a master or slave instance
+ * PG_MASTER_USER - the value to use for the user ID created as 
+   master.  The *master* user has super user priviledges.
+ * PG_MASTER_PASSWORD - the password for the PG_MASTER_USER database user
+ * PG_USER - the value to use for the user ID created as a normal user.
+   This user is created as part of the setup.sql script upon database
+   creation and allows users to predefine an application user.
+ * PG_PASSWORD - the password for the PG_USER database user that is created
+ * PG_DATABASE - a database that is created upon database initialization
+ * PG_ROOT_PASSWORD - the postgres user password set up upon database
+   initialization
+
+=== Features
+
+The following features are supported by the crunchy-postgres container:
+
+ * use of openshift secrets
+ * ability to restore from a database backup
+ * use of custom pg_hba.conf and postgresql.conf files
+ * ability to override postgresql.conf configuration parameters
+
+=== Example
+
+Examples of using the container are found in the standalone and openshift
+documents.  
+
+== Legal Notices
+
+Copyright © 2016 Crunchy Data Solutions, Inc.
+
+CRUNCHY DATA SOLUTIONS, INC. PROVIDES THIS GUIDE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+Crunchy, Crunchy Data Solutions, Inc. and the Crunchy Hippo Logo are trademarks of Crunchy Data Solutions, Inc.
+

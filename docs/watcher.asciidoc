@@ -1,5 +1,5 @@
 
-### Watcher Design
+== Watcher Design
 
 We create a container, crunchy-watch, that lives inside a pod
 with a master container.
@@ -27,7 +27,7 @@ I copy the oc command into the container from the host when the container
 image is built.  I could not find a way to install this using the redhat 
 rpms, so I manually add it to the container.
 
-Logic
+=== Logic
 
 The watch container will watch the master, if the master dies, then 
 the watcher will:
@@ -35,11 +35,5 @@ the watcher will:
  * create the trigger file on the slave that will become the new master
  * change the labels on the slave to be those of the master
  * will start watching the new master in case that falls over next
-
-Questions
-
-does this run in a pod outside of the master and slave pods?  probably not
-in the master pod since the whole pod would die, probably best done
-in the slave pod?
 
 

@@ -1,0 +1,38 @@
+= Crunchy Backup Container
+Crunchy Data Solutions, Inc.
+v1.1.1, {docdate}
+:title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
+
+== Description
+
+The crunchy-backup container executes a pg_basebackup against another
+database container.  The backup is a full backup using the standard
+utility included with postgres, pg_basebackup.
+
+=== Backup Location
+
+Backups are stored in a mounted backup volume location, using the
+database host name as a sub-directory, then followed by a unique
+backup directory based upon a date/timestamp.  It is left to the
+user to perform database backup archives in this current version
+of the container.  This backup location is referenced when performing
+a database restore.
+
+=== Dependencies
+
+The container is meant to be using a NFS or similar network file system
+to persist database backups.
+
+=== Example
+
+Examples of using the container are found in the standalone and openshift
+documents.  
+
+== Legal Notices
+
+Copyright © 2016 Crunchy Data Solutions, Inc.
+
+CRUNCHY DATA SOLUTIONS, INC. PROVIDES THIS GUIDE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF NON INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+Crunchy, Crunchy Data Solutions, Inc. and the Crunchy Hippo Logo are trademarks of Crunchy Data Solutions, Inc.
+
