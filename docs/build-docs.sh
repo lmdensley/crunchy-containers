@@ -59,9 +59,9 @@ cd ..
 asciidoc \
 -b bootstrap \
 -f ./demo.conf \
--o ./htmldoc/dba.html \
+-o ./htmldoc/containers.html \
 -a toc2 \
 -a toc-placement=right \
-./dba.asciidoc
+./containers.asciidoc
 
-asciidoctor-pdf ./dba.asciidoc --out-file ./pdf/dba.pdf
+asciidoctor-pdf ./containers.asciidoc --out-file ./pdf/containers.pdf
