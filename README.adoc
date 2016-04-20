@@ -1,5 +1,5 @@
 == Crunchy PostgreSQL Containers
-v1.1.1, {docdate}
+v1.2, {docdate}
 
 image::docs/crunchy_logo.png?raw=true[]
 
@@ -16,6 +16,20 @@ The containers will execute in a couple of environments:
 
  * Standalone - run the containers on a simple Docker environment
  * Openshift - run the containers within an Openshift environment
+
+The project includes the following containers:
+
+ * crunchy-postgres - executes Postgres
+ * crunchy-backup - performs a full database backup
+ * crunchy-pgpool - executes pgpool
+ * crunchy-pgbadger - executes pgbadger
+ * crunchy-watch - performs a form of automated failover
+ * crunchy-collect - collects Postgres metrics
+ * crunchy-prometheus -stores Postgres metrics
+ * crunchy-grafana - graphs Postgres metrics
+ * crunchy-dns - standalone DNS server useful for standalone execution
+ * crunchy-vacuum - performs a Postgres VACUUM
+ * link:dba.asciidoc[crunchy-dba] - cron scheduler, useful for routine DBA tasks
 
 
 === Build Prerequisites
@@ -121,17 +135,6 @@ make downloadgrafana
 make all
 ....
 
-This will build the following Docker images:
-
- * crunchy-postgres
- * crunchy-backup
- * crunchy-pgpool
- * crunchy-pgbadger
- * crunchy-watch
- * crunchy-collect
- * crunchy-prometheus
- * crunchy-grafana
- * crunchy-dns
 
 For most of the examples, I use the psql command as a postgres client.  To install PostgreSQL locally, run the following:
 
