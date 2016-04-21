@@ -15,7 +15,6 @@ RUN rpm --import CRUNCHY-GPG-KEY.public
 # install docker from docker repo
 ADD conf/watch/docker-rhel.repo /etc/yum.repos.d/
 
-#RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 RUN yum -y install docker-engine curl rsync libxslt libxml2 procps-ng \
 postgresql9?  openssh-clients atomic-openshift-clients hostname bind-utils \
  && yum clean all -y
