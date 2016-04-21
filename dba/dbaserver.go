@@ -47,8 +47,10 @@ func main() {
 }
 
 func LoadSchedules(cron *cron.Cron) {
+	var BACKUP_SCHEDULE = os.Getenv("BACKUP_SCHEDULE")
 	var VAC_SCHEDULE = os.Getenv("VAC_SCHEDULE")
 	var JOB_HOST = os.Getenv("JOB_HOST")
+	logger.Println("BACKUP_SCHEDULE=" + BACKUP_SCHEDULE)
 	logger.Println("VAC_SCHEDULE=" + VAC_SCHEDULE)
 	logger.Println("JOB_HOST=" + JOB_HOST)
 
@@ -58,5 +60,12 @@ func LoadSchedules(cron *cron.Cron) {
 		job.Host = JOB_HOST
 		job.Logger = logger
 		cron.AddJob(VAC_SCHEDULE, job)
+	}
+	if BACKUP_SCHEDULE != "" {
+
+		job := dbaapi.BackupJob{}
+		job.Host = JOB_HOST
+		job.Logger = logger
+		cron.AddJob(BACKUP_SCHEDULE, job)
 	}
 }

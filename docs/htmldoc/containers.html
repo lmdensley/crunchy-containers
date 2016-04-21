@@ -159,10 +159,24 @@ container is in examples/openshift/scope.json.</p></div>
 <div class="paragraph"><p>The crunchy-scope data in this example is stored in emptyDir volume types.
 To persist the data and grafana templates long term, you will want to
 use NFS volume types as specified in examples/openshift/scope-nfs.json.</p></div>
-<div class="paragraph"><p>When running crunchy-scope, the following ports are available:
- * crunchy-scope:9090 - the prometheus web user interface
- * crunchy-scope:9091 - the prometheus pushgateway REST API
- * crunchy-scope:3000 - the grafana web user interface</p></div>
+<div class="paragraph"><p>When running crunchy-scope, the following ports are available:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+crunchy-scope:9090 - the prometheus web user interface
+</p>
+</li>
+<li>
+<p>
+crunchy-scope:9091 - the prometheus pushgateway REST API
+</p>
+</li>
+<li>
+<p>
+crunchy-scope:3000 - the grafana web user interface
+</p>
+</li>
+</ul></div>
 <h2 id="crunchy_collect_environment_variables">3.3. crunchy-collect Environment Variables</h2>
 <div class="ulist"><ul>
 <li>
@@ -272,7 +286,7 @@ inside the container to issue commands to openshift.</p></div>
 <div class="paragraph"><p>You then set up permissions for the SA to edit stuff in the openshift project,
 this example allows all service accounts to edit resources in the <em>openshift</em>
 project:</p></div>
-<div class="listingblock">
+<div class="literalblock">
 <div class="content monospaced">
 <pre>oc policy add-role-to-group edit system:serviceaccounts -n openshift</pre>
 </div></div>
