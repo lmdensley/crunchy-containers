@@ -14,7 +14,7 @@ ADD conf/crunchypg95.repo /etc/yum.repos.d/
 RUN rpm --import CRUNCHY-GPG-KEY.public
 
 # Install pgpool deps
-RUN yum -y --enablerepo=centosplus install gettext epel-release && \
+RUN yum -y --enablerepo=centosplus install gettext && \
 	yum install -y procps-ng postgresql9?  pgpool-II* \
 	openssh-clients hostname &&  \
 	yum clean all -y
