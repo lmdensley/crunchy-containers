@@ -20,16 +20,17 @@ docker rm crunchy-vacuum-job
 
 sudo docker run \
 	-e VAC_FULL="true" \
-	-e JOB_HOST="10.1.0.2" \
+	-e JOB_HOST="master" \
 	-e VAC_ANALYZE="true" \
 	-e VAC_ALL="true" \
 	-e VAC_VERBOSE="true" \
 	-e VAC_FREEZE="true" \
-	-e VAC_TABLE="footable" \
-	-e PG_USER="master" \
+	-e VAC_TABLE="testtable" \
+	-e PG_USER="testuser" \
 	-e PG_PORT="5432" \
-	-e PG_PASSWORD="6uPjfKbO7SO2" \
-	-e PG_DATABASE="userdb" \
+	-e PG_PASSWORD="testpsw" \
+	-e PG_DATABASE="testdb" \
+	--link master:master \
 	--name=crunchy-vacuum-job \
 	--hostname=crunchy-vacuum-job \
 	-d crunchydata/crunchy-vacuum:latest

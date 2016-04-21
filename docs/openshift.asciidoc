@@ -1,6 +1,6 @@
 = Crunchy Containers
 Crunchy Data Solutions, Inc.
-v1.1.1, {docdate}
+v1.2, {docdate}
 :title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 == Examples for the Openshift Environment
@@ -502,6 +502,43 @@ oc process -f master-collect.json | oc create -f -
 
 At this point, metrics will be collected every 3 minutes and pushed
 to prometheus.  You can build graphs off the metrics using grafana.
+
+=== Openshift Example 14 - Vacuum 
+
+This example shows how you can run a vacuum job against
+a postgres database container.
+
+The crunchy-vacuum container image exists to allow a DBA
+a way to run a job either one-off or scheduled to perform
+a variety of vacuum operations.
+
+To run the vacuum a single time, an example is included
+as follows from the examples/openshift directory:
+
+....
+oc process -f master.json | oc create -f -
+cd vacuum-job
+./run.sh
+....
+
+This will start a vacuum container that runs as a Kube Job type.  It
+will run once.  The crunchy-vacuum image is executed, passed in
+the Postgres connection parameters to the single-master postgres 
+container.  The type of vacuum performed is dictated by the 
+environment variables passed into the job. The complete set
+of environment variables read by the vacuum job include:
+
+ * VAC_FULL - when set to true adds the FULL parameter to the VACUUM command
+ * VAC_TABLE - when set, allows you to specify a single table to vacuum, when
+ not specified, the entire database tables are vacuumed
+ * JOB_HOST - required variable is the postgres host we connect to
+ * PG_USER - required variable is the postgres user we connect with
+ * PG_DATABASE - required variable is the postgres database we connect to
+ * PG_PASSWORD - required variable is the postgres user password we connect with
+ * PG_PORT - allows you to override the default value of 5432
+ * VAC_ANALYZE - when set to true adds the ANALYZE parameter to the VACUUM command
+ * VAC_VERBOSE - when set to true adds the VERBOSE parameter to the VACUUM command
+ * VAC_FREEZE - when set to true adds the FREEZE parameter to the VACUUM command
 
 == Openshift Tips
 

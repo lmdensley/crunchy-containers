@@ -13,14 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#export TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
-#/opt/cpm/bin/oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true --token="$TOKEN"
-#/opt/cpm/bin/oc projects $OSE_PROJECT
+if [ ! -v OSE_PROJECT ]; then
+	echo "OSE_PROJECT env var is not set, required value"
+	exit 2
+fi
+export TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+/opt/cpm/bin/oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true --token="$TOKEN"
+/opt/cpm/bin/oc projects $OSE_PROJECT
 
-echo "create-vac-job.sh......"
-echo $1 is tempfile
-echo $2 is JOB_HOST
+export PATH=$PATH:/opt/cpm/bin
 
-/opt/cpm/bin/oc delete job $2-vac
-sleep 15
-/opt/cpm/bin/oc create -f $1
+echo $VAC_SCHEDULE is VAC_SCHEDULE
+
+echo $JOB_HOST is JOB_HOST
+if [ ! -v JOB_HOST ]; then
+	echo "JOB_HOST env var is not set, required value"
+	exit 2
+fi
+
+/opt/cpm/bin/dbaserver

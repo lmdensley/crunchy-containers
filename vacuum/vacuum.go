@@ -23,7 +23,7 @@ import (
 	"os"
 )
 
-const VERSION = "1.1.2"
+const VERSION = "1.2"
 
 var logger *log.Logger
 
@@ -43,14 +43,14 @@ func main() {
 	if err != nil {
 		logger.Println("could not connect to " + parms.JOB_HOST)
 		logger.Println(err.Error())
-		os.Exit(2)
+		os.Exit(0)
 	}
 	defer conn.Close()
 	err = vacuumCommand(parms, conn)
 	if err != nil {
 		logger.Println(err.Error())
 		logger.Println("error performing query")
-		os.Exit(2)
+		os.Exit(0)
 	}
 
 }

@@ -26,7 +26,6 @@ type Parms struct {
 	JOB_HOST    string
 	VAC_FULL    bool
 	VAC_ANALYZE bool
-	VAC_ALL     bool
 	VAC_VERBOSE bool
 	VAC_FREEZE  bool
 	VAC_TABLE   string
@@ -42,7 +41,6 @@ func GetParms(logger *log.Logger) (*Parms, error) {
 	parms := new(Parms)
 	parms.VAC_FULL = true
 	parms.VAC_ANALYZE = true
-	parms.VAC_ALL = true
 	parms.VAC_VERBOSE = true
 	parms.VAC_FREEZE = false
 	parms.VAC_TABLE = os.Getenv("VAC_TABLE")
@@ -105,17 +103,6 @@ func GetParms(logger *log.Logger) (*Parms, error) {
 			return parms, err
 		}
 	}
-	temp = os.Getenv("VAC_ALL")
-	if temp == "" {
-		logger.Println("VAC_ALL not set, using default of true")
-		parms.VAC_ALL = true
-	} else {
-		parms.VAC_ALL, err = strconv.ParseBool(temp)
-		if err != nil {
-			logger.Println("error parsing VAC_ALL env var")
-			return parms, err
-		}
-	}
 	temp = os.Getenv("VAC_VERBOSE")
 	if temp == "" {
 		logger.Println("VAC_VERBOSE not set, using default of true")
@@ -147,7 +134,6 @@ func (t *Parms) Print(logger *log.Logger) {
 	logger.Printf("VAC_FULL:%t\n", t.VAC_FULL)
 	logger.Printf("JOB_HOST: %s\n", t.JOB_HOST)
 	logger.Printf("VAC_ANALYZE: %t\n", t.VAC_ANALYZE)
-	logger.Printf("VAC_ALL: %t\n", t.VAC_ALL)
 	logger.Printf("VAC_VERBOSE: %t\n", t.VAC_VERBOSE)
 	logger.Printf("VAC_FREEZE: %t\n", t.VAC_FREEZE)
 	logger.Printf("VAC_TABLE: %s\n", t.VAC_TABLE)

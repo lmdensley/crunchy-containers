@@ -1,6 +1,6 @@
 = Crunchy Containers
 Crunchy Data Solutions, Inc.
-v1.1.1, {docdate}
+v1.2, {docdate}
 :title-logo-image: image:crunchy_logo.png["CrunchyData Logo",align="center",scaledwidth="80%"]
 
 == Standalone Examples
@@ -263,6 +263,36 @@ sudo ./examples/standalone/run-collect.sh
 Every 3 minutes the collection container will collect postgres
 metrics and push them to the crunchy prometheus database.  You
 can graph them using the crunchy grafana container.
+
+=== Example 10 - vacuum
+
+You can perform a postgres vacuum command by running the crunchy-vacuum
+container.  You specify a database to vacuum using environment variables.
+
+An example is shown in the examples/standalone/run-vacuum.sh script
+and can be run as follows:
+....
+sudo ./examples/standalone/run-pg-master.sh
+sleep 30
+sudo ./examples/standalone/run-vacuum.sh
+....
+
+This example performs a vacuum on a single table in the master postgres
+database.  Vacuum is controlled via the following environment variables:
+
+ * VAC_FULL - when set to true adds the FULL parameter to the VACUUM command
+ * VAC_TABLE - when set, allows you to specify a single table to vacuum, when
+ not specified, the entire database tables are vacuumed
+ * JOB_HOST - required variable is the postgres host we connect to
+ * PG_USER - required variable is the postgres user we connect with
+ * PG_DATABASE - required variable is the postgres database we connect to
+ * PG_PASSWORD - required variable is the postgres user password we connect with
+ * PG_PORT - allows you to override the default value of 5432
+ * VAC_ANALYZE - when set to true adds the ANALYZE parameter to the VACUUM command
+ * VAC_VERBOSE - when set to true adds the VERBOSE parameter to the VACUUM command
+ * VAC_FREEZE - when set to true adds the FREEZE parameter to the VACUUM command
+
+
 
 
 == Legal Notices

@@ -360,6 +360,72 @@ example as follows:</p></div>
 <div class="paragraph"><p>Every 3 minutes the collection container will collect postgres
 metrics and push them to the crunchy prometheus database.  You
 can graph them using the crunchy grafana container.</p></div>
+<h2 id="example_10_vacuum">1.10. Example 10 - vacuum</h2>
+<div class="paragraph"><p>You can perform a postgres vacuum command by running the crunchy-vacuum
+container.  You specify a database to vacuum using environment variables.</p></div>
+<div class="paragraph"><p>An example is shown in the examples/standalone/run-vacuum.sh script
+and can be run as follows:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>sudo ./examples/standalone/run-pg-master.sh
+sleep 30
+sudo ./examples/standalone/run-vacuum.sh</pre>
+</div></div>
+<div class="paragraph"><p>This example performs a vacuum on a single table in the master postgres
+database.  Vacuum is controlled via the following environment variables:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+VAC_FULL - when set to true adds the FULL parameter to the VACUUM command
+</p>
+</li>
+<li>
+<p>
+VAC_TABLE - when set, allows you to specify a single table to vacuum, when
+ not specified, the entire database tables are vacuumed
+</p>
+</li>
+<li>
+<p>
+JOB_HOST - required variable is the postgres host we connect to
+</p>
+</li>
+<li>
+<p>
+PG_USER - required variable is the postgres user we connect with
+</p>
+</li>
+<li>
+<p>
+PG_DATABASE - required variable is the postgres database we connect to
+</p>
+</li>
+<li>
+<p>
+PG_PASSWORD - required variable is the postgres user password we connect with
+</p>
+</li>
+<li>
+<p>
+PG_PORT - allows you to override the default value of 5432
+</p>
+</li>
+<li>
+<p>
+VAC_ANALYZE - when set to true adds the ANALYZE parameter to the VACUUM command
+</p>
+</li>
+<li>
+<p>
+VAC_VERBOSE - when set to true adds the VERBOSE parameter to the VACUUM command
+</p>
+</li>
+<li>
+<p>
+VAC_FREEZE - when set to true adds the FREEZE parameter to the VACUUM command
+</p>
+</li>
+</ul></div>
 </div>
 <div class="section">
     <h1 class="page-header" id="legal_notices">2. Legal Notices</h1>

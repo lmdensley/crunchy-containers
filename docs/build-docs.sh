@@ -54,3 +54,14 @@ asciidoc \
 
 cd htmldoc
 asciidoctor-pdf ../metrics.asciidoc --out-file ./pdf/metrics.pdf
+cd ..
+
+asciidoc \
+-b bootstrap \
+-f ./demo.conf \
+-o ./htmldoc/containers.html \
+-a toc2 \
+-a toc-placement=right \
+./containers.asciidoc
+
+asciidoctor-pdf ./containers.asciidoc --out-file ./pdf/containers.pdf

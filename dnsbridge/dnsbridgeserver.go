@@ -25,7 +25,7 @@ import (
 	"time"
 )
 
-const VERSION = "1.1.0"
+const VERSION = "1.2"
 
 var MAX_TRIES = 3
 

@@ -60,7 +60,7 @@ func (t VacJob) Run() {
 	t.Logger.Println("tmpfile is " + tmpfile.Name())
 
 	var stdout, stderr string
-	stdout, stderr, err = createJob(tmpfile.Name())
+	stdout, stderr, err = createJob(parms, tmpfile.Name())
 	if err != nil {
 		t.Logger.Println(err.Error())
 	}
@@ -83,10 +83,10 @@ func getTemplate(logger *log.Logger) string {
 	return s
 }
 
-func createJob(templateFile string) (string, string, error) {
+func createJob(parms *vacuumapi.Parms, templateFile string) (string, string, error) {
 
 	var cmd *exec.Cmd
-	cmd = exec.Command("create-vac-job.sh", templateFile)
+	cmd = exec.Command("create-vac-job.sh", templateFile, parms.JOB_HOST)
 
 	var out bytes.Buffer
 	var stderr bytes.Buffer
