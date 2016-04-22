@@ -21,6 +21,9 @@ export TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
 /opt/cpm/bin/oc login https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true --token="$TOKEN"
 /opt/cpm/bin/oc projects $OSE_PROJECT
 
+/opt/cpm/bin/oc policy add-role-to-group edit system:serviceaccounts -n $OSE_PROJECT
+/opt/cpm/bin/oc policy add-role-to-group edit system:serviceaccounts -n default
+
 export PATH=$PATH:/opt/cpm/bin
 
 echo $VAC_SCHEDULE is VAC_SCHEDULE

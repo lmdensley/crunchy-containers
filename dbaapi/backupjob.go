@@ -27,9 +27,9 @@ import (
 
 type BackupJobParms struct {
 	JOB_HOST           string
-	BACKUP_USER        string
-	BACKUP_PASS        string
-	BACKUP_PORT        string
+	PG_USER            string
+	PG_PASSWORD        string
+	PG_PORT            string
 	BACKUP_PV_CAPACITY string
 	BACKUP_PV_PATH     string
 	BACKUP_PV_HOST     string
@@ -113,9 +113,9 @@ func (t BackupJob) Run() {
 	t.Logger.Println(stdout)
 	t.Logger.Println(stderr)
 
-	defer os.Remove(tmpfile.Name())    //clean up
-	defer os.Remove(tmpfilePV.Name())  //clean up
-	defer os.Remove(tmpfilePVC.Name()) //clean up
+	//defer os.Remove(tmpfile.Name())    //clean up
+	//defer os.Remove(tmpfilePV.Name())  //clean up
+	//defer os.Remove(tmpfilePVC.Name()) //clean up
 }
 
 func getBackupJobTemplate(logger *log.Logger) string {
@@ -180,17 +180,17 @@ func GetBackupJobParms(logger *log.Logger) (*BackupJobParms, error) {
 	if parms.JOB_HOST == "" {
 		return parms, errors.New("JOB_HOST env var not found")
 	}
-	parms.BACKUP_USER = os.Getenv("BACKUP_USER")
-	if parms.BACKUP_USER == "" {
-		return parms, errors.New("BACKUP_USER env var not found")
+	parms.PG_USER = os.Getenv("PG_USER")
+	if parms.PG_USER == "" {
+		return parms, errors.New("PG_USER env var not found")
 	}
-	parms.BACKUP_PASS = os.Getenv("BACKUP_PASS")
-	if parms.BACKUP_PASS == "" {
-		return parms, errors.New("BACKUP_PASS env var not found")
+	parms.PG_PASSWORD = os.Getenv("PG_PASSWORD")
+	if parms.PG_PASSWORD == "" {
+		return parms, errors.New("PG_PASSWORD env var not found")
 	}
-	parms.BACKUP_PORT = os.Getenv("BACKUP_PORT")
-	if parms.BACKUP_PORT == "" {
-		return parms, errors.New("BACKUP_PORT env var not found")
+	parms.PG_PORT = os.Getenv("PG_PORT")
+	if parms.PG_PORT == "" {
+		return parms, errors.New("PG_PORT env var not found")
 	}
 	parms.BACKUP_PV_CAPACITY = os.Getenv("BACKUP_PV_CAPACITY")
 	if parms.BACKUP_PV_CAPACITY == "" {

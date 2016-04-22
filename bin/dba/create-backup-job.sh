@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash -x
 
 # Copyright 2016 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,16 +23,19 @@ echo $2 is template for backup pv
 echo $3 is template for backup pvc
 echo $4 is JOB_HOST
 
-/opt/cpm/bin/oc delete job $2-backup
-/opt/cpm/bin/oc delete pvc $2-backup-pvc
-/opt/cpm/bin/oc delete pv $2-backup-pv
+/opt/cpm/bin/oc delete job $4-backup
+/opt/cpm/bin/oc delete pvc $4-backup-pvc
+/opt/cpm/bin/oc delete pv $4-backup-pv
 sleep 15
 
 # create the PV
+cat $2
 /opt/cpm/bin/oc create -f $2
 sleep 4
 # create the PVC
+cat $3
 /opt/cpm/bin/oc create -f $3
 sleep 4
 # create the backup job
+cat $1
 /opt/cpm/bin/oc create -f $1
