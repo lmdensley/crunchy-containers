@@ -33,9 +33,6 @@
                         "name": "VAC_ANALYZE",
                         "value": "{{.VAC_ANALYZE}}"
                     }, {
-                        "name": "VAC_ALL",
-                        "value": "{{.VAC_ALL}}"
-                    }, {
                         "name": "VAC_VERBOSE",
                         "value": "{{.VAC_VERBOSE}}"
                     }, {

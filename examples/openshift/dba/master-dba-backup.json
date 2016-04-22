@@ -83,6 +83,9 @@
                     "name": "OSE_PROJECT",
                     "value": "openshift"
                 }, {
+                    "name": "JOB_HOST",
+                    "value": "master-dba"
+                }, {
                     "name": "PG_USER",
                     "value": "${PG_MASTER_USER}"
                 }, {
@@ -92,17 +95,11 @@
                     "name": "PG_PORT",
                     "value": "5432"
                 }, {
-                    "name": "VAC_SCHEDULE",
-                    "value": "0 43 * * * *"
-                }, {
                     "name": "BACKUP_SCHEDULE",
                     "value": "0 5,10,15,20,25,30,35,40,45,50,55 * * * *"
                 }, {
                     "name": "BACKUP_PV_CAPACITY",
                     "value": "1Gi"
-                }, {
-                    "name": "BACKUP_PORT",
-                    "value": "5432"
                 }, {
                     "name": "BACKUP_PV_PATH",
                     "value": "/nfsfileshare"
@@ -112,18 +109,6 @@
                 }, {
                     "name": "BACKUP_PVC_STORAGE",
                     "value": "75M"
-                }, {
-                    "name": "BACKUP_USER",
-                    "value": "${PG_MASTER_USER}"
-                }, {
-                    "name": "BACKUP_PASSWORD",
-                    "value": "${PG_MASTER_PASSWORD}"
-                }, {
-                    "name": "VAC_ANALYZE",
-                    "value": "true"
-                }, {
-                    "name": "JOB_HOST",
-                    "value": "master-dba"
                 }]
             }, {
                 "name": "pg-master",

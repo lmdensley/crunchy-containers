@@ -13,4 +13,4 @@ oc policy add-role-to-user view system:serviceaccount:openshift:dba-sa
 #
 oadm policy add-cluster-role-to-user cluster-admin system:serviceaccount:openshift:dba-sa
 
-oc process -f master-dba.json | oc create -f -
+oc process -f master-dba-backup.json | oc create -f -
