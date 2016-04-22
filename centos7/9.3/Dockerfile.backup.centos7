@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER crunchy
 
-LABEL Release="1.1.1"
+LABEL Release="1.2"
 LABEL Vendor="Crunchy Data Solutions"
 
 LABEL PostgresVersion="9.3"

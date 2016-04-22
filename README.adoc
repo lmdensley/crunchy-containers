@@ -128,7 +128,7 @@ mkdir crunchydata
 cd crunchydata
 git clone https://github.com/crunchydata/crunchy-containers.git
 cd crunchy-containers
-git checkout 1.1.1
+git checkout 1.2
 godep restore
 make downloadprometheus
 make downloadgrafana

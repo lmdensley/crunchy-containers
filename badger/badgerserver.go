@@ -27,10 +27,11 @@ import (
 )
 
 const REPORT = "/tmp/badger.html"
+const VERSION = "1.2"
 
 func main() {
 
-	fmt.Println("badgerserver: starting")
+	fmt.Println("badgerserver: " + VERSION + " starting")
 
 	api := rest.NewApi()
 	api.Use(rest.DefaultDevStack...)
@@ -77,7 +78,7 @@ func BadgerGenerate(w rest.ResponseWriter, r *rest.Request) {
 	}
 	var thing http.ResponseWriter
 	thing = w.(http.ResponseWriter)
-	
+
 	thing.Header().Set("Content-Type", "text/html")
 	thing.Header().Set("Content-Length", strconv.Itoa(len(buf)))
 	thing.Write(buf)
