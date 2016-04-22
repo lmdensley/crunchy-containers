@@ -261,20 +261,30 @@ of crunchy-dba:
 For a vacuum job, you are required to supply the following
 environment variables:
 
+ * JOB_HOST
  * PG_USER
  * PG_PASSWORD
- * JOB_HOST
-
-Optional environment variables include:
-
  * PG_DATABASE - defaults to postgres when not specified
  * PG_PORT - defaults to 5432 when not specified
- * VAC_ANALYZE - defaults to true when not specified
- * VAC_FULL - defaults to true when not specified
- * VAC_VERBOSE - defaults to true when not specified
- * VAC_FREEZE - defaults to false when not specified
- * VAC_TABLE - defaults to all tables when not specified, or you
- can set this value to indicate a single table to vacuum
+ * VAC_ANALYZE(optional) - defaults to true when not specified
+ * VAC_FULL(optional) - defaults to true when not specified
+ * VAC_VERBOSE(optional) - defaults to true when not specified
+ * VAC_FREEZE(optional) - defaults to false when not specified
+ * VAC_TABLE(optional) - defaults to all tables when not specified, or you can set this value to indicate a single table to vacuum
+
+For a backup job, you are required to supply the following
+environment variables:
+
+ * JOB_HOST
+ * PG_USER - database user used to perform the backup
+ * PG_PASSWORD - database user password used to perform the backup
+ * PG_PORT - port value used when connecting for a backup to the database
+ * BACKUP_PV_CAPACITY - a value like 1Gi is used to define the PV storage capacity
+ * BACKUP_PV_PATH - the NFS path used to build the PV
+ * BACKUP_PV_HOST - the NFS host used to build the PV
+ * BACKUP_PVC_STORAGE - a value like 75M means to allow 75 megabytes for the PVC used
+ in performing the backup
+
 
 === CRON Expression Format
 
