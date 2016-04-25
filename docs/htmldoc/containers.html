@@ -396,6 +396,11 @@ environment variables:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
+JOB_HOST
+</p>
+</li>
+<li>
+<p>
 PG_USER
 </p>
 </li>
@@ -404,14 +409,6 @@ PG_USER
 PG_PASSWORD
 </p>
 </li>
-<li>
-<p>
-JOB_HOST
-</p>
-</li>
-</ul></div>
-<div class="paragraph"><p>Optional environment variables include:</p></div>
-<div class="ulist"><ul>
 <li>
 <p>
 PG_DATABASE - defaults to postgres when not specified
@@ -424,28 +421,72 @@ PG_PORT - defaults to 5432 when not specified
 </li>
 <li>
 <p>
-VAC_ANALYZE - defaults to true when not specified
+VAC_ANALYZE(optional) - defaults to true when not specified
 </p>
 </li>
 <li>
 <p>
-VAC_FULL - defaults to true when not specified
+VAC_FULL(optional) - defaults to true when not specified
 </p>
 </li>
 <li>
 <p>
-VAC_VERBOSE - defaults to true when not specified
+VAC_VERBOSE(optional) - defaults to true when not specified
 </p>
 </li>
 <li>
 <p>
-VAC_FREEZE - defaults to false when not specified
+VAC_FREEZE(optional) - defaults to false when not specified
 </p>
 </li>
 <li>
 <p>
-VAC_TABLE - defaults to all tables when not specified, or you
- can set this value to indicate a single table to vacuum
+VAC_TABLE(optional) - defaults to all tables when not specified, or you can set this value to indicate a single table to vacuum
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>For a backup job, you are required to supply the following
+environment variables:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+JOB_HOST
+</p>
+</li>
+<li>
+<p>
+PG_USER - database user used to perform the backup
+</p>
+</li>
+<li>
+<p>
+PG_PASSWORD - database user password used to perform the backup
+</p>
+</li>
+<li>
+<p>
+PG_PORT - port value used when connecting for a backup to the database
+</p>
+</li>
+<li>
+<p>
+BACKUP_PV_CAPACITY - a value like 1Gi is used to define the PV storage capacity
+</p>
+</li>
+<li>
+<p>
+BACKUP_PV_PATH - the NFS path used to build the PV
+</p>
+</li>
+<li>
+<p>
+BACKUP_PV_HOST - the NFS host used to build the PV
+</p>
+</li>
+<li>
+<p>
+BACKUP_PVC_STORAGE - a value like 75M means to allow 75 megabytes for the PVC used
+ in performing the backup
 </p>
 </li>
 </ul></div>

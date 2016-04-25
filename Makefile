@@ -1,4 +1,4 @@
-OSFLAVOR=rhel7
+OSFLAVOR=centos7
 PGVERSION=9.5
 
 ifndef BUILDBASE
@@ -83,6 +83,7 @@ all:
 	make download
 	make grafana
 	make prometheus
+	make vac
 	make dba
 	make docbuild
 default:
