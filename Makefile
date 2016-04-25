@@ -91,9 +91,11 @@ default:
 test:
 	./tests/standalone/test-master.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-replica.sh; /usr/bin/test "$$?" -eq 0
+	./tests/standalone/test-pgpool.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-backup.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-vacuum.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-restore.sh; /usr/bin/test "$$?" -eq 0
+	./tests/standalone/test-watch.sh; /usr/bin/test "$$?" -eq 0
 	./tests/standalone/test-badger.sh; /usr/bin/test "$$?" -eq 0
 	sudo docker stop master
 testopenshift:

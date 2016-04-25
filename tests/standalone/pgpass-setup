@@ -1,0 +1,11 @@
+#!/bin/bash
+export PGPASSFILE=/tmp/testing-pgpass
+
+if [ ! -f $PGPASSFILE ]; then
+	echo "creating PGPASSFILE..."
+	echo "*:*:*:*:masterpsw" > $PGPASSFILE
+	chmod 400 $PGPASSFILE
+fi
+
+echo BUILDBASE is $BUILDBASE
+

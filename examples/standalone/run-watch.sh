@@ -13,21 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo "starting pgpool container...."
+echo "starting crunchy-watch container"
 
-sudo docker stop pgpool
-sudo docker rm pgpool
+docker stop crunchy-watch
+docker rm crunchy-watch
 
 sudo docker run \
-	-p 12003:5432 \
+	--privileged \
+	-v /run/docker.sock:/run/docker.sock \
 	--link master:master \
-	--link pg-replica:pg-replica \
-	-e PG_MASTER_SERVICE_NAME=master \
-	-e PG_SLAVE_SERVICE_NAME=pg-replica \
-	-e PG_USERNAME=masteruser \
-	-e PG_PASSWORD=masterpsw \
+	-e PG_MASTER_SERVICE=master \
+	-e PG_SLAVE_SERVICE=pg-replica \
+	-e PG_MASTER_PORT=5432 \
+	-e PG_MASTER_USER=masteruser \
 	-e PG_DATABASE=postgres \
-	--name=pgpool \
-	--hostname=pgpool \
-	-d crunchydata/crunchy-pgpool:latest
+	-e SLEEP_TIME=20 \
+	--name=crunchy-watch \
+	--hostname=crunchy-watch \
+	-d crunchydata/crunchy-watch:latest
 

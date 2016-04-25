@@ -2,9 +2,6 @@
 
 
 echo BUILDBASE is $BUILDBASE
-#
-# test setup
-#
 
 #
 # test backup
@@ -16,7 +13,7 @@ sleep 10
 
 docker logs crunchy-vacuum-job | grep VACUUM
 
-rc = $?
+rc=$?
 if [ 0 -eq $rc ]; then
 	echo vacuum test passed
 	exit 0

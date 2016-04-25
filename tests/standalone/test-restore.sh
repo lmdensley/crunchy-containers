@@ -1,18 +1,6 @@
 #!/bin/bash
 
-
-echo BUILDBASE is $BUILDBASE
-#
-# test setup
-#
-export PGPASSFILE=/tmp/testing-pgpass
-
-if [ ! -f $PGPASSFILE ]; then
-	echo "creating PGPASSFILE..."
-	echo "*:*:*:*:masterpsw" > $PGPASSFILE
-	chmod 400 $PGPASSFILE
-fi
-
+source $BUILDBASE/tests/standalone/pgpass-setup
 
 #
 # test restore

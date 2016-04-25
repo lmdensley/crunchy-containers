@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-echo BUILDBASE is $BUILDBASE
+source $BUILDBASE/tests/standalone/pgpass-setup
 
 #
 # test badger
