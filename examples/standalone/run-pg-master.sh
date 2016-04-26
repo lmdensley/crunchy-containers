@@ -42,11 +42,11 @@ sudo docker run \
 	-e WORK_MEM=5MB \
 	-e PG_MODE=master \
 	-e PG_MASTER_USER=masteruser \
-	-e PG_MASTER_PASSWORD=masterpsw \
+	-e PG_MASTER_PASSWORD=password \
 	-e PG_USER=testuser \
-	-e PG_ROOT_PASSWORD=rootpsw \
-	-e PG_PASSWORD=testpsw \
-	-e PG_DATABASE=testdb \
+	-e PG_ROOT_PASSWORD=password \
+	-e PG_PASSWORD=password \
+	-e PG_DATABASE=userdb \
 	--name=master \
 	--hostname=master \
 	-d crunchydata/crunchy-postgres:latest
