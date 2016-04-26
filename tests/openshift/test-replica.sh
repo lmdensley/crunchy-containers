@@ -41,6 +41,10 @@ rc=$?
 
 echo $rc is the master rc
 
+echo "sleeping till slave is ready..."
+
+sleep 60
+
 psql -h $SLAVEIP -U master postgres -c 'select now()'
 
 slaverc=$?
@@ -60,11 +64,6 @@ else
 	echo "test master slave slave test FAILED"
 	resultrc=2
 fi
-chmod 777 $PGPASSFILE
-/usr/bin/rm $PGPASSFILE
-# always delete the pod and service even on a failure
-oc delete pod ms-master ms-slave
-oc delete service ms-master ms-slave
 
 exit $resultrc
 

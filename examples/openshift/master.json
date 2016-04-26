@@ -17,8 +17,7 @@
     }, {
         "name": "PG_MASTER_PASSWORD",
         "description": "The password for the PG master user",
-        "generate": "expression",
-        "from": "[a-zA-Z0-9]{12}"
+        "value": "password"
     }, {
         "name": "PG_USER",
         "description": "The username that clients will use to connect to PG server",
@@ -26,8 +25,7 @@
     }, {
         "name": "PG_PASSWORD",
         "description": "The password for the PG master user",
-        "generate": "expression",
-        "from": "[a-zA-Z0-9]{12}"
+        "value": "password"
     }, {
         "name": "PG_DATABASE",
         "description": "The name of the database that will be created",
@@ -35,8 +33,7 @@
     }, {
         "name": "PG_ROOT_PASSWORD",
         "description": "The password for the PG adminitrator",
-        "generate": "expression",
-        "from": "[a-zA-Z0-9]{12}"
+        "value": "password"
     }],
 
     "objects": [{

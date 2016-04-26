@@ -1,4 +1,4 @@
-OSFLAVOR=centos7
+OSFLAVOR=rhel7
 PGVERSION=9.5
 
 ifndef BUILDBASE
@@ -100,6 +100,9 @@ test:
 	sudo docker stop master
 testopenshift:
 	./tests/openshift/test-master.sh; /usr/bin/test "$$?" -eq 0
+	./tests/openshift/test-replica.sh; /usr/bin/test "$$?" -eq 0
+	./tests/openshift/test-pgpool.sh; /usr/bin/test "$$?" -eq 0
+	./tests/openshift/test-watch.sh; /usr/bin/test "$$?" -eq 0
 	./tests/openshift/test-scope.sh; /usr/bin/test "$$?" -eq 0
 	./tests/openshift/test-backup.sh; /usr/bin/test "$$?" -eq 0
 

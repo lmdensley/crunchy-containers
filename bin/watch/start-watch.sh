@@ -39,7 +39,7 @@ echo "setting PGROOT to " $PGROOT
 export PATH=$PATH:/opt/cpm/bin:$PGROOT/bin
 
 function failover() {
-	if [[ -v OSE_HOST ]]; then
+	if [[ -v OSE_PROJECT ]]; then
 		echo "openshift failover ....."
 		ose_failover
 	else
