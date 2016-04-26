@@ -3,7 +3,7 @@
 
 echo BUILDBASE is $BUILDBASE
 cleanup() {
-$BUILDBASE/examples/openshift/pgpool/delete.sh
+$BUILDBASE/examples/openshift/pgpooltest/delete.sh
 echo "sleeping while cleaning up any leftovers..."
 sleep 30
 }
@@ -15,7 +15,7 @@ cleanup
 
 
 ## create container
-$BUILDBASE/examples/openshift/pgpool/run.sh
+$BUILDBASE/examples/openshift/pgpooltest/run.sh
 
 echo "sleep for 30 while the container starts up..."
 sleep 30
