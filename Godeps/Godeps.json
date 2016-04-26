@@ -1,7 +1,7 @@
 {
 	"ImportPath": "github.com/crunchydata/crunchy-containers",
 	"GoVersion": "go1.4",
-	"GodepVersion": "v60",
+	"GodepVersion": "v62",
 	"Packages": [
 		"github.com/crunchydata/crunchy-containers/collectapi",
 		"github.com/crunchydata/crunchy-containers/dnsbridgeapi",
