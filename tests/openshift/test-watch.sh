@@ -13,19 +13,19 @@ sleep 30
 #
 cleanup
 
-
 ## create container
 $BUILDBASE/examples/openshift/watchtest/run.sh
 
 echo "sleep for 30 while the container starts up..."
-sleep 30
+sleep 60
 echo "deleting the master which triggers the failover..."
+
 oc delete pod ms-master
-sleep 30
-PODNAME=`oc get pod -l name=ms-slave --no-headers | cut -f1 -d' '`
-echo $PODNAME " is the pgpool pod name"
+sleep 60
+PODNAME=`oc get pod ms-slave --no-headers | cut -f1 -d' '`
+echo $PODNAME " is the new master pod name"
 export IP=`oc describe pod $PODNAME | grep IP | cut -f2 -d':' `
-echo $IP " is the IP address"
+echo $IP " is the new master IP address"
 
 export PGPASSFILE=/tmp/master-slave-pgpass
 echo "using pgpassfile from master-slave test case...."
