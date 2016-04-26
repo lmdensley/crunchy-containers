@@ -82,8 +82,8 @@ function ose_failover() {
 			firstslave=false
 			echo "going to trigger failover on slave:" $i
 			oc exec $i touch /tmp/pg-failover-trigger
-			echo "sleeping " $SLEEP_TIME " to give failover a chance before setting label"
-			sleep $SLEEP_TIME
+			echo "sleeping 60 secs to give failover a chance before setting label"
+			sleep 60
 			echo "changing label of slave to " $PG_MASTER_SERVICE
 			oc label --overwrite=true pod $i name=$PG_MASTER_SERVICE
 			echo "recreating master service..."
