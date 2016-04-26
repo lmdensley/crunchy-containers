@@ -12,7 +12,7 @@ oc projects openshift
 oc delete pod ms-master ms-slave
 oc delete service ms-master ms-slave
 
-export SLEEP=60
+export SLEEP=70
 echo "sleeping for " $SLEEP " seconds to allow any existing pods/services to terminate"
 sleep $SLEEP
 oc process -f $BUILDBASE/examples/openshift/master-slave.json |  oc create -f -
@@ -43,7 +43,7 @@ echo $rc is the master rc
 
 echo "sleeping till slave is ready..."
 
-sleep 60
+sleep $SLEEP
 
 psql -h $SLAVEIP -U master postgres -c 'select now()'
 

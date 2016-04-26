@@ -784,6 +784,47 @@ values as follows:</p></div>
 <pre>echo -n 'myuserid' | base64</pre>
 </div></div>
 <div class="paragraph"><p>You will paste these values into  your JSON secrets files for values.</p></div>
+<h2 id="tip_11_keeping_docker_upgrades_happy">2.11. Tip 11: keeping docker upgrades happy</h2>
+<div class="paragraph"><p>I found that when docker upgrades versions, it can break your
+install of Openshift which depends upon a certain version of
+docker to be installed.</p></div>
+<div class="paragraph"><p>You can keep yum from upgrading docker by including this line
+in your /etc/yum.conf file:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>exclude=docker-1.9* docker-selinux-1.9*</pre>
+</div></div>
+<h2 id="tip_12_dns_configuration_for_openshift_development">2.12. Tip 12: DNS configuration for Openshift development</h2>
+<div class="paragraph"><p>Luke Meyer from Redhat wrote an excellent blog on how
+to configure dnsmasq and Openshift, it is located here:</p></div>
+<div class="paragraph"><p>link:http://developers.redhat.com/blog/2015/11/19/dns-your-openshift-v3-cluster/</p></div>
+<div class="paragraph"><p>Key things included in this blog are:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+configuring dhcp to include the local IP address in /etc/resolv.conf upon boot
+</p>
+</li>
+<li>
+<p>
+configuring dnsmasq
+</p>
+</li>
+<li>
+<p>
+configuring openshift dns to listen on another port
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>In my dev setup, I have openshifts DNS listening on 127.0.0.1:8053.
+I have my dnsmasq listening on the local IP address 192.168.0.109:53</p></div>
+<div class="paragraph"><p>Therefore in my /etc/dhcp/dhclient.conf I have this config:</p></div>
+<div class="literalblock">
+<div class="content monospaced">
+<pre>prepend domain-name-servers 192.168.0.109;</pre>
+</div></div>
+<div class="paragraph"><p>If you dont have your DNS configured correctly, replication controllers
+and deployment configs basically will not work.</p></div>
 </div>
 <div class="section">
     <h1 class="page-header" id="legal_notices">3. Legal Notices</h1>

@@ -85,7 +85,6 @@ all:
 	make prometheus
 	make vac
 	make dba
-	make docbuild
 default:
 	all
 test:

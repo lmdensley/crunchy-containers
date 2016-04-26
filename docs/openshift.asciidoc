@@ -700,6 +700,45 @@ echo -n 'myuserid' | base64
 
 You will paste these values into  your JSON secrets files for values.
 
+=== Tip 11: keeping docker upgrades happy
+
+I found that when docker upgrades versions, it can break your
+install of Openshift which depends upon a certain version of
+docker to be installed.
+
+You can keep yum from upgrading docker by including this line
+in your /etc/yum.conf file:
+
+....
+exclude=docker-1.9* docker-selinux-1.9*
+....
+
+=== Tip 12: DNS configuration for Openshift development
+
+Luke Meyer from Redhat wrote an excellent blog on how
+to configure dnsmasq and Openshift, it is located here:
+
+link:http://developers.redhat.com/blog/2015/11/19/dns-your-openshift-v3-cluster/
+
+Key things included in this blog are:
+
+ * configuring dhcp to include the local IP address in /etc/resolv.conf upon boot
+ * configuring dnsmasq 
+ * configuring openshift dns to listen on another port
+
+In my dev setup, I have openshifts DNS listening on 127.0.0.1:8053.
+I have my dnsmasq listening on the local IP address 192.168.0.109:53
+
+Therefore in my /etc/dhcp/dhclient.conf I have this config:
+
+....
+prepend domain-name-servers 192.168.0.109;
+....
+
+If you dont have your DNS configured correctly, replication controllers
+and deployment configs basically will not work.
+
+
 == Legal Notices
 
 Copyright © 2016 Crunchy Data Solutions, Inc.
