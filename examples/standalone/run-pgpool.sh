@@ -24,8 +24,8 @@ sudo docker run \
 	--link pg-replica:pg-replica \
 	-e PG_MASTER_SERVICE_NAME=master \
 	-e PG_SLAVE_SERVICE_NAME=pg-replica \
-	-e PG_USERNAME=masteruser \
-	-e PG_PASSWORD=masterpsw \
+	-e PG_USERNAME=testuser \
+	-e PG_PASSWORD=password \
 	-e PG_DATABASE=postgres \
 	--name=pgpool \
 	--hostname=pgpool \
